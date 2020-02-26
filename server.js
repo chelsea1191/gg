@@ -8,6 +8,8 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
 
+//to change git remote: git remote set-url origin (new.git.url/here)
+
 //////////////////use///////////////////
 app.use(express.json());
 app.use(
