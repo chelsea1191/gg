@@ -1,6 +1,8 @@
 body {
   font-family: verdana;
   margin: 0;
+  color: purple;
+  font-weight: bolder;
 }
 
 main {

@@ -14,7 +14,7 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 app.use(bodyParser.json());
-app.use(express.static("assets"));
+app.use("/assets", express.static("assets"));
 
 //////////////////get////////////////////
 app.get("/", (req, res) => {
