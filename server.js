@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const fs = require("fs");
 const db = require("./db");
 const bodyParser = require("body-parser");
-const port = process.env.PORT || 3000;
 
 //to change git remote: git remote set-url origin (new.git.url/here)
 
@@ -16,7 +15,8 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 app.use(bodyParser.json());
-app.use("/assets", express.static("assets"));
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use("/dist", express.static(path.join(__dirname, "dist")));
 
 //////////////////get////////////////////
 app.get("/", (req, res) => {
@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 //     .then(() => res.sendStatus(204)) //since no return
 //     .catch(next);
 // });
-
+const port = process.env.PORT || 3000;
 db.sync()
   .then(() => {
     console.log("db synced");

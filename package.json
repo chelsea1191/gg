@@ -1,0 +1,46 @@
+{
+  "name": "fs_todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "build:dev": "npm run build -- --watch --mode=development",
+    "start:dev": "nodemon server --ignore dist/ --ignore src/ & npm run build:dev"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "bootstrap-icons": "^1.0.0-alpha2",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "https": "^1.0.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.18.2",
+    "react-datepicker": "^2.13.0",
+    "react-router-dom": "^5.1.2",
+    "shortid": "^2.2.15",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chelsea1191/to-do-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chelsea1191/to-do-app/issues"
+  },
+  "homepage": "https://github.com/chelsea1191/to-do-app#readme"
+}
