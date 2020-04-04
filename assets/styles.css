@@ -1,7 +1,6 @@
 body {
   font-family: verdana;
   margin: 0;
-  color: purple;
   font-weight: bolder;
 }
 
@@ -39,9 +38,8 @@ li > * {
 }
 
 h1 {
-  background-color: teal;
   padding: 1rem;
-  color: linen;
+
   text-align: center;
 }
 

@@ -1,39 +1,57 @@
-const pg = require("pg");
+const pg = require('pg');
 const { Client } = pg;
-const uuid = require("uuid/v4");
+const uuid = require('uuid/v4');
 const client = new Client(
-  process.env.DATABASE_URL || "postgres://localhost/boilerplatedb"
+  process.env.DATABASE_URL || 'postgres://localhost/goodgame'
 );
-const faker = require("faker");
+const faker = require('faker');
 
 client.connect();
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-  DROP TABLE IF EXISTS user_things;
-  DROP TABLE IF EXISTS things;
+  DROP TABLE IF EXISTS user_game;
+  DROP TABLE IF EXISTS user_group;
+  DROP TABLE IF EXISTS game;
+  DROP TABLE IF EXISTS game_type;
   DROP TABLE IF EXISTS users;
 
-  CREATE TABLE users
-  (
+
+  CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(100) NOT NULL,
-    date_create TIMESTAMP default CURRENT_TIMESTAMP,
-    CHECK (char_length(name) > 0)
+    username VARCHAR(100) NOT NULL UNIQUE,
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100),
+    password VARCHAR(100),
+    role VARCHAR(20) DEFAULT 'player',
+    email VARCHAR(100) NOT NULL UNIQUE,
+    "isBlocked" BOOLEAN DEFAULT false,
+    CHECK (char_length(username) > 0),
+    photo VARCHAR NOT NULL,
+    bio VARCHAR,
+    date_create TIMESTAMP default CURRENT_TIMESTAMP
   );
-  CREATE TABLE things (
+  CREATE TABLE game_type (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(100) NOT NULL,
-    CHECK (char_length(name) > 0)
+    gametype VARCHAR
   );
-  CREATE TABLE user_things (
+  CREATE TABLE game (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "thingId" UUID REFERENCES things(id),
+    title VARCHAR,
+    "gameTypeID" UUID REFERENCES users(id) NOT NULL,
+    about VARCHAR,
+    "playerLimit" INT
+  );
+  CREATE TABLE user_game (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
-    "isFavorite" BOOLEAN DEFAULT FALSE
+    "gameId" UUID REFERENCES game(id)
   );
-  CREATE UNIQUE INDEX ON user_things("thingId", "userId");
-  INSERT INTO users (name) VALUES ('userName');
+  CREATE TABLE user_group (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "userId" UUID REFERENCES users(id) NOT NULL,
+    "gameTypeID" UUID REFERENCES game_type(id) NOT NULL
+  );
   `;
   await client.query(SQL);
 };

@@ -1,13 +1,13 @@
 {
   "name": "fs_todo",
   "version": "1.0.0",
-  "description": "",
   "main": "db.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "start:dev": "nodemon server --ignore dist/ --ignore src/ & npm run build:dev"
+    "start:dev": "nodemon server --ignore dist/ --ignore src/ & npm run build:dev",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -42,5 +42,6 @@
   "bugs": {
     "url": "https://github.com/chelsea1191/to-do-app/issues"
   },
-  "homepage": "https://github.com/chelsea1191/to-do-app#readme"
+  "homepage": "https://github.com/chelsea1191/to-do-app#readme",
+  "description": ""
 }
