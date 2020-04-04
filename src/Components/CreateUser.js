@@ -16,7 +16,7 @@ export default function CreateUser({ auth, setAuth }) {
       lastname: lastname,
       password: password,
       email: email,
-      bio: bio
+      bio: bio,
     };
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
@@ -47,4 +47,4 @@ export default function CreateUser({ auth, setAuth }) {
 }
 
 //notes: how do we verify an email address doesnt already HAVE an account, and its a valid address? -ck
-//notes: also, how do we capture a picture that a user uploads? -ck
+//notes: also, how do we capture a picture that a user uploads? right now the pics are not required -ck
