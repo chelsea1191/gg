@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-
 import Home from './Components/Home.js';
 import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
+import UserProfile from './Components/UserProfile';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const headers = () => {
@@ -22,10 +22,6 @@ const App = () => {
   const [auth, setAuth] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    console.log('App is connected');
-  }, []);
-
   const login = async (credentials) => {
     const token = (await axios.post('/api/auth', credentials)).data.token;
     window.localStorage.setItem('token', token);
@@ -35,12 +31,12 @@ const App = () => {
   const exchangeTokenForAuth = async () => {
     const response = await axios.get('/api/auth', headers());
     setAuth(response.data);
-    if (response.data.role === 'ADMIN') {
-      console.log('user is admin');
+    if (response.data.role === 'admin') {
+      console.log('logged in! user is an admin');
       setIsAdmin(true);
     }
     if (response.data.role === 'player') {
-      console.log('user is a player');
+      console.log('logged in! user is a player');
     }
   };
 
@@ -50,6 +46,10 @@ const App = () => {
     setAuth({});
     setIsAdmin(false);
     console.log('user has been logged out');
+  };
+
+  const changePassword = (newCredentials) => {
+    axios.put(`/api/auth/${auth.id}`, newCredentials);
   };
 
   useEffect(() => {
@@ -122,6 +122,11 @@ const App = () => {
                 </Link>
               </li>
               <li className='nav-link'>
+                <Link className='link' to='/userprofile'>
+                  User Profile
+                </Link>
+              </li>
+              <li className='nav-link'>
                 <Link className='link' to='/search'>
                   <img
                     src='/assets/search.png'
@@ -144,6 +149,9 @@ const App = () => {
             <Switch>
               <Route path='/search'>
                 <Search />
+              </Route>
+              <Route path='/userprofile'>
+                <UserProfile auth={auth} changePassword={changePassword} />
               </Route>
               <Route path='/'>
                 <Home />
