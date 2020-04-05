@@ -26,21 +26,25 @@ export default function CreateUser({ auth, setAuth }) {
   return (
     <div>
       <form
+        id="createUserForm"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}>
-        <h1>Create New User</h1>
-        <input placeholder='First Name' />
-        <input placeholder='Last Name' />
-        <input placeholder='Username' />
-        <input placeholder='Password' type='password' />
-        <input placeholder='Email Address' />
+        }}
+      >
+        <h3>Create New User</h3>
+        <input placeholder="First Name" />
+        <input placeholder="Last Name" />
+        <input placeholder="Username" />
+        <input placeholder="Password" type="password" />
+        <input placeholder="Email Address" />
         <input
-          placeholder='Bio (max 300 characters)'
-          type='text'
-          maxlength='300'
+          placeholder="Bio (max 300 characters)"
+          type="text"
+          maxlength="300"
         />
-        <button>Create User</button>
+        <button>
+          <h5>Create User</h5>
+        </button>
       </form>
     </div>
   );

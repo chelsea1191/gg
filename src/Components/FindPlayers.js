@@ -26,7 +26,9 @@ const FindPlayers = () => {
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
         </select>
-        <button className="searchButton">Search</button>{' '}
+        <button className="searchButton">
+          <h5>Search</h5>
+        </button>{' '}
         <h6>
           <a href="">Advanced Search</a>
         </h6>

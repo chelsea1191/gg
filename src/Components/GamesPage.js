@@ -10,6 +10,7 @@ const GamesPage = () => {
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT
           AS USER TYPES, LIST OF GAMES NARROWS BASED ON MATCHING TITLE
           WHEN DROPDOWN OPTION IS CLICKED, LINKS TO GAME PAGE
+          IF NO INPUT, LIST IS TOP GAMES BY POPULARITY
           */}
         <h6>
           <a href="">Advanced Search</a>
@@ -26,6 +27,10 @@ const GamesPage = () => {
            LIST ITEMS LINK TO GAME PAGES
           */}
       </ul>
+      <h6>Is your favorite game unsupported?</h6>
+      <h6>
+        <a href="">Contact Us!</a>
+      </h6>
     </div>
   );
 };

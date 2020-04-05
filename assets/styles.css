@@ -18,6 +18,20 @@ nav {
   justify-content: space-around;
   margin-bottom: 1rem;
 }
+.navbar navbar-expand-lg navbar-light {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.nav-link active {
+  width: fit-content;
+  padding: 0;
+}
+
+.nav-link {
+  padding: 0;
+}
 
 button {
   height: 2rem;
@@ -90,6 +104,7 @@ select {
 
 input {
   border: 1px solid grey;
+  padding-left: 16px;
 }
 
 #playersList {
@@ -129,4 +144,11 @@ input {
   border: 1px solid grey;
   height: 150px;
   width: 150px;
+}
+
+#createUserForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }

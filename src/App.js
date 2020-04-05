@@ -6,7 +6,7 @@ import GamesPage from './Components/GamesPage';
 import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
-import UserProfile from './Components/UserProfile';
+import UserSettings from './Components/UserSettings';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const headers = () => {
@@ -74,25 +74,25 @@ const App = () => {
                   <img
                     src="/assets/home.png"
                     alt=""
-                    width="32"
-                    height="32"
+                    width="24"
+                    height="24"
                     title="Bootstrap"
                   ></img>
                 </Link>
               </li>
               <li className="nav-link">
                 <Link className="link" to="/login">
-                  Login
+                  <h6>Login</h6>
                 </Link>
               </li>
               <li className="nav-link">
                 <Link className="link" to="/register">
-                  Register
+                  <h6>Register</h6>
                 </Link>
               </li>
               <li className="nav-link">
                 <Link className="link" to="/games">
-                  Games
+                  <h6>Games</h6>
                 </Link>
               </li>
             </nav>
@@ -134,8 +134,8 @@ const App = () => {
                 </Link>
               </li>
               <li className="nav-link">
-                <Link className="link" to="/userprofile">
-                  User Profile
+                <Link className="link" to="/usersettings">
+                  User Settings
                 </Link>
               </li>
               <li className="nav-link">
@@ -164,8 +164,8 @@ const App = () => {
               <Route path="/search">
                 <Search />
               </Route>
-              <Route path="/userprofile">
-                <UserProfile auth={auth} changePassword={changePassword} />
+              <Route path="/usersettings">
+                <UserSettings auth={auth} changePassword={changePassword} />
               </Route>
               <Route path="/">
                 <FindPlayers />
