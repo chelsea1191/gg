@@ -11,8 +11,8 @@ const Login = ({ login }) => {
     );
   };
   return (
-    <form onSubmit={onSubmit}>
-      <h1>Login</h1>
+    <form id="loginForm" onSubmit={onSubmit}>
+      <h1>gg</h1>
       <div className="error">{error}</div>
       <input value={username} onChange={(ev) => setUsername(ev.target.value)} />
       <input
@@ -20,7 +20,8 @@ const Login = ({ login }) => {
         value={password}
         onChange={(ev) => setPassword(ev.target.value)}
       />
-      <button>Login</button>
+      <button id="loginButton">Login</button>
+      <a href="">Browse as a Guest</a>
     </form>
   );
 };

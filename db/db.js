@@ -69,5 +69,5 @@ module.exports = {
   sync,
   models,
   authenticate,
-  findUserFromToken
+  findUserFromToken,
 };

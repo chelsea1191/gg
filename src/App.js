@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import Home from './Components/Home.js';
+import FindPlayers from './Components/FindPlayers.js';
+import GamesPage from './Components/GamesPage';
 import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
@@ -12,8 +13,8 @@ const headers = () => {
   const token = window.localStorage.getItem('token');
   return {
     headers: {
-      authorization: token
-    }
+      authorization: token,
+    },
   };
 };
 
@@ -64,41 +65,51 @@ const App = () => {
 
   if (!auth.id) {
     return (
-      <div className='App'>
+      <div className="App">
         <Router>
           <div>
-            <nav className='navbar navbar-expand-lg navbar-light'>
-              <li className='nav-link active'>
-                <Link className='link' to='/'>
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <li className="nav-link active">
+                <Link className="link" to="/">
                   <img
-                    src='/assets/home.png'
-                    alt=''
-                    width='32'
-                    height='32'
-                    title='Bootstrap'></img>
+                    src="/assets/home.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/login'>
+              <li className="nav-link">
+                <Link className="link" to="/login">
                   Login
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/register'>
+              <li className="nav-link">
+                <Link className="link" to="/register">
                   Register
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link className="link" to="/games">
+                  Games
                 </Link>
               </li>
             </nav>
             <hr />
             <Switch>
-              <Route path='/login'>
+              <Route path="/login">
                 <Login login={login} />
               </Route>
-              <Route path='/register'>
+              <Route path="/register">
                 <CreateUser auth={auth} setAuth={setAuth} />
               </Route>
-              <Route path='/'>
-                <Home />
+
+              <Route path="/games">
+                <GamesPage />
+              </Route>
+              <Route path="/">
+                <FindPlayers />
               </Route>
             </Switch>
           </div>
@@ -107,54 +118,57 @@ const App = () => {
     );
   } else {
     return (
-      <div className='App'>
+      <div className="App">
         <Router>
           <div>
-            <nav className='navbar navbar-expand-lg navbar-light'>
-              <li className='nav-link active'>
-                <Link className='link' to='/'>
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <li className="nav-link active">
+                <Link className="link" to="/">
                   <img
-                    src='/assets/home.png'
-                    alt=''
-                    width='32'
-                    height='32'
-                    title='Bootstrap'></img>
+                    src="/assets/home.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/userprofile'>
+              <li className="nav-link">
+                <Link className="link" to="/userprofile">
                   User Profile
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/search'>
+              <li className="nav-link">
+                <Link className="link" to="/search">
                   <img
-                    src='/assets/search.png'
-                    alt=''
-                    width='32'
-                    height='32'
-                    title='Bootstrap'></img>
+                    src="/assets/search.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
+              <li className="nav-link">
                 <button
-                  type='button'
-                  className='btn btn-secondary'
-                  onClick={logout}>
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={logout}
+                >
                   Logout
                 </button>
               </li>
             </nav>
             <hr />
             <Switch>
-              <Route path='/search'>
+              <Route path="/search">
                 <Search />
               </Route>
-              <Route path='/userprofile'>
+              <Route path="/userprofile">
                 <UserProfile auth={auth} changePassword={changePassword} />
               </Route>
-              <Route path='/'>
-                <Home />
+              <Route path="/">
+                <FindPlayers />
               </Route>
             </Switch>
           </div>
