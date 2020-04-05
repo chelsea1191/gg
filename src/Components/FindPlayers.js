@@ -1,8 +1,10 @@
 import React from 'react';
 
 const FindPlayers = () => {
+  // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
+  // ON FORM SUBMIT, RETURNS LIST OF ALL USERS THAT MATCH SEARCH
   return (
     <div className="findPlayersPage">
       <form id="findPlayersForm">
