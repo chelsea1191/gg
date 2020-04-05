@@ -18,6 +18,20 @@ nav {
   justify-content: space-around;
   margin-bottom: 1rem;
 }
+.navbar navbar-expand-lg navbar-light {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.nav-link active {
+  width: fit-content;
+  padding: 0;
+}
+
+.nav-link {
+  padding: 0;
+}
 
 button {
   height: 2rem;
@@ -49,4 +63,92 @@ section {
   border-radius: 3rem;
   flex-direction: column;
   align-items: center;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loginForm > input {
+  border: 1px solid grey;
+}
+
+#findPlayersForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#playersList {
+  border: 1px solid grey;
+}
+
+button {
+  border: 1px solid grey;
+}
+
+ul {
+  padding: 0;
+}
+
+h5 {
+  margin: 0;
+}
+
+select {
+  border: 1px solid grey;
+}
+
+input {
+  border: 1px solid grey;
+  padding-left: 16px;
+}
+
+#playersList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#gamesPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gamesListItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameListItemImage {
+  border: 1px solid grey;
+  width: 75px;
+  height: 100px;
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.userProfileImage {
+  border: 1px solid grey;
+  height: 150px;
+  width: 150px;
+}
+
+#createUserForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }

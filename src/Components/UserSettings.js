@@ -16,7 +16,7 @@ const UserProfile = ({ auth, changePassword }) => {
   };
 
   return (
-    <div className='prod-container'>
+    <div className="prod-container">
       <h4>First Name: {auth.firstname}</h4>
       <h4>Last Name: {auth.lastname}</h4>
       <h4>Username: {auth.username}</h4>
@@ -24,20 +24,20 @@ const UserProfile = ({ auth, changePassword }) => {
       <h3>Change Password</h3>
       <form onSubmit={onPassSubmit}>
         <input
-          type='password'
-          placeholder='new password'
+          type="password"
+          placeholder="new password"
           value={firstpass}
           onChange={(ev) => setfirstpass(ev.target.value)}
         />
         <input
-          type='password'
-          placeholder='confirm new password'
+          type="password"
+          placeholder="confirm new password"
           value={secondpass}
           onChange={(ev) => setsecondpass(ev.target.value)}
         />
-        <button type='submit'>Submit Password Change</button>
+        <button type="submit">Submit Password Change</button>
         {isSuccessful && (
-          <p className='alert alert-success' role='alert'>
+          <p className="alert alert-success" role="alert">
             password successfully changed!
           </p>
         )}
