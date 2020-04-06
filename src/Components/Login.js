@@ -15,9 +15,10 @@ const Login = ({ login }) => {
   };
   return (
     <form id="loginForm" onSubmit={onSubmit}>
-      <h1>gg</h1>
+      <img id="loginLogo" src="../../assets/logo.png" />
       <div className="error">{error}</div>
       <input
+        type="text"
         value={username}
         onChange={(ev) => setUsername(ev.target.value)}
         placeholder="Username"
