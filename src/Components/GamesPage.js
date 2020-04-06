@@ -5,7 +5,7 @@ const GamesPage = () => {
     <div id="gamesPage">
       <form id="searchGamesForm">
         <h3>Games</h3>
-        <input type="text" placeholder="Find a Game" />
+        <input type="text" placeholder="Search for a Game" />
         {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT
           AS USER TYPES, LIST OF GAMES NARROWS BASED ON MATCHING TITLE
@@ -19,6 +19,9 @@ const GamesPage = () => {
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
+        <button className="searchButton">
+          <h5>Search</h5>
+        </button>
       </form>
       <ul id="gamesList">
         {/*

@@ -26,12 +26,12 @@ const FindPlayers = () => {
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
         </select>
-        <button className="searchButton">
-          <h5>Search</h5>
-        </button>{' '}
         <h6>
           <a href="">Advanced Search</a>
         </h6>
+        <button className="searchButton">
+          <h5>Search</h5>
+        </button>
       </form>
       {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
@@ -39,12 +39,6 @@ const FindPlayers = () => {
           */}
 
       <ul id="playersList">
-        <h5>
-          {/*
-          NUMBER OF MATCHING PLAYERS
-          */}# Players in Your
-          Area!
-        </h5>
         {/*
           LIST OF PLAYERS THAT MATCH SEARCH PARAMETERS.
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON

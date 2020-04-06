@@ -1,7 +1,8 @@
 body {
   font-family: verdana;
   margin: 0;
-  font-weight: bolder;
+  font-family: 'Alef';
+  background-color: lightgray;
 }
 
 main {
@@ -16,17 +17,41 @@ main > * {
 nav {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin: 0;
+  background-color: rgb(38, 41, 38);
+  align-items: center;
 }
+
+hr {
+  margin: 0;
+}
+.navbar {
+  padding: 0;
+}
+
 .navbar navbar-expand-lg navbar-light {
   display: flex;
   justify-content: space-around;
   padding: 0;
+  margin: 0;
 }
 
-.nav-link active {
-  width: fit-content;
-  padding: 0;
+a {
+  color: grey;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+label {
+  display: flex;
+}
+
+.link {
+  margin: 0;
 }
 
 .nav-link {
@@ -34,8 +59,11 @@ nav {
 }
 
 button {
+  color: rgb(0, 200, 0);
+  border: none;
   height: 2rem;
   font-size: 1.5rem;
+  background-color: rgb(38, 41, 38);
 }
 
 h2 {
@@ -57,6 +85,13 @@ h1 {
   text-align: center;
 }
 
+select {
+  border-radius: 15px;
+  background-color: rgb(228, 228, 228);
+
+  padding-left: 16px;
+}
+
 section {
   display: flex;
   border: solid 2px teal;
@@ -65,14 +100,20 @@ section {
   align-items: center;
 }
 
+#navLogo {
+  width: 24px;
+}
+
+#loginLogo {
+  width: 200px;
+  height: 200px;
+}
+
 #loginForm {
+  margin: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-#loginForm > input {
-  border: 1px solid grey;
 }
 
 #findPlayersForm {
@@ -80,31 +121,71 @@ section {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin: 32px;
 }
 
-#playersList {
-  border: 1px solid grey;
+input[type='text'] {
+  border-radius: 15px;
+  border: none;
+  margin: 4px;
+}
+input[type='password'] {
+  border-radius: 15px;
+  border: none;
+  margin: 4px;
 }
 
 button {
-  border: 1px solid grey;
+  border-radius: 15px;
+  margin: 8px;
+  padding: 0 16px 0 16px;
+}
+
+button > h5 {
+  font-weight: 700;
+}
+
+#bioInput {
+  height: 100px;
+  border-radius: 15px;
+  padding: 8px;
+  margin: 8px;
+  border: none;
+  resize: none;
 }
 
 ul {
   padding: 0;
 }
 
+h3 {
+  font-weight: 700;
+}
+
 h5 {
   margin: 0;
 }
 
+h6 {
+  margin: 0;
+}
+
 select {
-  border: 1px solid grey;
+  border: 0px;
+  outline: 0px;
+  margin: 4px;
 }
 
 input {
-  border: 1px solid grey;
   padding-left: 16px;
+}
+.ggText {
+  font-weight: 700;
+  color: rgb(0, 200, 0);
+}
+
+#aboutPage {
+  margin: 32px;
 }
 
 #playersList {
@@ -119,6 +200,7 @@ input {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin: 32px;
 }
 
 .gamesListItem {
@@ -147,6 +229,7 @@ input {
 }
 
 #createUserForm {
+  margin: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
