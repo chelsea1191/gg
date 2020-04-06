@@ -16,6 +16,7 @@ const allDataFromAPI = axios
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  DROP TABLE IF EXISTS chat;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
   DROP TABLE IF EXISTS game;
@@ -63,7 +64,7 @@ const sync = async () => {
   CREATE TABLE chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id) NOT NULL,
-    "userId" UUID REFERENCES users(id) NOT NULL,
+    "userId2" UUID REFERENCES users(id) NOT NULL,
     messages VARCHAR
   );
 
