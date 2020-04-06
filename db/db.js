@@ -50,6 +50,13 @@ const sync = async () => {
     "gameTypeID" UUID REFERENCES game_type(id) NOT NULL
   );
 
+  CREATE TABLE chat (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "userId" UUID REFERENCES users(id) NOT NULL,
+    "userId" UUID REFERENCES users(id) NOT NULL,
+    messages VARCHAR
+  );
+
   INSERT INTO users (username, firstname, lastname, password, role, email) VALUES('admin', 'ad', 'min','password','ADMIN','admin@admin.com');
   `;
   await client.query(SQL);
