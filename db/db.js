@@ -4,7 +4,8 @@ const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
-const models = ({ users } = require('./models'));
+const models = ({ users, games } = require('./models'));
+const { getAllGames } = require('./userMethods');
 const client_id = '8fCeoX8wuW';
 
 const allDataFromAPI = axios
@@ -60,6 +61,11 @@ const sync = async () => {
   );
   `;
   await client.query(SQL);
+
+  const _games = await allDataFromAPI;
+  const [foo, bar, baz] = await Promise.all(
+    Object.values(_games).map((each) => games.create(each))
+  );
 };
 //////////////////get///////////////////
 // const readUsers = async () => {
@@ -79,4 +85,5 @@ module.exports = {
   models,
   authenticate,
   findUserFromToken,
+  getAllGames,
 };
