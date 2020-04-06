@@ -15,31 +15,33 @@ const Login = ({ login }) => {
     );
   };
   return (
-    <form id="loginForm" onSubmit={onSubmit}>
+    <div id="loginPage">
       <img id="loginLogo" src="../../assets/logo.png" />
-      <div className="error">{error}</div>
-      <input
-        type="text"
-        value={username}
-        onChange={(ev) => setUsername(ev.target.value)}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(ev) => setPassword(ev.target.value)}
-        placeholder="Password"
-      />
-      <button id="loginButton">
-        <h5>Login</h5>
-      </button>
-      <h6>
-        <a href="/register" style={greentext}>
-          <b>Create a Profile</b>
-        </a>
-      </h6>
-      <h6>or Browse as a Guest</h6>
-    </form>
+      <form id="loginForm" onSubmit={onSubmit}>
+        <div className="error">{error}</div>
+        <input
+          type="text"
+          value={username}
+          onChange={(ev) => setUsername(ev.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(ev) => setPassword(ev.target.value)}
+          placeholder="Password"
+        />
+        <button id="loginButton">
+          <h5>Login</h5>
+        </button>
+        <h6>
+          <a href="/register" style={greentext}>
+            <b>Create a Profile</b>
+          </a>
+        </h6>
+        <h6>or Browse as a Guest</h6>
+      </form>
+    </div>
   );
 };
 

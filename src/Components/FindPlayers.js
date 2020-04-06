@@ -13,9 +13,9 @@ const FindPlayers = () => {
         {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
           */}
-        <h6>or</h6>
+        <h6>-- or --</h6>
         <select>
-          <option>Pick one of your favorite games</option>
+          <option>Pick a Favorite Game</option>
           {/*
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}

@@ -17,6 +17,7 @@ const UserProfile = ({ auth, changePassword }) => {
 
   return (
     <div id="userSettingsPage" className="prod-container">
+      <h3>User Settings</h3>
       <div id="userSettingsInfo">
         <h6>
           <b>First Name: </b>

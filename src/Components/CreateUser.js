@@ -24,7 +24,7 @@ export default function CreateUser({ auth, setAuth }) {
   };
 
   return (
-    <div>
+    <div id="createUserPage">
       <form
         id="createUserForm"
         onSubmit={(e) => {
