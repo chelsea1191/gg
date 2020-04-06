@@ -16,13 +16,24 @@ const UserProfile = ({ auth, changePassword }) => {
   };
 
   return (
-    <div className="prod-container">
-      <h4>First Name: {auth.firstname}</h4>
-      <h4>Last Name: {auth.lastname}</h4>
-      <h4>Username: {auth.username}</h4>
-      <br />
-      <h3>Change Password</h3>
-      <form onSubmit={onPassSubmit}>
+    <div id="userSettingsPage" className="prod-container">
+      <div id="userSettingsInfo">
+        <h6>
+          <b>First Name: </b>
+          {auth.firstname}
+        </h6>
+        <h6>
+          <b>Last Name: </b>
+          {auth.lastname}
+        </h6>
+        <h6>
+          <b>Username: </b>
+          {auth.username}
+        </h6>
+      </div>
+
+      <form id="changePasswordForm" onSubmit={onPassSubmit}>
+        <h4>Change Password</h4>
         <input
           type="password"
           placeholder="new password"
@@ -35,7 +46,9 @@ const UserProfile = ({ auth, changePassword }) => {
           value={secondpass}
           onChange={(ev) => setsecondpass(ev.target.value)}
         />
-        <button type="submit">Submit Password Change</button>
+        <button type="submit">
+          <h5>Submit Change</h5>
+        </button>
         {isSuccessful && (
           <p className="alert alert-success" role="alert">
             password successfully changed!
