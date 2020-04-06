@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 // WHEN USER LOGS IN OR BROWSES AS GUEST, LINKS TO FIND PLAYERS PAGE
 
 const Login = ({ login }) => {
+  const greentext = { color: 'rgb(0, 200, 0)' };
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,8 +34,11 @@ const Login = ({ login }) => {
         <h5>Login</h5>
       </button>
       <h6>
-        <a href="">Browse as a Guest</a>
+        <a href="/register" style={greentext}>
+          <b>Create a Profile</b>
+        </a>
       </h6>
+      <h6>or Browse as a Guest</h6>
     </form>
   );
 };
