@@ -192,6 +192,11 @@ const App = () => {
                 </Link>
               </li>
               <li className="nav-link">
+                <Link className="link" to="/chat">
+                  <button className="btn btn-secondary">Chat</button>
+                </Link>
+              </li>
+              <li className="nav-link">
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -211,6 +216,9 @@ const App = () => {
               </Route>
               <Route path="/about">
                 <About />
+              </Route>
+              <Route path="/chat">
+                <Chat />
               </Route>
               <Route path="/">
                 <FindPlayers />
