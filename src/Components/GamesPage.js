@@ -1,6 +1,7 @@
 import React from 'react';
 
 const GamesPage = () => {
+  const greentext = { color: 'rgb(0, 200, 0)' };
   return (
     <div id="gamesPage">
       <form id="searchGamesForm">
@@ -30,9 +31,13 @@ const GamesPage = () => {
            LIST ITEMS LINK TO GAME PAGES
           */}
       </ul>
-      <h6>Is your favorite game unsupported?</h6>
       <h6>
-        <a href="">Contact Us!</a>
+        <i>Is your favorite game unsupported?</i>
+      </h6>
+      <h6>
+        <a href="" style={greentext}>
+          Contact Us!
+        </a>
       </h6>
     </div>
   );

@@ -17,8 +17,7 @@ main > * {
 nav {
   display: flex;
   justify-content: space-around;
-  padding: 0;
-  margin: 0;
+
   background-color: rgb(38, 41, 38);
   align-items: center;
 }
@@ -28,13 +27,8 @@ hr {
 }
 .navbar {
   padding: 0;
-}
-
-.navbar navbar-expand-lg navbar-light {
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  position: fixed;
 }
 
 a {
@@ -92,6 +86,14 @@ select {
   padding-left: 16px;
 }
 
+.btn {
+  background-color: rgb(0, 200, 0);
+  border-radius: 15px;
+  border: none;
+  padding: 0 16px;
+  margin: 0;
+}
+
 section {
   display: flex;
   border: solid 2px teal;
@@ -105,12 +107,12 @@ section {
 }
 
 #loginLogo {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
 #loginForm {
-  margin: 32px;
+  margin: 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,7 +123,7 @@ section {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 32px;
+  margin: 64px;
 }
 
 input[type='text'] {
@@ -179,13 +181,9 @@ select {
 input {
   padding-left: 16px;
 }
-.ggText {
-  font-weight: 700;
-  color: rgb(0, 200, 0);
-}
 
 #aboutPage {
-  margin: 32px;
+  margin: 64px 32px;
 }
 
 #playersList {
@@ -200,7 +198,7 @@ input {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 32px;
+  margin: 64px;
 }
 
 .gamesListItem {
@@ -228,10 +226,30 @@ input {
   width: 150px;
 }
 
+#userSettingsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 64px 32px;
+}
+
+#changePasswordForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px 0;
+}
+
 #createUserForm {
-  margin: 32px;
+  margin: 64px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.checkBoxes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

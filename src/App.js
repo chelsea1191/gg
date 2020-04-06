@@ -81,23 +81,31 @@ const App = () => {
                 </Link>
               </li>
               <li className="nav-link">
-                <Link className="link" to="/login">
-                  <h6>Login</h6>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/register">
-                  <h6>Register</h6>
-                </Link>
-              </li>
-              <li className="nav-link">
                 <Link className="link" to="/games">
-                  <h6>Games</h6>
+                  <img
+                    src="/assets/search.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
+
               <li className="nav-link">
                 <Link className="link" to="/about">
-                  <h6>About</h6>
+                  <img
+                    src="/assets/about.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link className="link" to="/login">
+                  <button className="btn btn-secondary">Login</button>
                 </Link>
               </li>
             </nav>
@@ -133,26 +141,43 @@ const App = () => {
               <li className="nav-link active">
                 <Link className="link" to="/">
                   <img
-                    src="/assets/home.png"
+                    id="navLogo"
+                    src="/assets/logo.png"
                     alt=""
-                    width="32"
-                    height="32"
+                    title="Bootstrap"
+                  ></img>
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link className="link" to="/games">
+                  <img
+                    src="/assets/search.png"
+                    alt=""
+                    width="24"
+                    height="24"
                     title="Bootstrap"
                   ></img>
                 </Link>
               </li>
               <li className="nav-link">
                 <Link className="link" to="/usersettings">
-                  User Settings
+                  <img
+                    src="/assets/settings.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
+
               <li className="nav-link">
-                <Link className="link" to="/search">
+                <Link className="link" to="/about">
                   <img
-                    src="/assets/search.png"
+                    src="/assets/about.png"
                     alt=""
-                    width="32"
-                    height="32"
+                    width="24"
+                    height="24"
                     title="Bootstrap"
                   ></img>
                 </Link>
@@ -169,11 +194,14 @@ const App = () => {
             </nav>
             <hr />
             <Switch>
-              <Route path="/search">
-                <Search />
+              <Route path="/games">
+                <GamesPage />
               </Route>
               <Route path="/usersettings">
                 <UserSettings auth={auth} changePassword={changePassword} />
+              </Route>
+              <Route path="/about">
+                <About />
               </Route>
               <Route path="/">
                 <FindPlayers />
