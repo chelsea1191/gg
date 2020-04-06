@@ -2,8 +2,16 @@ const pg = require('pg');
 const uuid = require('uuid/v4');
 const client = require('./client');
 const faker = require('faker');
+const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
 const models = ({ users } = require('./models'));
+const client_id = '8fCeoX8wuW';
+
+const allDataFromAPI = axios
+  .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
+  .then((response) => {
+    return response.data.games;
+  });
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -12,7 +20,6 @@ const sync = async () => {
   DROP TABLE IF EXISTS game;
   DROP TABLE IF EXISTS game_type;
   DROP TABLE IF EXISTS users;
-
 
   CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -33,16 +40,18 @@ const sync = async () => {
     gametype VARCHAR
   );
   CREATE TABLE game (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title VARCHAR,
-    "gameTypeID" UUID REFERENCES users(id) NOT NULL,
-    about VARCHAR,
-    "playerLimit" INT
+    id VARCHAR PRIMARY KEY UNIQUE,
+    name VARCHAR,
+    "gameTypeID" UUID REFERENCES users(id),
+    description VARCHAR,
+    image_url VARCHAR,
+    min_players INT,
+    max_players INT
   );
   CREATE TABLE user_game (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
-    "gameId" UUID REFERENCES game(id)
+    "gameId" VARCHAR REFERENCES game(id)
   );
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -69,5 +78,5 @@ module.exports = {
   sync,
   models,
   authenticate,
-  findUserFromToken
+  findUserFromToken,
 };

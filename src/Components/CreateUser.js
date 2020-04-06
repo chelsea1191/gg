@@ -38,7 +38,7 @@ export default function CreateUser({ auth, setAuth }) {
         <input
           placeholder='Bio (max 300 characters)'
           type='text'
-          maxlength='300'
+          maxLength='300'
         />
         <button>Create User</button>
       </form>
