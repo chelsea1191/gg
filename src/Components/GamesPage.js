@@ -23,6 +23,14 @@ const GamesPage = () => {
         <button className="searchButton">
           <h5>Search</h5>
         </button>
+        <h6>
+          <i>Is your favorite game unsupported?</i>
+        </h6>
+        <h6>
+          <a href="" style={greentext}>
+            Contact Us!
+          </a>
+        </h6>
       </form>
       <ul id="gamesList">
         {/*
@@ -31,14 +39,6 @@ const GamesPage = () => {
            LIST ITEMS LINK TO GAME PAGES
           */}
       </ul>
-      <h6>
-        <i>Is your favorite game unsupported?</i>
-      </h6>
-      <h6>
-        <a href="" style={greentext}>
-          Contact Us!
-        </a>
-      </h6>
     </div>
   );
 };
