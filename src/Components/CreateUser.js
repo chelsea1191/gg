@@ -24,65 +24,64 @@ export default function CreateUser({ auth, setAuth }) {
   };
 
   return (
-    <div id="createUserPage">
+    <div id='createUserPage'>
       <form
-        id="createUserForm"
+        id='createUserForm'
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <h3>Create New User</h3>
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="text" placeholder="Username" />
-        <input placeholder="Password" type="password" />
-        <input type="text" placeholder="Email Address" />
+        <input type='text' placeholder='First Name' />
+        <input type='text' placeholder='Last Name' />
+        <input type='text' placeholder='Username' />
+        <input placeholder='Password' type='password' />
+        <input type='text' placeholder='Email Address' />
         <textarea
-          id="bioInput"
-          placeholder="Say something about yourself!"
-          maxLength="300"
+          id='bioInput'
+          placeholder='Say something about yourself!'
+          maxLength='300'
         />
 
         <h5>
           <b>What types of games do you play?</b>
         </h5>
-        <div className="checkBoxes">
-          <label htmlFor="boardgamesCheckbox">
+        <div className='checkBoxes'>
+          <label htmlFor='boardgamesCheckbox'>
             <input
-              type="checkbox"
-              id="boardgamesCheckbox"
-              name="gameTypes"
-              value="Board Games"
+              type='checkbox'
+              id='boardgamesCheckbox'
+              name='gameTypes'
+              value='Board Games'
             />
             <h6>Board Games</h6>
           </label>
 
-          <label htmlFor="tabletopCheckbox">
+          <label htmlFor='tabletopCheckbox'>
             <input
-              type="checkbox"
-              id="tabletopCheckbox"
-              name="gameTypes"
-              value="Tabletop Games & RPGs"
+              type='checkbox'
+              id='tabletopCheckbox'
+              name='gameTypes'
+              value='Tabletop Games & RPGs'
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label htmlFor="videogamesCheckbox">
+          <label htmlFor='videogamesCheckbox'>
             <input
-              type="checkbox"
-              id="videogamesCheckbox"
-              name="gameTypes"
-              value="Video Games"
+              type='checkbox'
+              id='videogamesCheckbox'
+              name='gameTypes'
+              value='Video Games'
             />
             <h6>Video Games</h6>
           </label>
 
-          <label htmlFor="sportsCheckbox">
+          <label htmlFor='sportsCheckbox'>
             <input
-              type="checkbox"
-              id="sportsCheckbox"
-              name="gameTypes"
-              value="Sports & Field Games"
+              type='checkbox'
+              id='sportsCheckbox'
+              name='gameTypes'
+              value='Sports & Field Games'
             />
             <h6>Sports & Field Games</h6>
           </label>
@@ -91,7 +90,7 @@ export default function CreateUser({ auth, setAuth }) {
         <h5>
           <b>What's your favorite game?</b>
         </h5>
-        <input type="text" placeholder="Search for a Game" />
+        <input type='text' placeholder='Search for a Game' />
         {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
           */}

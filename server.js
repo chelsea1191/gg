@@ -81,7 +81,11 @@ app.put('/api/auth/:id', (req, res, next) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
-
+app.get('/api/games', (req, res, next) => {
+  db.getAllGames()
+    .then((response) => res.send(response))
+    .catch(next);
+});
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {

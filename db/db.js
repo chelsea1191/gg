@@ -2,17 +2,26 @@ const pg = require('pg');
 const uuid = require('uuid/v4');
 const client = require('./client');
 const faker = require('faker');
+const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
-const models = ({ users } = require('./models'));
+const models = ({ users, games } = require('./models'));
+const { getAllGames } = require('./userMethods');
+const client_id = '8fCeoX8wuW';
+
+const allDataFromAPI = axios
+  .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
+  .then((response) => {
+    return response.data.games;
+  });
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  DROP TABLE IF EXISTS chat;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
   DROP TABLE IF EXISTS game;
   DROP TABLE IF EXISTS game_type;
   DROP TABLE IF EXISTS users;
-
 
   CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -33,16 +42,18 @@ const sync = async () => {
     gametype VARCHAR
   );
   CREATE TABLE game (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title VARCHAR,
-    "gameTypeID" UUID REFERENCES users(id) NOT NULL,
-    about VARCHAR,
-    "playerLimit" INT
+    id VARCHAR PRIMARY KEY UNIQUE,
+    name VARCHAR,
+    "gameTypeID" UUID REFERENCES users(id),
+    description VARCHAR,
+    image_url VARCHAR,
+    min_players INT,
+    max_players INT
   );
   CREATE TABLE user_game (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
-    "gameId" UUID REFERENCES game(id)
+    "gameId" VARCHAR REFERENCES game(id)
   );
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -53,13 +64,18 @@ const sync = async () => {
   CREATE TABLE chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id) NOT NULL,
-    "userId" UUID REFERENCES users(id) NOT NULL,
+    "userId2" UUID REFERENCES users(id) NOT NULL,
     messages VARCHAR
   );
 
   INSERT INTO users (username, firstname, lastname, password, role, email) VALUES('admin', 'ad', 'min','password','ADMIN','admin@admin.com');
   `;
   await client.query(SQL);
+
+  const _games = await allDataFromAPI;
+  const [foo, bar, baz] = await Promise.all(
+    Object.values(_games).map((each) => games.create(each))
+  );
 };
 //////////////////get///////////////////
 // const readUsers = async () => {
@@ -79,4 +95,5 @@ module.exports = {
   models,
   authenticate,
   findUserFromToken,
+  getAllGames,
 };
