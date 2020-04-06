@@ -8,6 +8,7 @@ import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
 import UserSettings from './Components/UserSettings';
+import Chat from './Components/Chat';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const headers = () => {
@@ -113,11 +114,19 @@ const App = () => {
                   <button className='btn btn-secondary'>Login</button>
                 </Link>
               </li>
+              <li className='nav-link'>
+                <Link className='link' to='/chat'>
+                  <button className='btn btn-secondary'>Chat</button>
+                </Link>
+              </li>
             </nav>
             <hr />
             <Switch>
               <Route path='/login'>
                 <Login login={login} />
+              </Route>
+              <Route path='/chat'>
+                <Chat />
               </Route>
               <Route path='/register'>
                 <CreateUser auth={auth} setAuth={setAuth} />
@@ -184,6 +193,11 @@ const App = () => {
                 </Link>
               </li>
               <li className='nav-link'>
+                <Link className='link' to='/chat'>
+                  <button className='btn btn-secondary'>Chat</button>
+                </Link>
+              </li>
+              <li className='nav-link'>
                 <button
                   type='button'
                   className='btn btn-secondary'
@@ -202,6 +216,9 @@ const App = () => {
               </Route>
               <Route path='/about'>
                 <About />
+              </Route>
+              <Route path='/chat'>
+                <Chat />
               </Route>
               <Route path='/'>
                 <FindPlayers />
