@@ -3,6 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 import FindPlayers from './Components/FindPlayers.js';
 import GamesPage from './Components/GamesPage';
+import About from './Components/About';
 import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
@@ -67,15 +68,14 @@ const App = () => {
     return (
       <div className="App">
         <Router>
-          <div>
+          <div id="nav">
             <nav className="navbar navbar-expand-lg navbar-light">
               <li className="nav-link active">
                 <Link className="link" to="/">
                   <img
-                    src="/assets/home.png"
+                    id="navLogo"
+                    src="/assets/logo.png"
                     alt=""
-                    width="24"
-                    height="24"
                     title="Bootstrap"
                   ></img>
                 </Link>
@@ -95,6 +95,11 @@ const App = () => {
                   <h6>Games</h6>
                 </Link>
               </li>
+              <li className="nav-link">
+                <Link className="link" to="/about">
+                  <h6>About</h6>
+                </Link>
+              </li>
             </nav>
             <hr />
             <Switch>
@@ -107,6 +112,9 @@ const App = () => {
 
               <Route path="/games">
                 <GamesPage />
+              </Route>
+              <Route path="/about">
+                <About />
               </Route>
               <Route path="/">
                 <FindPlayers />
