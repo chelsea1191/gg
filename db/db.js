@@ -35,6 +35,7 @@ const sync = async () => {
     CHECK (char_length(username) > 0),
     photo VARCHAR,
     bio VARCHAR(300),
+    location VARCHAR,
     date_create TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
@@ -68,7 +69,7 @@ const sync = async () => {
     messages VARCHAR
   );
 
-  INSERT INTO users (username, firstname, lastname, password, role, email) VALUES('admin', 'ad', 'min','password','ADMIN','admin@admin.com');
+
   `;
   await client.query(SQL);
 
@@ -76,6 +77,49 @@ const sync = async () => {
   const [foo, bar, baz] = await Promise.all(
     Object.values(_games).map((each) => games.create(each))
   );
+
+  const _users = {
+    admin: {
+      username: 'admin',
+      firstname: 'ad',
+      lastname: 'min',
+      password: 'admin',
+      role: 'ADMIN',
+      email: 'admin@gmail.com',
+      bio: 'admin here',
+    },
+    friend: {
+      username: 'friend',
+      firstname: 'fr',
+      lastname: 'iend',
+      password: 'friend',
+      role: 'PLAYER',
+      email: 'friend@gmail.com',
+      bio: 'friend here',
+    },
+    buddy: {
+      username: 'buddy',
+      firstname: 'bud',
+      lastname: 'dy',
+      password: 'buddy',
+      role: 'PLAYER',
+      email: 'buddy@gmail.com',
+      bio: 'buddy here',
+    },
+  };
+
+  const [admin, friend] = await Promise.all(
+    Object.values(_users).map((user) => users.create(user))
+  );
+
+  const userMap = (await users.read()).reduce((acc, user) => {
+    acc[user.username] = user;
+    return acc;
+  }, {});
+
+  return {
+    users: userMap,
+  };
 };
 //////////////////get///////////////////
 // const readUsers = async () => {

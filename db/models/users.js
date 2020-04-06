@@ -5,17 +5,26 @@ const users = {
   read: async () => {
     return (await client.query('SELECT * from users')).rows;
   },
-  create: async ({ username, firstname, lastname, password, email, bio }) => {
-    const SQL = `INSERT INTO users(username, firstname, lastname, password, email, bio, "isBlocked") values($1, $2, $3, $4, $5, $6, $7) returning *`;
+  create: async ({
+    username,
+    firstname,
+    lastname,
+    password,
+    role,
+    email,
+    bio,
+  }) => {
+    const SQL = `INSERT INTO users(username, firstname, lastname, password, role, email, bio, "isBlocked") values($1, $2, $3, $4, $5, $6, $7, $8) returning *`;
     return (
       await client.query(SQL, [
         username,
         firstname,
         lastname,
         await hash(password),
+        role,
         email,
         bio,
-        'false'
+        'false',
       ])
     ).rows[0];
   },
@@ -26,7 +35,7 @@ const users = {
   delete: async (id) => {
     const SQL = `DELETE FROM users WHERE (id) = ($1);`;
     await client.query(SQL, [id]);
-  }
+  },
 };
 
 module.exports = users;
