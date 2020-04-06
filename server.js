@@ -19,6 +19,12 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
+var myLogger = function (req, res, next) {
+  console.log(req.body);
+  next();
+};
+app.use(myLogger);
+
 //////////////////auth//////////////////
 const isLoggedIn = (req, res, next) => {
   if (!req.user) {
@@ -106,7 +112,7 @@ app.get('/*', (req, res, next) =>
 app.use((req, res, next) => {
   const error = {
     message: `page not found ${req.url} for ${req.method}`,
-    status: 404
+    status: 404,
   };
   next(error);
 });

@@ -24,23 +24,82 @@ export default function CreateUser({ auth, setAuth }) {
   };
 
   return (
-    <div>
+    <div id='createUserPage'>
       <form
+        id='createUserForm'
         onSubmit={(e) => {
           handleSubmit(e);
         }}>
-        <h1>Create New User</h1>
-        <input placeholder='First Name' />
-        <input placeholder='Last Name' />
-        <input placeholder='Username' />
+        <h3>Create New User</h3>
+        <input type='text' placeholder='First Name' />
+        <input type='text' placeholder='Last Name' />
+        <input type='text' placeholder='Username' />
         <input placeholder='Password' type='password' />
-        <input placeholder='Email Address' />
-        <input
-          placeholder='Bio (max 300 characters)'
-          type='text'
+        <input type='text' placeholder='Email Address' />
+        <textarea
+          id='bioInput'
+          placeholder='Say something about yourself!'
           maxLength='300'
         />
-        <button>Create User</button>
+
+        <h5>
+          <b>What types of games do you play?</b>
+        </h5>
+        <div className='checkBoxes'>
+          <label htmlFor='boardgamesCheckbox'>
+            <input
+              type='checkbox'
+              id='boardgamesCheckbox'
+              name='gameTypes'
+              value='Board Games'
+            />
+            <h6>Board Games</h6>
+          </label>
+
+          <label htmlFor='tabletopCheckbox'>
+            <input
+              type='checkbox'
+              id='tabletopCheckbox'
+              name='gameTypes'
+              value='Tabletop Games & RPGs'
+            />
+            <h6>Tabletop Games & RPGs</h6>
+          </label>
+
+          <label htmlFor='videogamesCheckbox'>
+            <input
+              type='checkbox'
+              id='videogamesCheckbox'
+              name='gameTypes'
+              value='Video Games'
+            />
+            <h6>Video Games</h6>
+          </label>
+
+          <label htmlFor='sportsCheckbox'>
+            <input
+              type='checkbox'
+              id='sportsCheckbox'
+              name='gameTypes'
+              value='Sports & Field Games'
+            />
+            <h6>Sports & Field Games</h6>
+          </label>
+        </div>
+
+        <h5>
+          <b>What's your favorite game?</b>
+        </h5>
+        <input type='text' placeholder='Search for a Game' />
+        {/*
+          INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
+          */}
+        <h6>
+          <i>Add more Favorites on the Games Page!</i>
+        </h6>
+        <button>
+          <h5>Create User</h5>
+        </button>
       </form>
     </div>
   );
