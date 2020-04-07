@@ -26,6 +26,7 @@ nav {
 
 hr {
   margin: 0;
+  width: 100%;
 }
 .navbar {
   padding: 0;
@@ -36,7 +37,7 @@ hr {
 }
 
 a {
-  color: grey;
+  color: initial;
 }
 
 a:hover {
@@ -250,7 +251,17 @@ select {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 64 32px;
+  margin: 64px 32px 16px 32px;
+}
+
+#gamesList {
+  padding: 16px;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  margin: 8px 0;
+  max-height: 85vh;
+  overflow: scroll;
 }
 
 .gamesListItem {
@@ -258,11 +269,17 @@ select {
   flex-direction: column;
   align-items: center;
 }
+.gamesListItem hr {
+  margin: 16px 0;
+}
+
+.gamesListItem a {
+  margin: 0;
+}
 
 .gameListItemImage {
-  border: 1px solid grey;
-  width: 75px;
-  height: 100px;
+  width: 50vw;
+  margin: 8px;
 }
 
 .userProfile {
