@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Location from './Location';
 
 export default function CreateUser({ auth, setAuth }) {
   const handleSubmit = async (e) => {
@@ -43,6 +44,8 @@ export default function CreateUser({ auth, setAuth }) {
           placeholder="Say something about yourself!"
           maxLength="300"
         />
+
+        <Location />
 
         <h5>
           <b>What types of games do you play?</b>
