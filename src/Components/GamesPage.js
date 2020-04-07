@@ -39,11 +39,7 @@ const GamesPage = ({ allGames }) => {
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
-<<<<<<< HEAD
-        <button className="searchButton">
-=======
-        <button className='searchButton' onClick={onSubmit}>
->>>>>>> master
+        <button className="searchButton" onClick={onSubmit}>
           <h5>Search</h5>
         </button>
         <h6>
@@ -55,39 +51,12 @@ const GamesPage = ({ allGames }) => {
           </a>
         </h6>
       </form>
-<<<<<<< HEAD
       <ul id="gamesList">
-        {allGames.map((game) => {
-          return (
-            <li key={game.id} className="gamesListItem">
-              <a href="">
-                <img className="gameListItemImage" src={game.image_url} />
-                <h5>
-                  <b>{game.name}</b>
-                </h5>
-                <h6>
-                  <i>
-                    {game.min_players} - {game.max_players} Players
-                  </i>
-                </h6>
-                <button>
-                  <h6>
-                    <b>Favorite</b>
-                  </h6>
-                </button>
-
-                <hr />
-              </a>
-            </li>
-          );
-        })}
-=======
-      <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
             return (
-              <li key={game.id} className='gamesListItem'>
-                <img className='gameListItemImage' src={game.image_url} />
+              <li key={game.id} className="gamesListItem">
+                <img className="gameListItemImage" src={game.image_url} />
                 <p>{game.name}</p>
               </li>
             );
@@ -95,13 +64,12 @@ const GamesPage = ({ allGames }) => {
         {filtered.length === 0 &&
           allGames.map((game) => {
             return (
-              <li key={game.id} className='gamesListItem'>
-                <img className='gameListItemImage' src={game.image_url} />
+              <li key={game.id} className="gamesListItem">
+                <img className="gameListItemImage" src={game.image_url} />
                 <p>{game.name}</p>
               </li>
             );
           })}
->>>>>>> master
         {/*
           LIST OF GAMES THAT MATCH SEARCH PARAMETERS
            INCLUDES COVER IMAGE, TITLE, NUMBER OF USERS, FRIENDS THAT PLAY, AVERAGE RATING, AND 'ADD FAVORITE GAME' BUTTON
