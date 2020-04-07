@@ -22,6 +22,7 @@ export default function CreateUser({ auth, setAuth }) {
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
     });
+    alert('Hi submitted user created');
   };
 
   return (
