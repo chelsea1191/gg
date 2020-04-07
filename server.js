@@ -86,6 +86,7 @@ app.get('/api/games', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
+
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {

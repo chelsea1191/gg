@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 const GamesPage = ({ allGames }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
@@ -40,10 +41,9 @@ const GamesPage = ({ allGames }) => {
       </form>
       <ul id="gamesList">
         {allGames.map((game) => {
-          console.log(game);
           return (
             <li key={game.id} className="gamesListItem">
-              <a href={`/users/games/${game.id}`}>
+              <a href="">
                 <img className="gameListItemImage" src={game.image_url} />
                 <h5>
                   <b>{game.name}</b>
@@ -53,6 +53,12 @@ const GamesPage = ({ allGames }) => {
                     {game.min_players} - {game.max_players} Players
                   </i>
                 </h6>
+                <button>
+                  <h6>
+                    <b>Favorite</b>
+                  </h6>
+                </button>
+
                 <hr />
               </a>
             </li>

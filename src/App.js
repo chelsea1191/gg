@@ -219,6 +219,7 @@ const App = () => {
               <Route path="/games">
                 <GamesPage allGames={allGames} />
               </Route>
+
               <Route path="/usersettings">
                 <UserSettings auth={auth} changePassword={changePassword} />
               </Route>

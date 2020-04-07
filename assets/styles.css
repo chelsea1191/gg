@@ -22,6 +22,7 @@ nav {
   border-bottom: 2px solid white;
   background-color: rgb(38, 41, 38);
   align-items: center;
+  z-index: 2;
 }
 
 hr {
