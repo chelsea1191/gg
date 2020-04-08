@@ -5,7 +5,17 @@ const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
 const models = ({ users, games } = require('./models'));
-const { getAllGames } = require('./userMethods');
+const {
+  getAllGames,
+  createChat,
+  updateChat,
+  getChat,
+  getUsers,
+  createMessage,
+  getMessage,
+  putMessage,
+} = require('./userMethods');
+
 const client_id = '8fCeoX8wuW';
 
 const allDataFromAPI = axios
@@ -16,6 +26,7 @@ const allDataFromAPI = axios
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  DROP TABLE IF EXISTS message;
   DROP TABLE IF EXISTS chat;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
@@ -64,11 +75,19 @@ const sync = async () => {
 
   CREATE TABLE chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id) NOT NULL,
-    "userId2" UUID REFERENCES users(id) NOT NULL,
-    messages VARCHAR
+    creator_id UUID REFERENCES users(id) NOT NULL,
+    user_id UUID REFERENCES users(id) NOT NULL,
+    date_create TIMESTAMP default CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
 
+  CREATE TABLE message (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    chat_id UUID REFERENCES chat(id) NOT NULL,
+    sender_id UUID REFERENCES users(id) NOT NULL,
+    message VARCHAR,
+    date_create TIMESTAMP default CURRENT_TIMESTAMP
+  )
 
   `;
   await client.query(SQL);
@@ -127,6 +146,7 @@ const sync = async () => {
 //   const response = await client.query(SQL);
 //   return response.rows;
 // };
+
 //////////////////put///////////////////
 // const updateUserThing = async ({ isFavorite, id }) => {
 //   const SQL = `UPDATE user_things SET (isFavorite) = ($1) WHERE (id) = ($2) returning *`;
@@ -140,4 +160,11 @@ module.exports = {
   authenticate,
   findUserFromToken,
   getAllGames,
+  createChat,
+  updateChat,
+  getChat,
+  getUsers,
+  createMessage,
+  getMessage,
+  putMessage,
 };
