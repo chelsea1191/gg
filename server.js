@@ -87,6 +87,20 @@ app.get('/api/games', (req, res, next) => {
     .catch(next);
 });
 
+<<<<<<< HEAD
+=======
+app.get('/api/users', (req, res, next) => {
+  db.getUsers()
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
+app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
+  db.getMessage(req.params.chatid, req.params.userid).then((response) => {
+    res.send(response);
+  });
+});
+>>>>>>> master
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {
@@ -95,7 +109,26 @@ app.post('/api/createUser', (req, res, next) => {
     .then((user) => res.send(user))
     .catch(next);
 });
+app.post('/api/chat', (req, res, next) => {
+  db.getChat(req.body[0], req.body[1]).then((response) => res.send(response));
+});
 
+app.post('/api/createchat', (req, res, next) => {
+  db.createChat(req.body[0], req.body[1])
+    .then((chatCreatedResponse) => {
+      db.createMessage(
+        chatCreatedResponse.id,
+        chatCreatedResponse.creator_id
+      ).then((messageCreatedResponse) => {
+        res.send([chatCreatedResponse, messageCreatedResponse]);
+      });
+    })
+    .catch(next);
+});
+
+app.post('/api/sendMessages', (req, res, next) => {
+  db.putMessage();
+});
 ///////////////////put////////////////////
 // app.put("/api/user_things/:id", (req, res, next) => {
 //   db.updateUserThings(req.body)

@@ -26,6 +26,16 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [allGames, setAllGames] = useState([]);
 
+  //for the chat to get the users
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/users').then((response) => {
+      console.log('all users: ', response.data);
+      setUsers(response.data);
+    });
+  }, [auth]);
+
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       //console.log('all games: ', response.data);
@@ -117,19 +127,11 @@ const App = () => {
                   <button className="btn btn-secondary">Login</button>
                 </Link>
               </li>
-              <li className="nav-link">
-                <Link className="link" to="/chat">
-                  <button className="btn btn-secondary">Chat</button>
-                </Link>
-              </li>
             </nav>
             <hr />
             <Switch>
               <Route path="/login">
                 <Login login={login} />
-              </Route>
-              <Route path="/chat">
-                <Chat />
               </Route>
               <Route path="/register">
                 <CreateUser auth={auth} setAuth={setAuth} />
@@ -219,7 +221,6 @@ const App = () => {
               <Route path="/games">
                 <GamesPage allGames={allGames} />
               </Route>
-
               <Route path="/usersettings">
                 <UserSettings auth={auth} changePassword={changePassword} />
               </Route>
@@ -227,7 +228,7 @@ const App = () => {
                 <About />
               </Route>
               <Route path="/chat">
-                <Chat />
+                <Chat auth={auth} />
               </Route>
               <Route path="/">
                 <FindPlayers />
