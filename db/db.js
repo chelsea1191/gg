@@ -5,8 +5,8 @@ const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
 const models = ({ users, games } = require('./models'));
-const { getAllGames } = require('./userMethods');
-const client_id = '8fCeoX8wuW';
+const { getAllGames, getGameById } = require('./userMethods');
+const client_id = 'u7xbcBEfgP';
 
 const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
@@ -68,8 +68,6 @@ const sync = async () => {
     "userId2" UUID REFERENCES users(id) NOT NULL,
     messages VARCHAR
   );
-
-
   `;
   await client.query(SQL);
 
@@ -140,4 +138,5 @@ module.exports = {
   authenticate,
   findUserFromToken,
   getAllGames,
+  getGameById,
 };

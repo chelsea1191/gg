@@ -86,6 +86,13 @@ app.get('/api/games', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
+// app.get('/api/games/:id', (req, res, next) => {
+//   console.log('server: ', req.body);
+//   db.getGameById(req.body)
+//     .then((response) => res.send(response))
+//     .catch(next);
+// });
+
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {

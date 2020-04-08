@@ -3,8 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import FindPlayers from './Components/FindPlayers.js';
 import GamesPage from './Components/GamesPage';
+import GamePage from './Components/GamePage';
 import About from './Components/About';
-import Search from './Components/Search.js';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
 import UserSettings from './Components/UserSettings';
@@ -25,6 +25,7 @@ const App = () => {
   const [auth, setAuth] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
   const [allGames, setAllGames] = useState([]);
+  const [gameView, setView] = useState([]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
@@ -131,9 +132,11 @@ const App = () => {
               <Route path='/register'>
                 <CreateUser auth={auth} setAuth={setAuth} />
               </Route>
-
+              <Route exact path={`/games/${gameView.id}`}>
+                <GamePage game={gameView} />
+              </Route>
               <Route path='/games'>
-                <GamesPage allGames={allGames} />
+                <GamesPage allGames={allGames} setView={setView} />
               </Route>
               <Route path='/about'>
                 <About />
@@ -208,8 +211,11 @@ const App = () => {
             </nav>
             <hr />
             <Switch>
+              <Route exact path={`/games/${gameView.id}`}>
+                <GamePage game={gameView} />
+              </Route>
               <Route path='/games'>
-                <GamesPage allGames={allGames} />
+                <GamesPage allGames={allGames} setView={setView} />
               </Route>
               <Route path='/usersettings'>
                 <UserSettings auth={auth} changePassword={changePassword} />
