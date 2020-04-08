@@ -87,8 +87,6 @@ app.get('/api/games', (req, res, next) => {
     .catch(next);
 });
 
-<<<<<<< HEAD
-=======
 app.get('/api/users', (req, res, next) => {
   db.getUsers()
     .then((response) => res.send(response))
@@ -100,7 +98,6 @@ app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
     res.send(response);
   });
 });
->>>>>>> master
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {
