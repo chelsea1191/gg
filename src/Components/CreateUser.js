@@ -102,7 +102,7 @@ export default function CreateUser({ auth, setAuth }) {
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <button>
+        <button type="submit">
           <h5>Create User</h5>
         </button>
       </form>
