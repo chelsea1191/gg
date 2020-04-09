@@ -32,7 +32,7 @@ const Location = () => {
       <button onClick={handleClick}>
         <h5>Locate me!</h5>
       </button>
-      <div id="location" style={{ display: 'none' }}>
+      <div id='location' style={{ display: 'none' }}>
         You are located at Latitude {latitude} and longitude {longitude}
       </div>
     </div>

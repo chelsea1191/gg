@@ -60,6 +60,7 @@ const putMessage = async (chatID, userId, message, time) => {
 
 module.exports = {
   getAllGames,
+  getGameById,
   createChat,
   updateChat,
   getChat,
