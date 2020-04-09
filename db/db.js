@@ -15,8 +15,7 @@ const {
   getMessage,
   putMessage,
 } = require('./userMethods');
-
-const client_id = '8fCeoX8wuW';
+const client_id = 'u7xbcBEfgP';
 
 const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
@@ -87,7 +86,7 @@ const sync = async () => {
     sender_id UUID REFERENCES users(id) NOT NULL,
     message VARCHAR,
     date_create TIMESTAMP default CURRENT_TIMESTAMP
-  )
+  );
 
   `;
   await client.query(SQL);
