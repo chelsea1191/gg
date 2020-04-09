@@ -7,7 +7,6 @@ const { authenticate, compare, findUserFromToken, hash } = require('./auth');
 const models = ({ users, games } = require('./models'));
 const {
   getAllGames,
-  getGameById,
   createChat,
   updateChat,
   getChat,
@@ -160,7 +159,6 @@ module.exports = {
   authenticate,
   findUserFromToken,
   getAllGames,
-  getGameById,
   createChat,
   updateChat,
   getChat,
