@@ -8,7 +8,9 @@ const GamePage = ({ game }) => {
         <b>{game.name}</b>
       </h4>
       <h6>
-        {game.min_players} - {game.max_players} Players
+        <i>
+          {game.min_players} - {game.max_players} Players
+        </i>
       </h6>
 
       <button type="button">Add to Favorites</button>

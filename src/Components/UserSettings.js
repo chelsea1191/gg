@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-const UserProfile = ({ auth, changePassword }) => {
+const UserProfile = ({ auth, changePassword, setUserView }) => {
   const [firstpass, setfirstpass] = useState('');
   const [secondpass, setsecondpass] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -32,6 +33,12 @@ const UserProfile = ({ auth, changePassword }) => {
           {auth.username}
         </h6>
       </div>
+
+      <Link to={`/users/${auth.id}`} onClick={(ev) => setUserView(auth)}>
+        <h5>
+          <b>User Profile</b>
+        </h5>
+      </Link>
 
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
         <h4>Change Password</h4>

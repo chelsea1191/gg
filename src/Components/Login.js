@@ -39,7 +39,9 @@ const Login = ({ login }) => {
             <b>Create a Profile</b>
           </a>
         </h6>
-        <h6>or Browse as a Guest</h6>
+        <h6>
+          <i>or Browse as a Guest</i>
+        </h6>
       </form>
     </div>
   );

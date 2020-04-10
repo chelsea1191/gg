@@ -4,6 +4,7 @@ import qs from 'qs';
 import FindPlayers from './Components/FindPlayers.js';
 import GamesPage from './Components/GamesPage';
 import GamePage from './Components/GamePage';
+import UserProfile from './Components/UserProfile';
 import About from './Components/About';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
@@ -25,7 +26,8 @@ const App = () => {
   const [auth, setAuth] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
   const [allGames, setAllGames] = useState([]);
-  const [gameView, setView] = useState([]);
+  const [gameView, setGameView] = useState([]);
+  const [userView, setUserView] = useState([]);
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
@@ -88,69 +90,75 @@ const App = () => {
     return (
       <div className="App">
         <Router>
-          <div id="nav">
-            <nav className="navbar navbar-expand-lg navbar-light">
-              <li className="nav-link active">
-                <Link className="link" to="/">
-                  <img
-                    id="navLogo"
-                    src="/assets/logo.png"
-                    alt=""
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/games">
-                  <img
-                    src="/assets/search.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
+          <div>
+            <div id="nav">
+              <nav className="navbar navbar-expand-lg navbar-light">
+                <li>
+                  <Link className="link" to="/">
+                    <img
+                      id="navLogo"
+                      src="/assets/logo.png"
+                      alt=""
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/games">
+                    <img
+                      src="/assets/search.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
 
-              <li className="nav-link">
-                <Link className="link" to="/about">
-                  <img
-                    src="/assets/about.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/login">
-                  <button className="btn btn-secondary">Login</button>
-                </Link>
-              </li>
-            </nav>
-            <hr />
-            <Switch>
-              <Route path="/login">
-                <Login login={login} />
-              </Route>
+                <li>
+                  <Link className="link" to="/about">
+                    <img
+                      src="/assets/about.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/login">
+                    <button id="logButton">
+                      <h6>Login</h6>
+                    </button>
+                  </Link>
+                </li>
+              </nav>
+            </div>
+            <div id="view">
+              <Switch>
+                <Route path="/login">
+                  <Login login={login} />
+                </Route>
 
-              <Route path="/register">
-                <CreateUser auth={auth} setAuth={setAuth} />
-              </Route>
-              <Route exact path={`/games/${gameView.id}`}>
-                <GamePage game={gameView} />
-              </Route>
-              <Route path="/games">
-                <GamesPage allGames={allGames} setView={setView} />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/">
-                <FindPlayers />
-              </Route>
-            </Switch>
+                <Route path="/register">
+                  <CreateUser auth={auth} setAuth={setAuth} />
+                </Route>
+                <Route exact path={`/games/${gameView.id}`}>
+                  <GamePage game={gameView} />
+                </Route>
+
+                <Route path="/games">
+                  <GamesPage allGames={allGames} setGameView={setGameView} />
+                </Route>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/">
+                  <FindPlayers />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </Router>
       </div>
@@ -160,94 +168,100 @@ const App = () => {
       <div className="App">
         <Router>
           <div>
-            <nav className="navbar navbar-expand-lg navbar-light">
-              <li className="nav-link active">
-                <Link className="link" to="/">
-                  <img
-                    id="navLogo"
-                    src="/assets/logo.png"
-                    alt=""
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/games">
-                  <img
-                    src="/assets/search.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/usersettings">
-                  <img
-                    src="/assets/settings.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
+            <div id="nav">
+              <nav className="navbar navbar-expand-lg navbar-light">
+                <li>
+                  <Link className="link" to="/">
+                    <img
+                      id="navLogo"
+                      src="/assets/logo.png"
+                      alt=""
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/games">
+                    <img
+                      src="/assets/search.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/usersettings">
+                    <img
+                      src="/assets/settings.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
 
-              <li className="nav-link">
-                <Link className="link" to="/about">
-                  <img
-                    src="/assets/about.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link className="link" to="/chat">
-                  <img
-                    id="chatButton"
-                    src="/assets/chat.png"
-                    alt=""
-                    width="24"
-                    height="24"
-                    title="Bootstrap"
-                  ></img>
-                </Link>
-              </li>
-              <li className="nav-link">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
-              </li>
-            </nav>
-            <hr />
-            <Switch>
-              <Route exact path={`/games/${gameView.id}`}>
-                <GamePage game={gameView} />
-              </Route>
-              <Route path="/games">
-                <GamesPage allGames={allGames} setView={setView} />
-              </Route>
-              <Route path="/usersettings">
-                <UserSettings auth={auth} changePassword={changePassword} />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/chat">
-                <Chat auth={auth} />
-              </Route>
-              <Route path="/">
-                <FindPlayers />
-              </Route>
-            </Switch>
+                <li>
+                  <Link className="link" to="/about">
+                    <img
+                      src="/assets/about.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/chat">
+                    <img
+                      id="chatButton"
+                      src="/assets/chat.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <button type="button" id="logButton" onClick={logout}>
+                    <h6>Log Out</h6>
+                  </button>
+                </li>
+              </nav>
+            </div>
+            <div id="view">
+              <Switch>
+                <Route exact path={`/games/${gameView.id}`}>
+                  <GamePage game={gameView} />
+                </Route>
+                <Route exact path={`/users/${userView.id}`}>
+                  <UserProfile user={userView} />
+                </Route>
+                <Route path="/games">
+                  <GamesPage allGames={allGames} setGameView={setGameView} />
+                </Route>
+                <Route path="/usersettings">
+                  <UserSettings
+                    auth={auth}
+                    changePassword={changePassword}
+                    setUserView={setUserView}
+                  />
+                </Route>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/chat">
+                  <Chat auth={auth} />
+                </Route>
+                <Route path="/">
+                  <FindPlayers />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </Router>
       </div>

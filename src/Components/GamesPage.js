@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GamePage from './GamePage';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-const GamesPage = ({ allGames, setView }) => {
+const GamesPage = ({ allGames, setGameView }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [searchInput, setSearchInput] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -63,7 +63,10 @@ const GamesPage = ({ allGames, setView }) => {
           filtered.map((game) => {
             return (
               <li key={game.id} className="gamesListItem">
-                <Link to={`/games/${game.id}`} onClick={(ev) => setView(game)}>
+                <Link
+                  to={`/games/${game.id}`}
+                  onClick={(ev) => setGameView(game)}
+                >
                   <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
@@ -74,7 +77,10 @@ const GamesPage = ({ allGames, setView }) => {
           allGames.map((game) => {
             return (
               <li key={game.id} className="gamesListItem">
-                <Link to={`/games/${game.id}`} onClick={(ev) => setView(game)}>
+                <Link
+                  to={`/games/${game.id}`}
+                  onClick={(ev) => setGameView(game)}
+                >
                   <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
