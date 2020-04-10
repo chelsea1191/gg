@@ -45,15 +45,16 @@ const createMessage = async (chatId, userId) => {
 
 const getMessage = async (chatId, userId) => {
   const response = await client.query(
-    `SELECT * from message WHERE chat_id = $1 and sender_id = $2 ORDER BY date_create DESC `,
+    `SELECT * from message WHERE chat_id = $1 and sender_id = $2 ORDER BY date_updated DESC `,
     [chatId, userId]
   );
   return response.rows[0];
 };
 
-const putMessage = async (chatID, userId, message, time) => {
+const putMessage = async (chatId, userId, message, time) => {
   const response = await client.query(
-    `INSERT INTO message (message, date_updated) VALUES ($3, $4) WHERE chat_id = $1 and sender_id = $2 returning *`
+    `INSERT INTO message (chat_id, sender_id, message, date_updated) VALUES ($1, $2, $3, $4) returning *`,
+    [chatId, userId, message, time]
   );
   return response.rows[0];
 };

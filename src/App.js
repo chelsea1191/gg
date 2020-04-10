@@ -34,13 +34,14 @@ const App = () => {
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
 
-  useEffect(() => {
-    axios.get('/api/users').then((response) => {
-      console.log('all users: ', response.data);
-      setUsers(response.data);
-    });
-  }, [auth]);
+  // useEffect(() => {
+  //   axios.get('/api/users').then(response => {
+  //     console.log('all users: ', response.data);
+  //     setUsers(response.data);
+  //   });
+  // }, [auth]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
@@ -48,6 +49,12 @@ const App = () => {
       setAllGames(response.data);
     });
   }, [auth]);
+
+  useEffect(() => {
+    axios.get('/api/users').then((response) => {
+      setUsers(response.data);
+    });
+  }, []);
 
   const login = async (credentials) => {
     const token = (await axios.post('/api/auth', credentials)).data.token;
@@ -160,7 +167,12 @@ const App = () => {
                   <About />
                 </Route>
                 <Route path="/">
-                  <FindPlayers />
+                  <FindPlayers
+                    users={users}
+                    user={user}
+                    setUsers={setUser}
+                    auth={auth}
+                  />
                 </Route>
               </Switch>
             </div>
@@ -269,10 +281,20 @@ const App = () => {
                   <About />
                 </Route>
                 <Route path="/chat">
-                  <Chat auth={auth} />
+                  <Chat
+                    auth={auth}
+                    users={users}
+                    user={user}
+                    setUsers={setUser}
+                  />
                 </Route>
                 <Route path="/">
-                  <FindPlayers />
+                  <FindPlayers
+                    users={users}
+                    user={user}
+                    setUser={setUser}
+                    auth={auth}
+                  />
                 </Route>
               </Switch>
             </div>
