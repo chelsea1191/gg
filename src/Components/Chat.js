@@ -11,9 +11,9 @@ const Chat = ({ auth, users, user, setUser }) => {
   const [messages, setMessages] = useState([
     new Message({
       id: 1,
-      message: "I'm the recipient! (The person you're talking to)"
+      message: "I'm the recipient! (The person you're talking to)",
     }), // Gray bubble
-    new Message({ id: 0, message: "I'm you -- the blue bubble!" }) // Blue bubble
+    new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -27,7 +27,7 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   });
   // }, [messages]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(chat.id, 'the chat id');
@@ -35,7 +35,7 @@ const Chat = ({ auth, users, user, setUser }) => {
 
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then(response => console.log(response, 'the response'));
+      .then((response) => console.log(response, 'the response'));
 
     setMessages([...messages, new Message({ id: 0, message: message })]);
     setIsTyping(false);
@@ -83,17 +83,17 @@ const Chat = ({ auth, users, user, setUser }) => {
             // JSON: Custom bubble styles
             bubbleStyles={{
               text: {
-                fontSize: 30
+                fontSize: 12,
               },
               chatbubble: {
                 borderRadius: 70,
-                padding: 40
-              }
+                padding: 16,
+              },
             }}
           />
           <input
             type="text"
-            onChange={ev => {
+            onChange={(ev) => {
               setMessage(ev.target.value);
               setIsTyping(true);
             }}

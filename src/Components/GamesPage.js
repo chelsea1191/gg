@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GamePage from './GamePage';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-const GamesPage = ({ allGames, setView }) => {
+const GamesPage = ({ allGames, setGameView }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [searchInput, setSearchInput] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -21,12 +21,12 @@ const GamesPage = ({ allGames, setView }) => {
   };
 
   return (
-    <div id='gamesPage'>
-      <form id='searchGamesForm'>
+    <div id="gamesPage">
+      <form id="searchGamesForm">
         <h3>Games</h3>
         <input
-          type='text'
-          placeholder='Search for a Game'
+          type="text"
+          placeholder="Search for a Game"
           value={searchInput}
           onChange={(ev) => onSubmit(ev)}
         />
@@ -37,33 +37,37 @@ const GamesPage = ({ allGames, setView }) => {
           IF NO INPUT, LIST IS TOP GAMES BY POPULARITY
           */}
         <h6>
-          <a href=''>Advanced Search</a>
+          <a href="">Advanced Search</a>
         </h6>
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
         <button
-          className='searchButton'
-          onSubmit={(ev) => onSubmit(ev.target.value)}>
+          className="searchButton"
+          onSubmit={(ev) => onSubmit(ev.target.value)}
+        >
           <h5>Search</h5>
         </button>
         <h6>
           <i>Is your favorite game unsupported?</i>
         </h6>
         <h6>
-          <a href='' style={greentext}>
+          <a href="" style={greentext}>
             Contact Us!
           </a>
         </h6>
       </form>
-      <ul id='gamesList'>
+      <ul id="gamesList">
         {filtered.length > 0 &&
           filtered.map((game) => {
             return (
-              <li key={game.id} className='gamesListItem'>
-                <Link to={`/games/${game.id}`} onClick={(ev) => setView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
+              <li key={game.id} className="gamesListItem">
+                <Link
+                  to={`/games/${game.id}`}
+                  onClick={(ev) => setGameView(game)}
+                >
+                  <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
               </li>
@@ -72,11 +76,16 @@ const GamesPage = ({ allGames, setView }) => {
         {filtered.length === 0 &&
           allGames.map((game) => {
             return (
-              <li key={game.id} className='gamesListItem'>
-                <Link to={`/games/${game.id}`} onClick={(ev) => setView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
+              <li key={game.id} className="gamesListItem">
+                <Link
+                  to={`/games/${game.id}`}
+                  onClick={(ev) => setGameView(game)}
+                >
+                  <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
+
+                <button type="button">Favorite</button>
               </li>
             );
           })}

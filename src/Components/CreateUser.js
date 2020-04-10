@@ -39,6 +39,20 @@ export default function CreateUser({ auth, setAuth }) {
         <input type="text" placeholder="Username" />
         <input placeholder="Password" type="password" />
         <input type="text" placeholder="Email Address" />
+
+        <form
+          id="imageUploadForm"
+          action="upload.php"
+          method="post"
+          encType="multipart/form-data"
+        >
+          <h5>
+            <b>Add a Profile Picture</b>
+          </h5>
+          <input type="file" name="imageToUpload" id="imageToUpload" />
+          <input type="submit" value="Upload" name="submitImage" />
+        </form>
+
         <textarea
           id="bioInput"
           placeholder="Say something about yourself!"
@@ -51,7 +65,7 @@ export default function CreateUser({ auth, setAuth }) {
           <b>What types of games do you play?</b>
         </h5>
         <div className="checkBoxes">
-          <label htmlFor="boardgamesCheckbox">
+          <label className="checkbox" htmlFor="boardgamesCheckbox">
             <input
               type="checkbox"
               id="boardgamesCheckbox"
@@ -61,7 +75,7 @@ export default function CreateUser({ auth, setAuth }) {
             <h6>Board Games</h6>
           </label>
 
-          <label htmlFor="tabletopCheckbox">
+          <label className="checkbox" htmlFor="tabletopCheckbox">
             <input
               type="checkbox"
               id="tabletopCheckbox"
@@ -71,7 +85,7 @@ export default function CreateUser({ auth, setAuth }) {
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label htmlFor="videogamesCheckbox">
+          <label className="checkbox" htmlFor="videogamesCheckbox">
             <input
               type="checkbox"
               id="videogamesCheckbox"
@@ -81,7 +95,7 @@ export default function CreateUser({ auth, setAuth }) {
             <h6>Video Games</h6>
           </label>
 
-          <label htmlFor="sportsCheckbox">
+          <label className="checkbox" htmlFor="sportsCheckbox">
             <input
               type="checkbox"
               id="sportsCheckbox"

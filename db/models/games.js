@@ -2,7 +2,7 @@ const client = require('../client');
 
 const games = {
   read: async () => {
-    return (await client.query('SELECT * from game')).rows;
+    return (await client.query('SELECT * from games')).rows;
   },
   create: async (each) => {
     const SQL = `INSERT INTO game(id, name, description, image_url, min_players, max_players) values($1, $2, $3, $4, $5, $6) returning *`;

@@ -22,7 +22,7 @@ const FindPlayers = ({ users, user, setUser, auth }) => {
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
         </select>
-        <select>
+        <select className="select">
           <option>Search Distance</option>
           {/*
           LIST OF OPTIONS FOR VARYING DISTANCES

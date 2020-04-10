@@ -1,7 +1,7 @@
 body {
   font-family: verdana;
   margin: 0;
-  font-family: 'Alef';
+
   background-image: url('./background.png');
   background-size: 100vh auto;
   background-attachment: fixed;
@@ -24,19 +24,32 @@ nav {
   align-items: center;
 }
 
+#nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  font-family: 'Alef';
+  z-index: 2;
+}
+
+#view {
+  margin-top: 100px;
+  font-family: 'Alef';
+}
+
 hr {
   margin: 0;
+  width: 100%;
 }
 .navbar {
   padding: 0;
-
   padding: 8px;
   width: 100%;
-  position: fixed;
 }
 
 a {
-  color: grey;
+  color: initial;
 }
 
 a:hover {
@@ -44,16 +57,13 @@ a:hover {
   text-decoration: none;
 }
 
-label {
+.checkbox {
   display: flex;
+  flex-direction: row;
 }
 
 .link {
   margin: 0;
-}
-
-.nav-link {
-  padding: 0;
 }
 
 button {
@@ -62,6 +72,11 @@ button {
   height: 2rem;
   font-size: 1.5rem;
   background-color: rgb(38, 41, 38);
+  padding: 0 16px;
+}
+
+.searchButton {
+  border-radius: 15px;
 }
 
 h2 {
@@ -83,29 +98,6 @@ h1 {
   text-align: center;
 }
 
-select {
-  border-radius: 15px;
-  background-color: white;
-
-  padding-left: 16px;
-}
-
-.btn {
-  background-color: rgb(0, 200, 0);
-  border-radius: 15px;
-  border: none;
-  padding: 0 16px;
-  margin: 0;
-}
-
-section {
-  display: flex;
-  border: solid 2px teal;
-  border-radius: 3rem;
-  flex-direction: column;
-  align-items: center;
-}
-
 #navLogo {
   width: 24px;
 }
@@ -113,6 +105,11 @@ section {
 #loginLogo {
   width: 150px;
   height: 150px;
+}
+
+#loginButton {
+  border-radius: 15px;
+  margin: 8px;
 }
 
 #loginPage {
@@ -123,6 +120,17 @@ section {
 }
 
 #loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 16px;
+  margin: 16px;
+}
+
+#userFriendsPage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,25 +185,39 @@ section {
 
 input[type='text'] {
   border-radius: 15px;
-  border: none;
-  margin: 4px;
-  padding-left: 16px;
-}
-input[type='password'] {
-  border-radius: 15px;
-  border: none;
+  border: 1px solid grey;
   margin: 4px;
   padding-left: 16px;
 }
 
-button {
+#imageToUpload {
   border-radius: 15px;
-  margin: 8px;
-  padding: 0 16px 0 16px;
+  border: 1px solid grey;
+  background-color: white;
+}
+
+input[type='password'] {
+  border-radius: 15px;
+  border: 1px solid grey;
+  margin: 4px;
+  padding-left: 16px;
+}
+
+#logButton {
+  border-radius: 15px;
+  padding: 0 8px 0 8px;
+  border: 1px solid rgba(255, 255, 255, 0.482);
+}
+
+#logButton h6 {
+  margin: 0;
+
+  font-size: 12px;
 }
 
 button > h5 {
   font-weight: 700;
+  margin: 0;
 }
 
 #bioInput {
@@ -205,6 +227,20 @@ button > h5 {
   margin: 8px;
   border: none;
   resize: none;
+}
+
+#submitImageButton {
+  font-weight: 700;
+
+  color: rgb(0, 200, 0);
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  width: fit-content;
+  align-self: center;
+  padding: 0 16px;
+
+  background-color: rgb(38, 41, 38);
 }
 
 ul {
@@ -224,12 +260,28 @@ h6 {
 }
 
 select {
-  border: 0px;
+  border-radius: 15px;
+  background-color: white;
+
+  border: 1px solid grey;
   outline: 0px;
-  margin: 4px;
+  padding: 1px 0px 1px 16px;
+}
+
+.select {
+  margin: 8px;
 }
 
 #aboutPage {
+  margin: 64px 32px;
+  text-align: center;
+  background-color: rgba(239, 239, 239, 0.715);
+  padding: 16px;
+  border: 1px solid grey;
+  border-radius: 15px;
+}
+
+#userProfile {
   margin: 64px 32px;
   text-align: center;
   background-color: rgba(239, 239, 239, 0.715);
@@ -250,19 +302,45 @@ select {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 64 32px;
+  margin: 64px 32px 16px 32px;
+}
+
+#gamesList {
+  padding: 16px;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  margin: 8px 0 16px 0;
+  max-height: 85vh;
+  overflow: scroll;
+}
+
+#imageUploadForm {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+  text-align: center;
 }
 
 .gamesListItem {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 16px;
+}
+.gamesListItem hr {
+  margin: 16px 0;
+}
+
+.gamesListItem a {
+  margin: 0;
 }
 
 .gameListItemImage {
+  width: 50vw;
+  margin: 8px;
   border: 1px solid grey;
-  width: 75px;
-  height: 100px;
 }
 
 .userProfile {
@@ -293,7 +371,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 16px 0;
+  margin: 0;
 }
 
 #createUserForm {
@@ -322,7 +400,6 @@ select {
   width: 100px;
   border-radius: 15px;
   border: none;
-  background-color: rgb(228, 228, 228);
 }
 
 #imageUpload {
@@ -336,8 +413,13 @@ select {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 100 32px;
+  margin: 64px 32px;
 }
 .gameImage {
-  border-radius: 50px;
+  width: 200px;
+  border: 1px solid grey;
+}
+
+#chatButton {
+  opacity: 0.5;
 }
