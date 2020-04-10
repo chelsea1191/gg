@@ -207,7 +207,14 @@ const App = () => {
               </li>
               <li className="nav-link">
                 <Link className="link" to="/chat">
-                  <button className="btn btn-secondary">Chat</button>
+                  <img
+                    id="chatButton"
+                    src="/assets/chat.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
               <li className="nav-link">

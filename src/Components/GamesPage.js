@@ -78,6 +78,8 @@ const GamesPage = ({ allGames, setView }) => {
                   <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
+
+                <button type="button">Favorite</button>
               </li>
             );
           })}
