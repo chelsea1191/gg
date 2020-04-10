@@ -8,6 +8,8 @@ import UserProfile from './Components/UserProfile';
 import About from './Components/About';
 import Login from './Components/Login';
 import CreateUser from './Components/CreateUser';
+import UserFriendsPage from './Components/UserFriendsPage';
+import UserGamesPage from './Components/UserGamesPage';
 import UserSettings from './Components/UserSettings';
 import Chat from './Components/Chat';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -28,6 +30,7 @@ const App = () => {
   const [allGames, setAllGames] = useState([]);
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
+  const [friendsView, setFriendsView] = useState([]);
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
@@ -147,7 +150,9 @@ const App = () => {
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage game={gameView} />
                 </Route>
-
+                <Route exact path={`/users/${userView.id}/friends`}>
+                  <UserFriendsPage user={userView} />
+                </Route>
                 <Route path="/games">
                   <GamesPage allGames={allGames} setGameView={setGameView} />
                 </Route>
@@ -238,8 +243,17 @@ const App = () => {
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage game={gameView} />
                 </Route>
+                <Route exact path={`/users/${userView.id}/friends`}>
+                  <UserFriendsPage user={userView} />
+                </Route>
+                <Route exact path={`/users/${userView.id}/favoriteGames`}>
+                  <UserGamesPage user={userView} />
+                </Route>
                 <Route exact path={`/users/${userView.id}`}>
-                  <UserProfile user={userView} />
+                  <UserProfile
+                    user={userView}
+                    setFriendsView={setFriendsView}
+                  />
                 </Route>
                 <Route path="/games">
                   <GamesPage allGames={allGames} setGameView={setGameView} />

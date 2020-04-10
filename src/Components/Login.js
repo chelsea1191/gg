@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 // LANDING PAGE WHEN APP OPENS.
 // WHEN USER LOGS IN OR BROWSES AS GUEST, LINKS TO FIND PLAYERS PAGE
@@ -35,9 +36,9 @@ const Login = ({ login }) => {
           <h5>Login</h5>
         </button>
         <h6>
-          <a href="/register" style={greentext}>
-            <b>Create a Profile</b>
-          </a>
+          <Link className="link" to="/register">
+            <h6>Create Profile</h6>
+          </Link>
         </h6>
         <h6>
           <i>or Browse as a Guest</i>
