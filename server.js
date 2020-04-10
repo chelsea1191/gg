@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-var myLogger = function (req, res, next) {
+var myLogger = function(req, res, next) {
   console.log(req.body);
   next();
 };
@@ -130,7 +130,8 @@ app.post('/api/createchat', (req, res, next) => {
 });
 
 app.post('/api/sendMessages', (req, res, next) => {
-  db.putMessage();
+  console.log(req.body[0]);
+  db.putMessage(req.body[0], req.body[1], req.body[2], req.body[3]);
 });
 ///////////////////put////////////////////
 // app.put("/api/user_things/:id", (req, res, next) => {

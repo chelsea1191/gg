@@ -15,8 +15,8 @@ const headers = () => {
   const token = window.localStorage.getItem('token');
   return {
     headers: {
-      authorization: token,
-    },
+      authorization: token
+    }
   };
 };
 
@@ -29,22 +29,29 @@ const App = () => {
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get('/api/users').then(response => {
+  //     console.log('all users: ', response.data);
+  //     setUsers(response.data);
+  //   });
+  // }, [auth]);
 
   useEffect(() => {
-    axios.get('/api/users').then((response) => {
-      console.log('all users: ', response.data);
-      setUsers(response.data);
-    });
-  }, [auth]);
-
-  useEffect(() => {
-    axios.get('/api/games').then((response) => {
+    axios.get('/api/games').then(response => {
       //console.log('all games: ', response.data);
       setAllGames(response.data);
     });
   }, [auth]);
 
-  const login = async (credentials) => {
+  useEffect(() => {
+    axios.get('/api/users').then(response => {
+      setUsers(response.data);
+    });
+  }, []);
+
+  const login = async credentials => {
     const token = (await axios.post('/api/auth', credentials)).data.token;
     window.localStorage.setItem('token', token);
     exchangeTokenForAuth();
@@ -70,7 +77,7 @@ const App = () => {
     console.log('user has been logged out');
   };
 
-  const changePassword = (newCredentials) => {
+  const changePassword = newCredentials => {
     axios.put(`/api/auth/${auth.id}`, newCredentials);
   };
 
@@ -86,66 +93,74 @@ const App = () => {
 
   if (!auth.id) {
     return (
-      <div className='App'>
+      <div className="App">
         <Router>
-          <div id='nav'>
-            <nav className='navbar navbar-expand-lg navbar-light'>
-              <li className='nav-link active'>
-                <Link className='link' to='/'>
+          <div id="nav">
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <li className="nav-link active">
+                <Link className="link" to="/">
                   <img
-                    id='navLogo'
-                    src='/assets/logo.png'
-                    alt=''
-                    title='Bootstrap'></img>
+                    id="navLogo"
+                    src="/assets/logo.png"
+                    alt=""
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/games'>
+              <li className="nav-link">
+                <Link className="link" to="/games">
                   <img
-                    src='/assets/search.png'
-                    alt=''
-                    width='24'
-                    height='24'
-                    title='Bootstrap'></img>
+                    src="/assets/search.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
 
-              <li className='nav-link'>
-                <Link className='link' to='/about'>
+              <li className="nav-link">
+                <Link className="link" to="/about">
                   <img
-                    src='/assets/about.png'
-                    alt=''
-                    width='24'
-                    height='24'
-                    title='Bootstrap'></img>
+                    src="/assets/about.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/login'>
-                  <button className='btn btn-secondary'>Login</button>
+              <li className="nav-link">
+                <Link className="link" to="/login">
+                  <button className="btn btn-secondary">Login</button>
                 </Link>
               </li>
             </nav>
             <hr />
             <Switch>
-              <Route path='/login'>
+              <Route path="/login">
                 <Login login={login} />
               </Route>
 
-              <Route path='/register'>
+              <Route path="/register">
                 <CreateUser auth={auth} setAuth={setAuth} />
               </Route>
               <Route exact path={`/games/${gameView.id}`}>
                 <GamePage game={gameView} />
               </Route>
-              <Route path='/games'>
+              <Route path="/games">
                 <GamesPage allGames={allGames} setView={setView} />
               </Route>
-              <Route path='/about'>
+              <Route path="/about">
                 <About />
               </Route>
-              <Route path='/'>
-                <FindPlayers />
+              <Route path="/">
+                <FindPlayers
+                  users={users}
+                  user={user}
+                  setUsers={setUser}
+                  auth={auth}
+                />
               </Route>
             </Switch>
           </div>
@@ -154,60 +169,65 @@ const App = () => {
     );
   } else {
     return (
-      <div className='App'>
+      <div className="App">
         <Router>
           <div>
-            <nav className='navbar navbar-expand-lg navbar-light'>
-              <li className='nav-link active'>
-                <Link className='link' to='/'>
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <li className="nav-link active">
+                <Link className="link" to="/">
                   <img
-                    id='navLogo'
-                    src='/assets/logo.png'
-                    alt=''
-                    title='Bootstrap'></img>
+                    id="navLogo"
+                    src="/assets/logo.png"
+                    alt=""
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/games'>
+              <li className="nav-link">
+                <Link className="link" to="/games">
                   <img
-                    src='/assets/search.png'
-                    alt=''
-                    width='24'
-                    height='24'
-                    title='Bootstrap'></img>
+                    src="/assets/search.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/usersettings'>
+              <li className="nav-link">
+                <Link className="link" to="/usersettings">
                   <img
-                    src='/assets/settings.png'
-                    alt=''
-                    width='24'
-                    height='24'
-                    title='Bootstrap'></img>
+                    src="/assets/settings.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
 
-              <li className='nav-link'>
-                <Link className='link' to='/about'>
+              <li className="nav-link">
+                <Link className="link" to="/about">
                   <img
-                    src='/assets/about.png'
-                    alt=''
-                    width='24'
-                    height='24'
-                    title='Bootstrap'></img>
+                    src="/assets/about.png"
+                    alt=""
+                    width="24"
+                    height="24"
+                    title="Bootstrap"
+                  ></img>
                 </Link>
               </li>
-              <li className='nav-link'>
-                <Link className='link' to='/chat'>
-                  <button className='btn btn-secondary'>Chat</button>
+              <li className="nav-link">
+                <Link className="link" to="/chat">
+                  <button className="btn btn-secondary">Chat</button>
                 </Link>
               </li>
-              <li className='nav-link'>
+              <li className="nav-link">
                 <button
-                  type='button'
-                  className='btn btn-secondary'
-                  onClick={logout}>
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={logout}
+                >
                   Logout
                 </button>
               </li>
@@ -217,20 +237,30 @@ const App = () => {
               <Route exact path={`/games/${gameView.id}`}>
                 <GamePage game={gameView} />
               </Route>
-              <Route path='/games'>
+              <Route path="/games">
                 <GamesPage allGames={allGames} setView={setView} />
               </Route>
-              <Route path='/usersettings'>
+              <Route path="/usersettings">
                 <UserSettings auth={auth} changePassword={changePassword} />
               </Route>
-              <Route path='/about'>
+              <Route path="/about">
                 <About />
               </Route>
-              <Route path='/chat'>
-                <Chat auth={auth} />
+              <Route path="/chat">
+                <Chat
+                  auth={auth}
+                  users={users}
+                  user={user}
+                  setUsers={setUser}
+                />
               </Route>
-              <Route path='/'>
-                <FindPlayers />
+              <Route path="/">
+                <FindPlayers
+                  users={users}
+                  user={user}
+                  setUser={setUser}
+                  auth={auth}
+                />
               </Route>
             </Switch>
           </div>
