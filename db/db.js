@@ -51,7 +51,8 @@ const sync = async () => {
     CHECK (char_length(username) > 0),
     photo VARCHAR,
     bio VARCHAR(300),
-    location VARCHAR,
+    latitude VARCHAR,
+    longitude VARCHAR,
     date_create TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
@@ -125,6 +126,8 @@ const sync = async () => {
       role: 'ADMIN',
       email: 'admin@gmail.com',
       bio: 'admin here',
+      latitude: '30.055760',
+      longitude: '-81.500880',
     },
     friend: {
       username: 'friend',
@@ -134,6 +137,8 @@ const sync = async () => {
       role: 'PLAYER',
       email: 'friend@gmail.com',
       bio: 'friend here',
+      latitude: '30.280240',
+      longitude: '-81.724630',
     },
     buddy: {
       username: 'buddy',
@@ -143,6 +148,8 @@ const sync = async () => {
       role: 'PLAYER',
       email: 'buddy@gmail.com',
       bio: 'buddy here',
+      latitude: '30.303406',
+      longitude: '-81.469178',
     },
   };
 

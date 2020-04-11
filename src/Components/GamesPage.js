@@ -1,6 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+<<<<<<< HEAD
 import Axios from 'axios';
+=======
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+>>>>>>> master
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 const GamesPage = ({
@@ -13,13 +19,19 @@ const GamesPage = ({
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [advancedSearchIsClicked, setAdvancedSearchIsClicked] = useState(false);
 
-  const onChange = (selection) => {
-    setSelected(selection);
+  const onChange = (search) => {
     let filtered = allGames.filter((each) => {
-      return each.id === selection[0].id;
+      let uppercaseName = each.name.toUpperCase();
+      let uppercaseSearchInput = search[0].name.toUpperCase();
+      return uppercaseName.includes(uppercaseSearchInput);
     });
-    setFiltered(filtered);
+    if (filtered.length > 0) {
+      setFiltered(filtered);
+    } else {
+      alert('no matches found');
+    }
   };
 
   return (
@@ -29,8 +41,15 @@ const GamesPage = ({
         <div>
           <Fragment>
             <Typeahead
+<<<<<<< HEAD
               id="basic-typeahead-example"
               labelKey="name"
+=======
+              allowNew
+              newSelectionPrefix='search for: '
+              id='basic-typeahead-example'
+              labelKey='name'
+>>>>>>> master
               onChange={onChange}
               options={allGames}
               placeholder="Choose a game..."
@@ -39,7 +58,22 @@ const GamesPage = ({
           </Fragment>
         </div>
         <h6>
+<<<<<<< HEAD
           <a href="">Advanced Search</a>
+=======
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant='link' eventKey='0'>
+                  Advanced Search
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey='0'>
+                <Card.Body>search params here</Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+>>>>>>> master
         </h6>
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
