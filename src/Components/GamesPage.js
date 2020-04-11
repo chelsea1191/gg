@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import GamePage from './GamePage';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Axios from 'axios';
 
-const GamesPage = ({ allGames, setGameView }) => {
+const GamesPage = ({
+  allGames,
+  setGameView,
+  user,
+  favoriteGames,
+  setFavoriteGames,
+}) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [searchInput, setSearchInput] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -75,6 +82,15 @@ const GamesPage = ({ allGames, setGameView }) => {
           })}
         {filtered.length === 0 &&
           allGames.map((game) => {
+            const addFavorite = async () => {
+              const favoriteGamesCopy = [...favoriteGames];
+              const newFavoriteGame = await Axios.post('/api/favoriteGames', {
+                userId: user.id,
+                gameId: game.id,
+              }).data;
+              favoriteGamesCopy.push(newFavoriteGame);
+              setFavoriteGames([...favoriteGamesCopy]);
+            };
             return (
               <li key={game.id} className="gamesListItem">
                 <Link
@@ -85,7 +101,9 @@ const GamesPage = ({ allGames, setGameView }) => {
                 </Link>
                 <h5>{game.name}</h5>
 
-                <button type="button">Favorite</button>
+                <button type="button" onClick={addFavorite}>
+                  Favorite
+                </button>
               </li>
             );
           })}

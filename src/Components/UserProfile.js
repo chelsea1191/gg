@@ -22,18 +22,19 @@ const UserProfile = ({ user, setFriendsView }) => {
       <h6>
         <i># Mutual</i>
       </h6>
+
+      <Link
+        to={`/users/${user.id}/favoriteGames`}
+        onClick={(ev) => setFriendsView(user)}
+      >
+        <h5>
+          <b>Favorite Games</b>
+        </h5>
+      </Link>
       <h6>
-        <Link
-          to={`/users/${user.id}/favoriteGames`}
-          onClick={(ev) => setFriendsView(user)}
-        >
-          <h5>
-            <b>Favorite Games</b>
-          </h5>
-        </Link>
-        <h6>
-          <i># Mutual</i>
-        </h6>
+        <i># Mutual</i>
+      </h6>
+      <h6>
         <i>{user.bio}</i>
       </h6>
     </div>

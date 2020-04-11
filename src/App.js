@@ -32,6 +32,7 @@ const App = () => {
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
   const [friendsView, setFriendsView] = useState([]);
+  const [favoriteGames, setFavoriteGames] = useState([]);
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
@@ -49,6 +50,12 @@ const App = () => {
       //console.log('all games: ', response.data);
       setAllGames(response.data);
     });
+  }, [auth]);
+
+  useEffect(() => {
+    axios
+      .get('api/favoriteGames', auth)
+      .then((response) => setFavoriteGames(response.data));
   }, [auth]);
 
   useEffect(() => {
@@ -269,7 +276,14 @@ const App = () => {
                   />
                 </Route>
                 <Route path="/games">
-                  <GamesPage allGames={allGames} setGameView={setGameView} />
+                  <GamesPage
+                    user={auth}
+                    allGames={allGames}
+                    setGameView={setGameView}
+                    user={userView}
+                    favoriteGames={favoriteGames}
+                    setFavoriteGames={setFavoriteGames}
+                  />
                 </Route>
                 <Route path="/usersettings">
                   <UserSettings
