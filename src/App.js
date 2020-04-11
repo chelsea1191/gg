@@ -166,14 +166,14 @@ const App = () => {
                 <Route path='/about'>
                   <About />
                 </Route>
-                <Route path='/'>
+                {/* <Route path='/'>
                   <FindPlayers
                     users={users}
                     user={user}
                     setUsers={setUser}
                     auth={auth}
                   />
-                </Route>
+                </Route> */}
               </Switch>
             </div>
           </div>
@@ -283,14 +283,14 @@ const App = () => {
                     setUsers={setUser}
                   />
                 </Route>
-                <Route path='/'>
+                {/* <Route path='/'>
                   <FindPlayers
                     users={users}
                     user={user}
                     setUser={setUser}
                     auth={auth}
                   />
-                </Route>
+                </Route> */}
               </Switch>
             </div>
           </div>
