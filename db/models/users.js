@@ -13,8 +13,10 @@ const users = {
     role,
     email,
     bio,
+    latitude,
+    longitude,
   }) => {
-    const SQL = `INSERT INTO users(username, firstname, lastname, password, role, email, bio, "isBlocked") values($1, $2, $3, $4, $5, $6, $7, $8) returning *`;
+    const SQL = `INSERT INTO users(username, firstname, lastname, password, role, email, bio, "isBlocked", latitude, longitude) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`;
     return (
       await client.query(SQL, [
         username,
@@ -25,6 +27,8 @@ const users = {
         email,
         bio,
         'false',
+        latitude,
+        longitude,
       ])
     ).rows[0];
   },
