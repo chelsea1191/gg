@@ -92,3 +92,5 @@ const GamesPage = ({ allGames, setGameView }) => {
 };
 
 export default GamesPage;
+
+//chelsea still working on advanced search
