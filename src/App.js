@@ -278,7 +278,6 @@ const App = () => {
                   />
                 </Route>
                 <Route path="/games">
-<<<<<<< HEAD
                   <GamesPage
                     user={auth}
                     allGames={allGames}
@@ -287,9 +286,6 @@ const App = () => {
                     favoriteGames={favoriteGames}
                     setFavoriteGames={setFavoriteGames}
                   />
-=======
-                  <GamesPage allGames={allGames} setGameView={setGameView} />
->>>>>>> master
                 </Route>
                 <Route path="/usersettings">
                   <UserSettings

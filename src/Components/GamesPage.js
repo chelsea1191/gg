@@ -1,12 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-<<<<<<< HEAD
-import Axios from 'axios';
-=======
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
->>>>>>> master
+import Axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 const GamesPage = ({
@@ -41,15 +38,10 @@ const GamesPage = ({
         <div>
           <Fragment>
             <Typeahead
-<<<<<<< HEAD
+              allowNew
+              newSelectionPrefix="search for: "
               id="basic-typeahead-example"
               labelKey="name"
-=======
-              allowNew
-              newSelectionPrefix='search for: '
-              id='basic-typeahead-example'
-              labelKey='name'
->>>>>>> master
               onChange={onChange}
               options={allGames}
               placeholder="Choose a game..."
@@ -58,22 +50,18 @@ const GamesPage = ({
           </Fragment>
         </div>
         <h6>
-<<<<<<< HEAD
-          <a href="">Advanced Search</a>
-=======
           <Accordion>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant='link' eventKey='0'>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
                   Advanced Search
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey='0'>
+              <Accordion.Collapse eventKey="0">
                 <Card.Body>search params here</Card.Body>
               </Accordion.Collapse>
             </Card>
           </Accordion>
->>>>>>> master
         </h6>
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED

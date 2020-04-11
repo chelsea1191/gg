@@ -59,22 +59,6 @@ const FindPlayers = ({ users, user, setUser, auth }) => {
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
-<<<<<<< HEAD
-        {users.map((mapUser) => {
-          if (mapUser.id != auth.id) {
-            return (
-              <li key={mapUser.id}>
-                <Link to="/chat" onClick={() => setUser(mapUser)}>
-                  {mapUser.firstname + mapUser.lastname}
-                </Link>
-              </li>
-            );
-          }
-        })}
-      </ul>
-    </div>
-  );
-=======
           {users.map((mapUser) => {
             if (mapUser.id != auth.id) {
               return (
@@ -93,7 +77,6 @@ const FindPlayers = ({ users, user, setUser, auth }) => {
   } else {
     return <div>Please log in to find players!</div>;
   }
->>>>>>> master
 };
 
 export default FindPlayers;
