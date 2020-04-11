@@ -4,7 +4,7 @@ const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
-const models = ({ users, games } = require('./models'));
+const models = ({ users, games, gameTypes } = require('./models'));
 const {
   getAllGames,
   createChat,
@@ -50,17 +50,23 @@ const sync = async () => {
     date_create TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     gametype VARCHAR
   );
   CREATE TABLE game (
     id VARCHAR PRIMARY KEY UNIQUE,
     name VARCHAR,
-    "gameTypeID" UUID REFERENCES users(id),
+    "gameTypeID" INTEGER,
     description VARCHAR,
     image_url VARCHAR,
     min_players INT,
-    max_players INT
+    max_players INT,
+    url VARCHAR,
+    primary_publisher VARCHAR,
+    min_age INT,
+    year_published INT,
+    min_playtime INT,
+    max_playtime INT
   );
   CREATE TABLE user_game (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -95,6 +101,14 @@ const sync = async () => {
   const _games = await allDataFromAPI;
   const [foo, bar, baz] = await Promise.all(
     Object.values(_games).map((each) => games.create(each))
+  );
+  const _gameTypes = [
+    { gametype: 'board' },
+    { gametype: 'sport' },
+    { gametype: 'video' },
+  ];
+  const [board, sport, video] = await Promise.all(
+    Object.values(_gameTypes).map((each) => gameTypes.create(each))
   );
 
   const _users = {
