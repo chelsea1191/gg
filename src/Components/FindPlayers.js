@@ -46,6 +46,7 @@ const FindPlayers = ({ users, user, setUser, auth }) => {
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
+
         {users.map(mapUser => {
           if (mapUser.id != auth.id) {
             return (

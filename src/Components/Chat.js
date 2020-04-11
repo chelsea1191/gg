@@ -27,6 +27,8 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   });
   // }, [messages]);
 
+  useEffect(() => {}, []);
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -107,8 +109,6 @@ const Chat = ({ auth, users, user, setUser }) => {
 };
 
 export default Chat;
-
-//has no authentication set up and also i think we need to decide if we need to send the chat to the server because right now im just setting the state and that wont work on someone elses browser i think so well need to discuss that//
 
 //for backend - need to make call to db //front end need to look into how to setup the chat so both users can see - will need to anticipate opening up to multi user chats
 //once session is over - will send delete request to remove chat from db UNLESS user selects the save chat option.. then can save chat
