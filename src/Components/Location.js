@@ -12,8 +12,7 @@ import axios from 'axios';
 // Trello - user stories that we can move through from planned/in progress/QA/complete like with GS?
 // Trello - category for bugs, as we notice them we can add them and then start working through them as we can
 
-const Location = () => {
-  const [location, setLocation] = useState([]);
+const Location = ({ location, setLocation }) => {
   const [showButton, setShowButton] = useState(true);
   const [prettyLocation, setPrettyLocation] = useState([]);
 

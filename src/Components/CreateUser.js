@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Location from './Location';
 
 export default function CreateUser({ auth, setAuth }) {
+  const [location, setLocation] = useState([]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let name = e.target[2].value;
@@ -18,6 +20,8 @@ export default function CreateUser({ auth, setAuth }) {
       password: password,
       email: email,
       bio: bio,
+      latitude: location[0],
+      longitude: location[1],
     };
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
@@ -59,7 +63,7 @@ export default function CreateUser({ auth, setAuth }) {
           maxLength="300"
         />
 
-        <Location />
+        <Location location={location} setLocation={setLocation} />
 
         <h5>
           <b>What types of games do you play?</b>
