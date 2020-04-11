@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const FindPlayers = () => {
+const FindPlayers = ({ users, user, setUser, auth }) => {
   // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
   // ON FORM SUBMIT, RETURNS LIST OF ALL USERS THAT MATCH SEARCH
+
   return (
     <div className="findPlayersPage">
       <form id="findPlayersForm">
@@ -20,7 +22,7 @@ const FindPlayers = () => {
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
         </select>
-        <select>
+        <select className="select">
           <option>Search Distance</option>
           {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
@@ -44,6 +46,17 @@ const FindPlayers = () => {
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
+        {users.map(mapUser => {
+          if (mapUser.id != auth.id) {
+            return (
+              <li key={mapUser.id}>
+                <Link to="/chat" onClick={() => setUser(mapUser)}>
+                  {mapUser.firstname + mapUser.lastname}
+                </Link>
+              </li>
+            );
+          }
+        })}
       </ul>
     </div>
   );

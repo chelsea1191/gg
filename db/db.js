@@ -85,7 +85,7 @@ const sync = async () => {
     chat_id UUID REFERENCES chat(id) NOT NULL,
     sender_id UUID REFERENCES users(id) NOT NULL,
     message VARCHAR,
-    date_create TIMESTAMP default CURRENT_TIMESTAMP
+    date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
 
   `;

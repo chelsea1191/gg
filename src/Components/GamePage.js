@@ -2,14 +2,21 @@ import React from 'react';
 
 const GamePage = ({ game }) => {
   return (
-    <div id='gamePage'>
-      <img className='gameImage' src={game.image_url} />
-      <h4>{game.name}</h4>
-      <h6># Players MAX: {game.max_players}</h6>
-      <h6># Players MIN: {game.min_players}</h6>
-      <br />
-      <h6>Description {game.description}</h6>
-      <button type='button'>Add to Favorites</button>
+    <div id="gamePage">
+      <img className="gameImage" src={game.image_url} />
+      <h4>
+        <b>{game.name}</b>
+      </h4>
+      <h6>
+        <i>
+          {game.min_players} - {game.max_players} Players
+        </i>
+      </h6>
+
+      <button type="button">Add to Favorites</button>
+      <h6>
+        <i>{game.description}</i>
+      </h6>
     </div>
   );
 };
