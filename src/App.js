@@ -14,7 +14,6 @@ import UserGamesPage from './Components/UserGamesPage';
 import UserSettings from './Components/UserSettings';
 import Chat from './Components/Chat';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const headers = () => {
@@ -35,17 +34,8 @@ const App = () => {
   const [userView, setUserView] = useState([]);
   const [friendsView, setFriendsView] = useState([]);
   const [favoriteGames, setFavoriteGames] = useState([]);
-
-  //for the chat to get the users
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get('/api/users').then(response => {
-  //     console.log('all users: ', response.data);
-  //     setUsers(response.data);
-  //   });
-  // }, [auth]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
@@ -218,25 +208,6 @@ const App = () => {
                       title='Bootstrap'></img>
                   </Link>
                 </li>
-                {/* <li>
-                  <Link className='link' to='/usersettings'>
-                    <img
-                      src='/assets/settings.png'
-                      alt=''
-                      width='24'
-                      height='24'
-                      title='Bootstrap'></img>
-                  </Link>
-                  <Link className='link' to='/chat'>
-                    <img
-                      id='chatButton'
-                      src='/assets/chat.png'
-                      alt=''
-                      width='24'
-                      height='24'
-                      title='Bootstrap'></img>
-                  </Link>
-                </li> */}
                 <li>
                   <Link className='link' to='/chat'>
                     <img
