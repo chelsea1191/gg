@@ -7,9 +7,10 @@ import Axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 const GamesPage = ({
+  auth,
   allGames,
   setGameView,
-  user,
+
   favoriteGames,
   setFavoriteGames,
 }) => {
@@ -180,12 +181,12 @@ const GamesPage = ({
           allGames.map((game) => {
             const addFavorite = async () => {
               const favoriteGamesCopy = [...favoriteGames];
-              const newFavoriteGame = await Axios.post('/api/favoriteGames', {
-                userId: user.id,
+              const newFavoriteGame = await Axios.post('/api/favoritegames', {
+                userId: auth.id,
                 gameId: game.id,
               }).data;
-              favoriteGamesCopy.push(newFavoriteGame);
-              setFavoriteGames([...favoriteGamesCopy]);
+
+              setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
             };
             return (
               <li key={game.id} className="gamesListItem">

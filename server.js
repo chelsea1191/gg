@@ -20,7 +20,6 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 var myLogger = function (req, res, next) {
-  console.log(req.body);
   next();
 };
 app.use(myLogger);
@@ -106,7 +105,7 @@ app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
 });
 
 app.get('/api/favoritegames', (req, res, next) => {
-  db.models.favoritegames
+  db.models.favoriteGames
     .read()
     .then((response) => res.send(response))
     .catch(next);
@@ -134,6 +133,13 @@ app.post('/api/createchat', (req, res, next) => {
         res.send([chatCreatedResponse, messageCreatedResponse]);
       });
     })
+    .catch(next);
+});
+
+app.post('/api/favoritegames', (req, res, next) => {
+  db.models.favoriteGames
+    .create(req.body)
+    .then((user) => res.send(user))
     .catch(next);
 });
 
