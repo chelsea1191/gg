@@ -19,8 +19,7 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-var myLogger = function(req, res, next) {
-  console.log(req.body);
+var myLogger = function (req, res, next) {
   next();
 };
 app.use(myLogger);
@@ -104,6 +103,14 @@ app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
     res.send(response);
   });
 });
+
+app.get('/api/favoritegames', (req, res, next) => {
+  db.models.favoriteGames
+    .read()
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
 //////////////////post////////////////////
 
 app.post('/api/createUser', (req, res, next) => {
@@ -129,10 +136,18 @@ app.post('/api/createchat', (req, res, next) => {
     .catch(next);
 });
 
+app.post('/api/favoritegames', (req, res, next) => {
+  db.models.favoriteGames
+    .create(req.body)
+    .then((user) => res.send(user))
+    .catch(next);
+});
+
 app.post('/api/sendMessages', (req, res, next) => {
   console.log(req.body[0]);
   db.putMessage(req.body[0], req.body[1], req.body[2], req.body[3]);
 });
+
 ///////////////////put////////////////////
 // app.put("/api/user_things/:id", (req, res, next) => {
 //   db.updateUserThings(req.body)

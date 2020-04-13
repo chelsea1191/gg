@@ -1,9 +1,31 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import Location from './Location';
+import React, { useState, useEffect, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
-export default function CreateUser({ auth, setAuth }) {
+export default function CreateUser({ auth, setAuth, allGames }) {
   const [location, setLocation] = useState([]);
+
+  const [filtered, setFiltered] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [advancedSearchIsClicked, setAdvancedSearchIsClicked] = useState(false);
+
+  const onChange = (search) => {
+    let filtered = allGames.filter((each) => {
+      let uppercaseName = each.name.toUpperCase();
+      let uppercaseSearchInput = search[0].name.toUpperCase();
+      return uppercaseName.includes(uppercaseSearchInput);
+    });
+    if (filtered.length > 0) {
+      setFiltered(filtered);
+    } else {
+      alert('no matches found');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +66,7 @@ export default function CreateUser({ auth, setAuth }) {
         <input placeholder="Password" type="password" />
         <input type="text" placeholder="Email Address" />
 
-        <form
+        <div
           id="imageUploadForm"
           action="upload.php"
           method="post"
@@ -55,7 +77,7 @@ export default function CreateUser({ auth, setAuth }) {
           </h5>
           <input type="file" name="imageToUpload" id="imageToUpload" />
           <input type="submit" value="Upload" name="submitImage" />
-        </form>
+        </div>
 
         <textarea
           id="bioInput"
@@ -113,7 +135,18 @@ export default function CreateUser({ auth, setAuth }) {
         <h5>
           <b>What's your favorite game?</b>
         </h5>
-        <input type="text" placeholder="Search for a Game" />
+        <Fragment>
+          <Typeahead
+            allowNew
+            newSelectionPrefix="search for: "
+            id="basic-typeahead-example"
+            labelKey="name"
+            onChange={onChange}
+            options={allGames}
+            placeholder="Search for a Game..."
+            selected={selected}
+          />
+        </Fragment>
         {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
           */}
