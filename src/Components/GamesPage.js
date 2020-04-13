@@ -157,7 +157,10 @@ const GamesPage = ({
         </button>
         <h6>
           <i>Can't find your favorite game? </i>
-          <a href="" style={greentext}>
+          <a
+            href="mailto:support@gg-connect.com?Subject=Game%20Support"
+            target="_top"
+          >
             Let Us Know!
           </a>
         </h6>
