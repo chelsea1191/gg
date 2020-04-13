@@ -282,14 +282,15 @@ const App = () => {
                   <UserProfile
                     user={userView}
                     setFriendsView={setFriendsView}
+                    favoriteGames={favoriteGames}
+                    allGames={allGames}
                   />
                 </Route>
                 <Route path="/games">
                   <GamesPage
-                    user={auth}
+                    auth={auth}
                     allGames={allGames}
                     setGameView={setGameView}
-                    user={userView}
                     favoriteGames={favoriteGames}
                     setFavoriteGames={setFavoriteGames}
                   />

@@ -8,7 +8,7 @@ const models = ({
   users,
   games,
   gameTypes,
-  favoritegames,
+  favoriteGames,
 } = require('./models'));
 const {
   getAllGames,
