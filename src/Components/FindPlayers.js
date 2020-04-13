@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
 const geolib = require('geolib');
+import SearchDropdown from './SearchDropdown';
 
 const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
   // REQUIRED VARIABLES: USERS, GAMES...
@@ -44,10 +45,15 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
 
   if (auth.id) {
     return (
-      <div className="findPlayersPage">
-        <form id="findPlayersForm">
+      <div className='findPlayersPage'>
+        <form id='findPlayersForm'>
           <h3>Find Players</h3>
-          <hr className="hr" />
+
+          {/* <div>
+            <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+          </div> */}
+
+          <hr className='hr' />
           <h5>
             <b>What do you want to play?</b>
           </h5>
@@ -55,102 +61,102 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
             <Fragment>
               <Typeahead
                 allowNew
-                newSelectionPrefix="search for: "
-                id="basic-typeahead-example"
-                labelKey="name"
+                newSelectionPrefix='search for: '
+                id='basic-typeahead-example'
+                labelKey='name'
                 onChange={onChange}
                 options={allGames}
-                placeholder="Search for a Game..."
+                placeholder='Search for a Game...'
                 selected={selected}
               />
             </Fragment>
           </div>
 
-          <Accordion id="advSearchForm">
-            <Card id="advSearchCard">
-              <Card.Header id="advSearchHeader">
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+          <Accordion id='advSearchForm'>
+            <Card id='advSearchCard'>
+              <Card.Header id='advSearchHeader'>
+                <Accordion.Toggle as={Button} variant='link' eventKey='0'>
                   Advanced Search
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="0">
+              <Accordion.Collapse eventKey='0'>
                 <Card.Body>
-                  <div className="advGameType">
+                  <div className='advGameType'>
                     <h5>Game Type</h5>
-                    <label className="checkbox" htmlFor="advVideogamesCheckbox">
+                    <label className='checkbox' htmlFor='advVideogamesCheckbox'>
                       <input
-                        type="checkbox"
-                        id="advVideogamesCheckbox"
-                        name="advGameTypes"
-                        value="Video Games"
+                        type='checkbox'
+                        id='advVideogamesCheckbox'
+                        name='advGameTypes'
+                        value='Video Games'
                       />
                       <h6>Video Games</h6>
                     </label>
-                    <label className="checkbox" htmlFor="advBoardgamesCheckbox">
+                    <label className='checkbox' htmlFor='advBoardgamesCheckbox'>
                       <input
-                        type="checkbox"
-                        id="advBoardgamesCheckbox"
-                        name="advGameTypes"
-                        value="Board Games"
+                        type='checkbox'
+                        id='advBoardgamesCheckbox'
+                        name='advGameTypes'
+                        value='Board Games'
                       />
                       <h6>Board Games</h6>
                     </label>
-                    <label className="checkbox" htmlFor="advTabletopCheckbox">
+                    <label className='checkbox' htmlFor='advTabletopCheckbox'>
                       <input
-                        type="checkbox"
-                        id="advTabletopCheckbox"
-                        name="advGameTypes"
-                        value="Tabletop Games & RPGs"
+                        type='checkbox'
+                        id='advTabletopCheckbox'
+                        name='advGameTypes'
+                        value='Tabletop Games & RPGs'
                       />
                       <h6>Tabletop Games & RPGs</h6>
                     </label>
-                    <label className="checkbox" htmlFor="advSportsCheckbox">
+                    <label className='checkbox' htmlFor='advSportsCheckbox'>
                       <input
-                        type="checkbox"
-                        id="advSportsCheckbox"
-                        name="advGameTypes"
-                        value="Sport & Field Games"
+                        type='checkbox'
+                        id='advSportsCheckbox'
+                        name='advGameTypes'
+                        value='Sport & Field Games'
                       />
                       <h6>Sport & Field Games</h6>
                     </label>
                   </div>
                   <hr />
-                  <div className="advPlayesrNumber">
+                  <div className='advPlayesrNumber'>
                     <h5>Players</h5>
-                    <label className="checkbox" htmlFor="advPlayers1checkbox">
+                    <label className='checkbox' htmlFor='advPlayers1checkbox'>
                       <input
-                        type="checkbox"
-                        id="advPlayers1checkbox"
-                        name="advPlayersNumber"
-                        value="1"
+                        type='checkbox'
+                        id='advPlayers1checkbox'
+                        name='advPlayersNumber'
+                        value='1'
                       />
                       <h6>1</h6>
                     </label>
-                    <label className="checkbox" htmlFor="advPlayers2checkbox">
+                    <label className='checkbox' htmlFor='advPlayers2checkbox'>
                       <input
-                        type="checkbox"
-                        id="advPlayers2checkbox"
-                        name="advPlayersNumber"
-                        value="2"
+                        type='checkbox'
+                        id='advPlayers2checkbox'
+                        name='advPlayersNumber'
+                        value='2'
                       />
                       <h6>2</h6>
                     </label>
 
-                    <label className="checkbox" htmlFor="advPlayers3checkbox">
+                    <label className='checkbox' htmlFor='advPlayers3checkbox'>
                       <input
-                        type="checkbox"
-                        id="advPlayers3checkbox"
-                        name="advPlayersNumber"
-                        value="3"
+                        type='checkbox'
+                        id='advPlayers3checkbox'
+                        name='advPlayersNumber'
+                        value='3'
                       />
                       <h6>3</h6>
                     </label>
-                    <label className="checkbox" htmlFor="advPlayers4checkbox">
+                    <label className='checkbox' htmlFor='advPlayers4checkbox'>
                       <input
-                        type="checkbox"
-                        id="advPlayers4checkbox"
-                        name="advPlayersNumber"
-                        value="4"
+                        type='checkbox'
+                        id='advPlayers4checkbox'
+                        name='advPlayersNumber'
+                        value='4'
                       />
                       <h6>4+</h6>
                     </label>
@@ -169,14 +175,16 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
           </select>
-          <select className="select">
+          <select className='select'>
             <option>Search Distance</option>
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-
-          <button className="searchButton">
+          <h6>
+            <a href=''>Advanced Search</a>
+          </h6>
+          <button className='searchButton'>
             <h5>Search</h5>
           </button>
         </form>
@@ -185,7 +193,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
 
-        <ul id="playersList">
+        <ul id='playersList'>
           {/*
           LIST OF PLAYERS THAT MATCH SEARCH PARAMETERS.
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
@@ -195,7 +203,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
             if (mapUser.id != auth.id) {
               return (
                 <li key={mapUser.id}>
-                  <Link to="/chat" onClick={() => setUser(mapUser)}>
+                  <Link to='/chat' onClick={() => setUser(mapUser)}>
                     {mapUser.firstname + mapUser.lastname}
                   </Link>
                   is {findDistance(mapUser)} miles away
@@ -204,18 +212,30 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
             }
           })}
         </ul>
+        <ul id='gameList'>
+          {filtered.length > 0 &&
+            filtered.map((game) => {
+              return (
+                <li key={game.id} className='gamesListItem'>
+                  <img className='gameListItemImage' src={game.image_url} />
+
+                  <h5>{game.name}</h5>
+                </li>
+              );
+            })}
+        </ul>
       </div>
     );
   } else {
     return (
-      <div id="guestRestricted">
-        <h3>Not a Member?</h3> <hr className="hr" />
+      <div id='guestRestricted'>
+        <h3>Not a Member?</h3> <hr className='hr' />
         <p>
           <b style={greentext}>gg</b> works best with lots of active users.
         </p>
         <p>
           {' '}
-          <Link className="link" to="/register">
+          <Link className='link' to='/register'>
             Create a Profile{' '}
           </Link>
           and start finding people to play with!{' '}

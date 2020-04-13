@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import SearchDropdown from './SearchDropdown';
+import AdvancedSearch from './AdvancedSearch';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
@@ -17,7 +19,6 @@ const GamesPage = ({
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [advancedSearchIsClicked, setAdvancedSearchIsClicked] = useState(false);
 
   const onChange = (search) => {
     let filtered = allGames.filter((each) => {
@@ -37,6 +38,11 @@ const GamesPage = ({
       <form id="searchGamesForm">
         <h3>Games</h3>
         <div>
+          {/* <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+        </div>
+        <h6>
+          <AdvancedSearch allGames={allGames} />
+        </h6> */}
           <Fragment>
             <Typeahead
               allowNew
@@ -144,7 +150,6 @@ const GamesPage = ({
             </Accordion.Collapse>
           </Card>
         </Accordion>
-
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
