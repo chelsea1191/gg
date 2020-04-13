@@ -34,6 +34,7 @@ const App = () => {
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
   const [friendsView, setFriendsView] = useState([]);
+  const [favoriteGames, setFavoriteGames] = useState([]);
 
   //for the chat to get the users
   const [users, setUsers] = useState([]);
@@ -56,6 +57,12 @@ const App = () => {
   useEffect(() => {
     axios.get('/api/users').then((response) => {
       setUsers(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get('/api/favoritegames').then((response) => {
+      setFavoriteGames(response.data);
     });
   }, []);
 
@@ -155,7 +162,11 @@ const App = () => {
                 </Route>
 
                 <Route path="/register">
-                  <CreateUser auth={auth} setAuth={setAuth} />
+                  <CreateUser
+                    auth={auth}
+                    setAuth={setAuth}
+                    allGames={allGames}
+                  />
                 </Route>
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage game={gameView} />
@@ -175,6 +186,7 @@ const App = () => {
                     user={user}
                     setUsers={setUser}
                     auth={auth}
+                    allGames={allGames}
                   />
                 </Route>
               </Switch>
@@ -211,29 +223,7 @@ const App = () => {
                     ></img>
                   </Link>
                 </li>
-                <li>
-                  <Link className="link" to="/usersettings">
-                    <img
-                      src="/assets/settings.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
-                  </Link>
-                </li>
 
-                <li>
-                  <Link className="link" to="/about">
-                    <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
-                  </Link>
-                </li>
                 <li>
                   <Link className="link" to="/chat">
                     <img
@@ -246,6 +236,30 @@ const App = () => {
                     ></img>
                   </Link>
                 </li>
+
+                <li>
+                  <Link className="link" to="/usersettings">
+                    <img
+                      src="/assets/settings.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="link" to="/about">
+                    <img
+                      src="/assets/about.png"
+                      alt=""
+                      width="24"
+                      height="24"
+                      title="Bootstrap"
+                    ></img>
+                  </Link>
+                </li>
+
                 <li>
                   <button type="button" id="logButton" onClick={logout}>
                     <h6>Log Out</h6>
@@ -271,7 +285,14 @@ const App = () => {
                   />
                 </Route>
                 <Route path="/games">
-                  <GamesPage allGames={allGames} setGameView={setGameView} />
+                  <GamesPage
+                    user={auth}
+                    allGames={allGames}
+                    setGameView={setGameView}
+                    user={userView}
+                    favoriteGames={favoriteGames}
+                    setFavoriteGames={setFavoriteGames}
+                  />
                 </Route>
                 <Route path="/usersettings">
                   <UserSettings
@@ -297,6 +318,7 @@ const App = () => {
                     user={user}
                     setUser={setUser}
                     auth={auth}
+                    allGames={allGames}
                   />
                 </Route>
               </Switch>

@@ -4,7 +4,12 @@ const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
-const models = ({ users, games, gameTypes } = require('./models'));
+const models = ({
+  users,
+  games,
+  gameTypes,
+  favoritegames,
+} = require('./models'));
 const {
   getAllGames,
   createChat,
@@ -27,6 +32,7 @@ const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   DROP TABLE IF EXISTS message;
   DROP TABLE IF EXISTS chat;
+  DROP TABLE IF EXISTS favoritegames;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
   DROP TABLE IF EXISTS game;
@@ -68,7 +74,7 @@ const sync = async () => {
     min_playtime INT,
     max_playtime INT
   );
-  CREATE TABLE user_game (
+  CREATE TABLE favoritegames (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "gameId" VARCHAR REFERENCES game(id)
