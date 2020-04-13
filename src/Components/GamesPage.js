@@ -1,60 +1,21 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
+import SearchDropdown from './SearchDropdown';
+import AdvancedSearch from './AdvancedSearch';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Typeahead } from 'react-bootstrap-typeahead';
 
 const GamesPage = ({ allGames, setGameView }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [filtered, setFiltered] = useState([]);
-  const [selected, setSelected] = useState([]);
-  const [advancedSearchIsClicked, setAdvancedSearchIsClicked] = useState(false);
-
-  const onChange = (search) => {
-    let filtered = allGames.filter((each) => {
-      let uppercaseName = each.name.toUpperCase();
-      let uppercaseSearchInput = search[0].name.toUpperCase();
-      return uppercaseName.includes(uppercaseSearchInput);
-    });
-    if (filtered.length > 0) {
-      setFiltered(filtered);
-    } else {
-      alert('no matches found');
-    }
-  };
 
   return (
     <div id='gamesPage'>
       <form id='searchGamesForm'>
         <h3>Games</h3>
         <div>
-          <Fragment>
-            <Typeahead
-              allowNew
-              newSelectionPrefix='search for: '
-              id='basic-typeahead-example'
-              labelKey='name'
-              onChange={onChange}
-              options={allGames}
-              placeholder='Choose a game...'
-              selected={selected}
-            />
-          </Fragment>
+          <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
         </div>
         <h6>
-          <Accordion>
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-                  Advanced Search
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey='0'>
-                <Card.Body>search params here</Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
+          <AdvancedSearch allGames={allGames} />
         </h6>
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
