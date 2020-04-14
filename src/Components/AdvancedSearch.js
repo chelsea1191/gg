@@ -98,18 +98,6 @@ const AdvancedSearch = ({ allGames }) => {
         </Accordion.Collapse>
       </Card>
     </Accordion>
-    // <Accordion>
-    //   <Card>
-    //     <Card.Header>
-    //       <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-    //         Advanced Search
-    //       </Accordion.Toggle>
-    //     </Card.Header>
-    //     <Accordion.Collapse eventKey='0'>
-    //       <Card.Body>search params here</Card.Body>
-    //     </Accordion.Collapse>
-    //   </Card>
-    // </Accordion>
   );
 };
 export default AdvancedSearch;
