@@ -1,6 +1,8 @@
 import React from 'react';
 
 const GamePage = ({ game }) => {
+  console.log('path: ', window.location.pathname);
+
   return (
     <div id='gamePage'>
       <img className='gameImage' src={game.image_url} />

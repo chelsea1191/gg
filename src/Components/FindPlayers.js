@@ -7,7 +7,15 @@ import AdvancedSearch from './AdvancedSearch';
 
 import UserProfile from './UserProfile';
 
-const FindPlayers = ({ allGames, users, user, setUser, auth, setUserView }) => {
+const FindPlayers = ({
+  allGames,
+  users,
+  user,
+  setUser,
+  auth,
+  setUserView,
+  setGameView,
+}) => {
   // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
@@ -40,6 +48,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth, setUserView }) => {
           <div>
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
+          {filtered.length > 0 && <p>game selected: {filtered[0].name}</p>}
           <div>
             <AdvancedSearch allGames={allGames} />
           </div>
@@ -84,7 +93,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth, setUserView }) => {
 
           {users.map((user) => {
             if (user.id !== auth.id) {
-              console.log(user);
+              //console.log(user);
               return (
                 <li key={user.id} className='userResults'>
                   <h4>
@@ -120,18 +129,22 @@ const FindPlayers = ({ allGames, users, user, setUser, auth, setUserView }) => {
             }
           })} */}
         </ul>
-        <ul id='gameList'>
+        {/* <ul id='gameList'>
           {filtered.length > 0 &&
             filtered.map((game) => {
               return (
                 <li key={game.id} className='gamesListItem'>
-                  <img className='gameListItemImage' src={game.image_url} />
+                  <Link
+                    to={`/games/${game.id}`}
+                    onClick={(ev) => setGameView(game)}>
+                    <img className='gameListItemImage' src={game.image_url} />
 
-                  <h5>{game.name}</h5>
+                    <h5>{game.name}</h5>
+                  </Link>
                 </li>
               );
             })}
-        </ul>
+        </ul> */}
       </div>
     );
   } else {
