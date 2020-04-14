@@ -5,10 +5,8 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
-    //get filtered obj from local storage
-    let filt = localStorage.getItem('filtered');
-    setFiltered(JSON.parse(filt));
-  }, []);
+    setFiltered(JSON.parse(localStorage.getItem('filtered')));
+  }, [setFiltered]);
 
   const onChange = (search) => {
     let filtered = allGames.filter((each) => {
@@ -28,14 +26,15 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
   return (
     <Fragment>
       <Typeahead
-        allowNew
-        newSelectionPrefix='search for: '
+        // allowNew
+        // newSelectionPrefix='search for: '
         id='custom-selections-example'
         labelKey='name'
-        onChange={onChange}
+        onChange={onChange} //
         options={allGames}
         placeholder='Choose a game...'
-        selected={selected}
+        selectHintOnEnter
+        //highlightOnlyResult
       />
     </Fragment>
   );
