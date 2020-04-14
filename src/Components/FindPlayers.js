@@ -37,9 +37,7 @@ const FindPlayers = ({
       <div className='findPlayersPage'>
         <form id='findPlayersForm'>
           <h3>Find Players</h3>
-
           <hr className='hr' />
-
           <h5>
             <b>What do you want to play?</b>
           </h5>
@@ -50,10 +48,6 @@ const FindPlayers = ({
           <div>
             <AdvancedSearch allGames={allGames} />
           </div>
-
-          {/*
-          INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
-          */}
           <h6>-- or --</h6>
           <select>
             <option>Pick a Favorite Game</option>
@@ -72,7 +66,6 @@ const FindPlayers = ({
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-
           <button className='searchButton'>
             <h5>Search</h5>
           </button>
@@ -127,22 +120,6 @@ const FindPlayers = ({
             }
           })} */}
         </ul>
-        {/* <ul id='gameList'>
-          {filtered.length > 0 &&
-            filtered.map((game) => {
-              return (
-                <li key={game.id} className='gamesListItem'>
-                  <Link
-                    to={`/games/${game.id}`}
-                    onClick={(ev) => setGameView(game)}>
-                    <img className='gameListItemImage' src={game.image_url} />
-
-                    <h5>{game.name}</h5>
-                  </Link>
-                </li>
-              );
-            })}
-        </ul> */}
       </div>
     );
   } else {
