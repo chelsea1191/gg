@@ -2,9 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 const geolib = require('geolib');
 import SearchDropdown from './SearchDropdown';
-
 import AdvancedSearch from './AdvancedSearch';
-
 import UserProfile from './UserProfile';
 
 const FindPlayers = ({
