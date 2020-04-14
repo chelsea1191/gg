@@ -34,12 +34,13 @@ nav {
 }
 
 #view {
-  margin-top: 100px;
+  margin-top: 75px;
   font-family: 'Alef';
 }
 
-hr {
-  margin: 0;
+.hr {
+  margin-top: 0px;
+  padding: 0px;
   width: 100%;
 }
 .navbar {
@@ -113,10 +114,22 @@ h1 {
 }
 
 #loginPage {
-  margin: 64px;
+  margin: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#guestRestricted {
+  margin: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(239, 239, 239, 0.715);
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 16px;
 }
 
 #loginForm {
@@ -130,6 +143,27 @@ h1 {
   margin: 16px;
 }
 
+#chatPage {
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 16px;
+  margin: 32px;
+}
+
+#advSearchHeader {
+  border-radius: 15px 15px 0 0;
+  padding: 0;
+}
+
+#advSearchCard {
+  border-radius: 15px;
+  border: 1px solid grey;
+  overflow: hidden;
+  width: inherit;
+  margin: 4px;
+}
+
 #userFriendsPage {
   display: flex;
   flex-direction: column;
@@ -139,6 +173,19 @@ h1 {
   border-radius: 15px;
   padding: 16px;
   margin: 16px;
+  text-align: center;
+}
+
+#userGamesPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 16px;
+  margin: 16px;
+  text-align: center;
 }
 
 #searchGames {
@@ -148,7 +195,7 @@ h1 {
 }
 
 #findPlayersPage {
-  margin: 64px 32px;
+  margin: 32px 32px;
   width: 100%;
 }
 
@@ -159,7 +206,7 @@ h1 {
   text-align: center;
 
   background-color: rgba(239, 239, 239, 0.715);
-  margin: 64px 32px;
+  margin: 32px 32px;
   padding: 16px;
   border: 1px solid grey;
   border-radius: 15px;
@@ -273,7 +320,7 @@ select {
 }
 
 #aboutPage {
-  margin: 64px 32px;
+  margin: 32px 32px 32px 32px;
   text-align: center;
   background-color: rgba(239, 239, 239, 0.715);
   padding: 16px;
@@ -282,7 +329,7 @@ select {
 }
 
 #userProfile {
-  margin: 64px 32px;
+  margin: 32px 32px;
   text-align: center;
   background-color: rgba(239, 239, 239, 0.715);
   padding: 16px;
@@ -302,7 +349,7 @@ select {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 64px 32px 16px 32px;
+  margin: 32px 32px 16px 32px;
 }
 
 #gamesList {
@@ -360,7 +407,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 64px 32px;
+  margin: 32px 32px;
   padding: 16px;
   background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
@@ -375,7 +422,7 @@ select {
 }
 
 #createUserForm {
-  margin: 64px 32px;
+  margin: 32px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -409,11 +456,18 @@ select {
 }
 
 #gamePage {
+  text-align: center;
+  margin: 32px 32px;
+
+  margin: 32px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgba(239, 239, 239, 0.715);
   text-align: center;
-  margin: 64px 32px;
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 32px;
 }
 .gameImage {
   width: 200px;
@@ -422,4 +476,15 @@ select {
 
 #chatButton {
   opacity: 0.5;
+}
+
+.userResults {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  margin: 8px 0 16px 0;
+  max-height: 85vh;
 }

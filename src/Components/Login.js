@@ -44,6 +44,7 @@ const Login = ({ login }) => {
           <i>or Browse as a Guest</i>
         </h6>
       </form>
+      <h6>© Team Awesome</h6>
     </div>
   );
 };

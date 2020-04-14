@@ -1,73 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import GamePage from './GamePage';
+import React, { useState, useEffect, Fragment } from 'react';
+import SearchDropdown from './SearchDropdown';
+import AdvancedSearch from './AdvancedSearch';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Axios from 'axios';
 
-const GamesPage = ({ allGames, setGameView }) => {
+const GamesPage = ({
+  auth,
+  allGames,
+  setGameView,
+
+  favoriteGames,
+  setFavoriteGames,
+}) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
-  const [searchInput, setSearchInput] = useState('');
   const [filtered, setFiltered] = useState([]);
 
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    setSearchInput(ev.target.value);
-    let filtered = allGames.filter((each) => {
-      let uppercaseName = each.name.toUpperCase();
-      let uppercaseSearchInput = searchInput.toUpperCase();
-      return uppercaseName.includes(uppercaseSearchInput);
-    });
-    if (filtered.length > 0) {
-      setFiltered(filtered);
-    }
-  };
-
   return (
-    <div id="gamesPage">
-      <form id="searchGamesForm">
+    <div id='gamesPage'>
+      <form id='searchGamesForm'>
         <h3>Games</h3>
-        <input
-          type="text"
-          placeholder="Search for a Game"
-          value={searchInput}
-          onChange={(ev) => onSubmit(ev)}
-        />
-        {/*
-          INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT
-          AS USER TYPES, LIST OF GAMES NARROWS BASED ON MATCHING TITLE
-          WHEN DROPDOWN OPTION IS CLICKED, LINKS TO GAME PAGE
-          IF NO INPUT, LIST IS TOP GAMES BY POPULARITY
-          */}
+        <div>
+          <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+        </div>
         <h6>
-          <a href="">Advanced Search</a>
+          <AdvancedSearch allGames={allGames} />
         </h6>
+
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
         <button
-          className="searchButton"
-          onSubmit={(ev) => onSubmit(ev.target.value)}
-        >
+          className='searchButton'
+          onSubmit={(ev) => onSubmit(ev.target.value)}>
           <h5>Search</h5>
         </button>
         <h6>
-          <i>Is your favorite game unsupported?</i>
-        </h6>
-        <h6>
-          <a href="" style={greentext}>
-            Contact Us!
+          <i>Can't find your favorite game? </i>
+          <a href='' style={greentext}>
+            Let Us Know!
           </a>
         </h6>
       </form>
-      <ul id="gamesList">
+      <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
             return (
-              <li key={game.id} className="gamesListItem">
+              <li key={game.id} className='gamesListItem'>
                 <Link
                   to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}
-                >
-                  <img className="gameListItemImage" src={game.image_url} />{' '}
+                  onClick={(ev) => setGameView(game)}>
+                  <img className='gameListItemImage' src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
               </li>
@@ -75,17 +58,28 @@ const GamesPage = ({ allGames, setGameView }) => {
           })}
         {filtered.length === 0 &&
           allGames.map((game) => {
+            const addFavorite = async () => {
+              const favoriteGamesCopy = [...favoriteGames];
+              const newFavoriteGame = await Axios.post('/api/favoritegames', {
+                userId: auth.id,
+                gameId: game.id,
+              }).data;
+
+              setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+            };
             return (
-              <li key={game.id} className="gamesListItem">
+              <li key={game.id} className='gamesListItem'>
                 <Link
                   to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}
-                >
-                  <img className="gameListItemImage" src={game.image_url} />{' '}
+                  onClick={(ev) => setGameView(game)}>
+                  <img className='gameListItemImage' src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
 
-                <button type="button">Favorite</button>
+                <button type='button' onClick={addFavorite}>
+                  Favorite
+                </button>
+                <hr className='hr' />
               </li>
             );
           })}
@@ -100,3 +94,5 @@ const GamesPage = ({ allGames, setGameView }) => {
 };
 
 export default GamesPage;
+
+//chelsea still working on advanced search
