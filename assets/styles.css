@@ -477,3 +477,14 @@ select {
 #chatButton {
   opacity: 0.5;
 }
+
+.userResults {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
+  margin: 8px 0 16px 0;
+  max-height: 85vh;
+}

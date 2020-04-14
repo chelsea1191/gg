@@ -2,9 +2,12 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 const geolib = require('geolib');
 import SearchDropdown from './SearchDropdown';
+
 import AdvancedSearch from './AdvancedSearch';
 
-const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
+import UserProfile from './UserProfile';
+
+const FindPlayers = ({ allGames, users, user, setUser, auth, setUserView }) => {
   // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
@@ -20,7 +23,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
         latitude: player.latitude,
         longitude: player.longitude,
       }) / 1609.344
-    ).toFixed(1);
+    ).toFixed(0);
   };
 
   if (auth.id) {
@@ -28,7 +31,9 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
       <div className='findPlayersPage'>
         <form id='findPlayersForm'>
           <h3>Find Players</h3>
+
           <hr className='hr' />
+
           <h5>
             <b>What do you want to play?</b>
           </h5>
@@ -38,6 +43,7 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
           <div>
             <AdvancedSearch allGames={allGames} />
           </div>
+
           {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
           */}
@@ -48,12 +54,18 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
           </select>
-          <select className='select'>
+          <select className='select' id='distance-options' name='Distance'>
             <option>Search Distance</option>
+            <option>5 miles</option>
+            <option>10 miles</option>
+            <option>25 miles</option>
+            <option>50 miles</option>
+            <option>100 miles</option>
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
+
           <button className='searchButton'>
             <h5>Search</h5>
           </button>
@@ -69,18 +81,44 @@ const FindPlayers = ({ allGames, users, user, setUser, auth }) => {
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
+
+          {users.map((user) => {
+            if (user.id !== auth.id) {
+              console.log(user);
+              return (
+                <li key={user.id} className='userResults'>
+                  <h4>
+                    {user.username} - {findDistance(user)} miles away
+                  </h4>
+                  <span>
+                    {' '}
+                    <Link to='/chat' onClick={() => setUser(user)}>
+                      Send a Chat
+                    </Link>
+                    {' - '}
+                    <Link
+                      to={`/users/${user.id}`}
+                      onClick={(ev) => setUserView(user)}>
+                      View Profile
+                    </Link>
+                  </span>
+                </li>
+              );
+            }
+          })}
+          {/*
           {users.map((mapUser) => {
             if (mapUser.id != auth.id) {
               return (
                 <li key={mapUser.id}>
-                  <Link to='/chat' onClick={() => setUser(mapUser)}>
+                  <Link to="/chat" onClick={() => setUser(mapUser)}>
                     {mapUser.firstname + mapUser.lastname}
                   </Link>
                   is {findDistance(mapUser)} miles away
                 </li>
               );
             }
-          })}
+          })} */}
         </ul>
         <ul id='gameList'>
           {filtered.length > 0 &&
