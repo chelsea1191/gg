@@ -11,9 +11,9 @@ const Chat = ({ auth, users, user, setUser }) => {
   const [messages, setMessages] = useState([
     new Message({
       id: 1,
-      message: "I'm the recipient! (The person you're talking to)",
+      message: "I'm the recipient! (The person you're talking to)"
     }), // Gray bubble
-    new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
+    new Message({ id: 0, message: "I'm you -- the blue bubble!" }) // Blue bubble
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -27,7 +27,11 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   });
   // }, [messages]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    axios.get('/api/');
+  }, []);
+
+  const handleSubmit = e => {
     e.preventDefault();
 
     console.log(chat.id, 'the chat id');
@@ -35,7 +39,7 @@ const Chat = ({ auth, users, user, setUser }) => {
 
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then((response) => console.log(response, 'the response'));
+      .then(response => console.log(response, 'the response'));
 
     setMessages([...messages, new Message({ id: 0, message: message })]);
     setIsTyping(false);
@@ -83,17 +87,17 @@ const Chat = ({ auth, users, user, setUser }) => {
             // JSON: Custom bubble styles
             bubbleStyles={{
               text: {
-                fontSize: 12,
+                fontSize: 30
               },
               chatbubble: {
                 borderRadius: 70,
-                padding: 16,
-              },
+                padding: 40
+              }
             }}
           />
           <input
             type="text"
-            onChange={(ev) => {
+            onChange={ev => {
               setMessage(ev.target.value);
               setIsTyping(true);
             }}
@@ -107,8 +111,6 @@ const Chat = ({ auth, users, user, setUser }) => {
 };
 
 export default Chat;
-
-//has no authentication set up and also i think we need to decide if we need to send the chat to the server because right now im just setting the state and that wont work on someone elses browser i think so well need to discuss that//
 
 //for backend - need to make call to db //front end need to look into how to setup the chat so both users can see - will need to anticipate opening up to multi user chats
 //once session is over - will send delete request to remove chat from db UNLESS user selects the save chat option.. then can save chat
