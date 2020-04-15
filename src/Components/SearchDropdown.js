@@ -5,7 +5,6 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
   useEffect(() => {
     let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
     if (filteredItemIfPresent) {
-      console.log('filtered item present: ', filteredItemIfPresent);
       setFiltered(filteredItemIfPresent);
     }
   }, [setFiltered]);
