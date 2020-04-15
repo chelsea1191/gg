@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import io from 'socket.io-client';
 
 const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
+  var socket = io();
   const [responseId, setResponseId] = useState('');
   const [message, setMessage] = useState('');
 
@@ -18,43 +20,54 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [isTyping, setIsTyping] = useState(false);
 
   const localUser = JSON.parse(window.localStorage.getItem('user'));
+  const localChat = JSON.parse(window.localStorage.getItem('chat'));
 
-  useEffect(() => {
-    console.log(chat, 'got a chat for the users in chat');
-    if (!chat) {
-      console.log('no chat yet');
-      axios
-        .post('/api/createchat', [auth.id, localUser.id])
-        .then((response) => {
-          console.log(response, 'created chat');
-          return response.data;
-        });
-    }
-  }, [chat]);
+  // useEffect(() => {
+  //   if (chat) {
+  //     console.log(user, 'user in chat');
+  //   } else {
+  //     axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+  //       console.log(chat, 'in useeffect chat id');
+  //       setChat(response.data);
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    axios
-      .get(`/api/getMessages/${localUser.id}/${auth.id}`)
-      .then((response) => {
-        axios
-          .get(`/api/getMessages/${auth.id}/${localUser.id}`)
-          .then((responseTwo) => {
-            console.log(responseTwo, 'my next response');
-          });
-      });
-  }, [messages]);
+  // useEffect(() => {
+  //   console.log('useeffect works');
+  //   console.log(
+  //     chat.id,
+  //     'my chat id',
+  //     auth.id,
+  //     'my authid',
+  //     user.id,
+  //     'my userid'
+  //   );
+  //   axios.get(`/api/getMessages/${chat.id}/${auth.id}`).then((response) => {
+  //     console.log(response.message, 'the first check for messages');
+  //     axios
+  //       .get(`/api/getMessages/${chat.id}/${user.id}`)
+  //       .then((responseTwo) => {
+  //         console.log(responseTwo, 'my next response');
+  //       });
+  //   });
+  // }, [message]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    socket.emit('chat message', message);
+    return false;
 
-    console.log(chat.id, 'the chat id');
-
-    axios
-      .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then((response) => console.log(response, 'the response'));
-    setMessages([...messages, new Message({ id: 0, message: message })]);
-    setIsTyping(false);
+    // console.log(message);
+    // axios
+    //   .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
+    //   .then((response) => setMessage(response.data.message));
+    // setMessages([...messages, new Message({ id: 0, message: message })]);
+    // setIsTyping(false);
   };
+  socket.on('chat message', (msg) => {
+    setMessages([...messages, new Message({ id: 0, message: msg })]);
+  });
 
   // const handleClick = user => {
   //   const body = [auth.id, user.id];
@@ -85,7 +98,7 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     <div id="chatPage">
       <span>
         <Link to="/">X</Link>
-        Chat with: {localUser.firstname + localUser.lastname}
+        Chat with: {user.firstname + user.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects

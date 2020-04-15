@@ -8,6 +8,9 @@ const db = require('./db/db');
 const models = db.models;
 const bodyParser = require('body-parser');
 
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
 //to change git remote: git remote set-url origin (new.git.url/here)
 
 //////////////////use///////////////////
@@ -23,6 +26,17 @@ var myLogger = function (req, res, next) {
   next();
 };
 app.use(myLogger);
+
+/**
+ * Chat
+ *
+ */
+
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+});
 
 //////////////////auth//////////////////
 const isLoggedIn = (req, res, next) => {
@@ -100,6 +114,7 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
   db.getMessage(req.params.chatid, req.params.userid).then((response) => {
+    console.log(response, 'get messages response from server');
     res.send(response);
   });
 });
@@ -110,6 +125,11 @@ app.get('/api/favoritegames', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
+app.get('/api/chat/:userId/:authId', (req, res, next) => {
+  db.getChat(req.params.userId, req.params.authId).then((response) =>
+    res.send(response)
+  );
+});
 
 //////////////////post////////////////////
 
@@ -119,9 +139,9 @@ app.post('/api/createUser', (req, res, next) => {
     .then((user) => res.send(user))
     .catch(next);
 });
-app.post('/api/chat', (req, res, next) => {
-  db.getChat(req.body[0], req.body[1]).then((response) => res.send(response));
-});
+// app.post('/api/chat', (req, res, next) => {
+//   db.getChat(req.body[0], req.body[1]).then((response) => res.send(response));
+// });
 
 app.post('/api/createchat', (req, res, next) => {
   db.createChat(req.body[0], req.body[1])
@@ -144,8 +164,12 @@ app.post('/api/favoritegames', (req, res, next) => {
 });
 
 app.post('/api/sendMessages', (req, res, next) => {
-  console.log(req.body[0]);
-  db.putMessage(req.body[0], req.body[1], req.body[2], req.body[3]);
+  db.putMessage(
+    req.body[0],
+    req.body[1],
+    req.body[2],
+    req.body[3]
+  ).then((response) => res.send(response));
 });
 
 ///////////////////put////////////////////
@@ -183,6 +207,6 @@ const port = process.env.PORT || 3000;
 db.sync()
   .then(() => {
     console.log('db synced');
-    app.listen(port, () => console.log(`listening on port ${port}`));
+    server.listen(port, () => console.log(`listening on port ${port}`));
   })
   .catch((ex) => console.log(ex));
