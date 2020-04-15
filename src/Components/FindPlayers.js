@@ -37,6 +37,7 @@ const FindPlayers = ({
 
   const handleChatClick = (user) => {
     setUser(user);
+    window.localStorage.setItem('user', JSON.stringify(user));
     axios.post('/api/chat', [user.id, auth.id]).then((response) => {
       setChat(response.data);
     });

@@ -17,27 +17,32 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+
   useEffect(() => {
-    console.log('useeffect running');
-    console.log(chat);
+    console.log(chat, 'got a chat for the users in chat');
     if (!chat) {
       console.log('no chat yet');
-      axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-        console.log(response, 'created chat');
-        return response.data;
-      });
+      axios
+        .post('/api/createchat', [auth.id, localUser.id])
+        .then((response) => {
+          console.log(response, 'created chat');
+          return response.data;
+        });
     }
   }, [chat]);
 
-  // useEffect(() => {
-  //   axios.get(`/api/getMessages/${responseId}/${auth.id}`).then(response => {
-  //     axios
-  //       .get(`/api/getMessages/${auth.id}/${response.data.id}`)
-  //       .then(responseTwo => {
-  //         console.log(responseTwo, 'my next response');
-  //       });
-  //   });
-  // }, [messages]);
+  useEffect(() => {
+    axios
+      .get(`/api/getMessages/${localUser.id}/${auth.id}`)
+      .then((response) => {
+        axios
+          .get(`/api/getMessages/${auth.id}/${localUser.id}`)
+          .then((responseTwo) => {
+            console.log(responseTwo, 'my next response');
+          });
+      });
+  }, [messages]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +52,6 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
       .then((response) => console.log(response, 'the response'));
-
     setMessages([...messages, new Message({ id: 0, message: message })]);
     setIsTyping(false);
   };
@@ -81,7 +85,7 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     <div id="chatPage">
       <span>
         <Link to="/">X</Link>
-        Chat with: {user.firstname + user.lastname}
+        Chat with: {localUser.firstname + localUser.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
