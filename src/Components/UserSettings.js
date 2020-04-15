@@ -39,22 +39,8 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
         </h6>
       </div>
 
-      <form
-        id="imageUploadForm"
-        action="upload.php"
-        method="post"
-        encType="multipart/form-data"
-      >
-        <h5>
-          <b>Add a Profile Picture</b>
-        </h5>
-        <input type="file" name="imageToUpload" id="imageToUpload" />
-        <input
-          id="submitImageButton"
-          type="submit"
-          value="Upload"
-          name="submitImage"
-        />
+      <form action="/profileImage" method="post" enctype="multipart/form-data">
+        <input type="file" name="profileImage" />
       </form>
 
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
