@@ -3,7 +3,11 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 
 const SearchDropdown = ({ allGames, setFiltered }) => {
   useEffect(() => {
-    setFiltered(JSON.parse(localStorage.getItem('filtered')));
+    let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
+    if (filteredItemIfPresent) {
+      console.log('filtered item present: ', filteredItemIfPresent);
+      setFiltered(filteredItemIfPresent);
+    }
   }, [setFiltered]);
 
   const onChange = (search) => {
@@ -14,7 +18,6 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
         return uppercaseName.includes(uppercaseSearchInput);
       });
       setFiltered(filtered);
-      localStorage.removeItem('filtered');
       localStorage.setItem('filtered', JSON.stringify(filtered));
     }
   };
