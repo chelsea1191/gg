@@ -1,10 +1,10 @@
 import { ChatFeed, Message } from 'react-chat-ui';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-const Chat = ({ auth, users, user, setUser }) => {
-  const [chat, setChat] = useState();
+const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [responseId, setResponseId] = useState('');
   const [message, setMessage] = useState('');
 
@@ -17,26 +17,41 @@ const Chat = ({ auth, users, user, setUser }) => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
-  // useEffect(() => {
-  //   axios.get(`/api/getMessages/${responseId}/${auth.id}`).then(response => {
-  //     axios
-  //       .get(`/api/getMessages/${auth.id}/${response.data.id}`)
-  //       .then(responseTwo => {
-  //         console.log(responseTwo, 'my next response');
-  //       });
-  //   });
-  // }, [messages]);
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+
+  useEffect(() => {
+    console.log(chat, 'got a chat for the users in chat');
+    if (!chat) {
+      console.log('no chat yet');
+      axios
+        .post('/api/createchat', [auth.id, localUser.id])
+        .then((response) => {
+          console.log(response, 'created chat');
+          return response.data;
+        });
+    }
+  }, [chat]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/getMessages/${localUser.id}/${auth.id}`)
+      .then((response) => {
+        axios
+          .get(`/api/getMessages/${auth.id}/${localUser.id}`)
+          .then((responseTwo) => {
+            console.log(responseTwo, 'my next response');
+          });
+      });
+  }, [messages]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(chat.id, 'the chat id');
-    console.log(message, 'the message');
 
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
       .then((response) => console.log(response, 'the response'));
-
     setMessages([...messages, new Message({ id: 0, message: message })]);
     setIsTyping(false);
   };
@@ -46,9 +61,7 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   axios.post('/api/chat', body).then(response => {
   //     if (!response.data) {
   //       console.log('creating chat since there was no previous chat');
-  //       axios.post('/api/createchat', [auth.id, user.id]).then(response => {
-  //         return response.data;
-  //       });
+
   //       console.log(chat, 'first test that chat was set');
   //     } else {
   //       axios
@@ -67,12 +80,12 @@ const Chat = ({ auth, users, user, setUser }) => {
 
   //when clicking the user you want to chat - create a new chat id in database sending both userids to the db
   //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
-  console.log(user);
+
   return (
     <div id="chatPage">
       <span>
-        <button onClick={() => setChat()}>X</button>
-        Chat with: {user.firstname + user.lastname}
+        <Link to="/">X</Link>
+        Chat with: {localUser.firstname + localUser.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
