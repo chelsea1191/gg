@@ -4,6 +4,20 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const AdvancedSearch = ({ allGames }) => {
+  const [selection, setSelection] = useState([]);
+  setTimeout(() => {
+    console.log('allGames:', allGames);
+  }, 3000);
+  const handleCheckBox = async (ev) => {
+    console.log('selected: ', ev.target.value);
+    const meetsRequirements = allGames.filter(
+      (game) =>
+        game.min_players >= ev.target.value &&
+        game.max_players <= ev.target.value
+    );
+    console.log('met: ', meetsRequirements);
+  };
+
   return (
     <Accordion id='advSearchForm'>
       <Card id='advSearchCard'>
@@ -22,6 +36,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advVideogamesCheckbox'
                   name='advGameTypes'
                   value='Video Games'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>Video Games</h6>
               </label>
@@ -31,6 +46,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advBoardgamesCheckbox'
                   name='advGameTypes'
                   value='Board Games'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>Board Games</h6>
               </label>
@@ -40,6 +56,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advTabletopCheckbox'
                   name='advGameTypes'
                   value='Tabletop Games & RPGs'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>Tabletop Games & RPGs</h6>
               </label>
@@ -49,6 +66,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advSportsCheckbox'
                   name='advGameTypes'
                   value='Sport & Field Games'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>Sport & Field Games</h6>
               </label>
@@ -56,21 +74,13 @@ const AdvancedSearch = ({ allGames }) => {
             <hr />
             <div className='advPlayesrNumber'>
               <h5>Players</h5>
-              <label className='checkbox' htmlFor='advPlayers1checkbox'>
-                <input
-                  type='checkbox'
-                  id='advPlayers1checkbox'
-                  name='advPlayersNumber'
-                  value='1'
-                />
-                <h6>1</h6>
-              </label>
               <label className='checkbox' htmlFor='advPlayers2checkbox'>
                 <input
                   type='checkbox'
                   id='advPlayers2checkbox'
                   name='advPlayersNumber'
                   value='2'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>2</h6>
               </label>
@@ -81,6 +91,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advPlayers3checkbox'
                   name='advPlayersNumber'
                   value='3'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>3</h6>
               </label>
@@ -90,6 +101,7 @@ const AdvancedSearch = ({ allGames }) => {
                   id='advPlayers4checkbox'
                   name='advPlayersNumber'
                   value='4'
+                  onClick={(ev) => handleCheckBox(ev)}
                 />
                 <h6>4+</h6>
               </label>
