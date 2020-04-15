@@ -36,7 +36,9 @@ const GamesPage = ({
           */}
         <h6>
           <i>Can't find your favorite game? </i>
-          <a href='' style={greentext}>
+          <a
+            href='mailto:support@gg-connect.com?Subject=Game%20Support'
+            target='_top'>
             Let Us Know!
           </a>
         </h6>
@@ -44,22 +46,6 @@ const GamesPage = ({
       <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
-            return (
-              <li key={game.id} className='gamesListItem'>
-                <Link
-                  to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
-                </Link>
-                <h5>{game.name}</h5>
-                {/* <button type='button' onClick={addFavorite}>
-                  Favorite
-                </button> */}
-              </li>
-            );
-          })}
-        {/* {filtered.length === 0 &&
-          allGames.map((game) => {
             const addFavorite = async () => {
               const favoriteGamesCopy = [...favoriteGames];
               const newFavoriteGame = await Axios.post('/api/favoritegames', {
@@ -82,6 +68,34 @@ const GamesPage = ({
                   Favorite
                 </button>
                 <hr className='hr' />
+              </li>
+            );
+          })}
+        {/* {filtered.length === 0 &&
+          allGames.map((game) => {
+            const addFavorite = async () => {
+              const favoriteGamesCopy = [...favoriteGames];
+              const newFavoriteGame = await Axios.post('/api/favoritegames', {
+                userId: auth.id,
+                gameId: game.id,
+              }).data;
+
+              setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+            };
+            return (
+              <li key={game.id} className="gamesListItem">
+                <Link
+                  to={`/games/${game.id}`}
+                  onClick={(ev) => setGameView(game)}
+                >
+                  <img className="gameListItemImage" src={game.image_url} />{' '}
+                </Link>
+                <h5>{game.name}</h5>
+
+                <button type="button" onClick={addFavorite}>
+                  Favorite
+                </button>
+                <hr className="hr" />
               </li>
             );
           })} */}
