@@ -8,12 +8,17 @@ const GamesPage = ({
   auth,
   allGames,
   setGameView,
-
   favoriteGames,
   setFavoriteGames,
 }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [filtered, setFiltered] = useState([]);
+  useEffect(() => {
+    let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
+    if (filteredItemIfPresent) {
+      setFiltered(filteredItemIfPresent);
+    }
+  }, [setFiltered]);
 
   return (
     <div id='gamesPage'>
@@ -23,18 +28,12 @@ const GamesPage = ({
           <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
         </div>
         <h6>
-          <AdvancedSearch allGames={allGames} />
+          <AdvancedSearch setFiltered={setFiltered} allGames={allGames} />
         </h6>
-
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
-        <button
-          className='searchButton'
-          onSubmit={(ev) => onSubmit(ev.target.value)}>
-          <h5>Search</h5>
-        </button>
         <h6>
           <i>Can't find your favorite game? </i>
           <a href='' style={greentext}>
@@ -53,10 +52,13 @@ const GamesPage = ({
                   <img className='gameListItemImage' src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
+                {/* <button type='button' onClick={addFavorite}>
+                  Favorite
+                </button> */}
               </li>
             );
           })}
-        {filtered.length === 0 &&
+        {/* {filtered.length === 0 &&
           allGames.map((game) => {
             const addFavorite = async () => {
               const favoriteGamesCopy = [...favoriteGames];
@@ -82,7 +84,7 @@ const GamesPage = ({
                 <hr className='hr' />
               </li>
             );
-          })}
+          })} */}
         {/*
           LIST OF GAMES THAT MATCH SEARCH PARAMETERS
            INCLUDES COVER IMAGE, TITLE, NUMBER OF USERS, FRIENDS THAT PLAY, AVERAGE RATING, AND 'ADD FAVORITE GAME' BUTTON
