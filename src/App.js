@@ -265,7 +265,11 @@ const App = () => {
                   <UserFriendsPage user={userView} />
                 </Route>
                 <Route exact path={`/users/${userView.id}/favoriteGames`}>
-                  <UserGamesPage user={userView} />
+                  <UserGamesPage
+                    user={userView}
+                    allGames={allGames}
+                    favoriteGames={favoriteGames}
+                  />
                 </Route>
                 <Route exact path={`/users/${userView.id}`}>
                   <UserProfile
