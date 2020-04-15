@@ -1,10 +1,12 @@
 import { ChatFeed, Message } from 'react-chat-ui';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import io from 'socket.io-client';
 
-const Chat = ({ auth, users, user, setUser }) => {
-  const [chat, setChat] = useState();
+const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
+  var socket = io();
   const [responseId, setResponseId] = useState('');
   const [message, setMessage] = useState('');
 
@@ -17,38 +19,62 @@ const Chat = ({ auth, users, user, setUser }) => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+  const localChat = JSON.parse(window.localStorage.getItem('chat'));
+
   // useEffect(() => {
-  //   axios.get(`/api/getMessages/${responseId}/${auth.id}`).then(response => {
+  //   if (chat) {
+  //     console.log(user, 'user in chat');
+  //   } else {
+  //     axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+  //       console.log(chat, 'in useeffect chat id');
+  //       setChat(response.data);
+  //     });
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log('useeffect works');
+  //   console.log(
+  //     chat.id,
+  //     'my chat id',
+  //     auth.id,
+  //     'my authid',
+  //     user.id,
+  //     'my userid'
+  //   );
+  //   axios.get(`/api/getMessages/${chat.id}/${auth.id}`).then((response) => {
+  //     console.log(response.message, 'the first check for messages');
   //     axios
-  //       .get(`/api/getMessages/${auth.id}/${response.data.id}`)
-  //       .then(responseTwo => {
+  //       .get(`/api/getMessages/${chat.id}/${user.id}`)
+  //       .then((responseTwo) => {
   //         console.log(responseTwo, 'my next response');
   //       });
   //   });
-  // }, [messages]);
+  // }, [message]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    socket.emit('chat message', message);
+    return false;
 
-    console.log(chat.id, 'the chat id');
-    console.log(message, 'the message');
-
-    axios
-      .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then((response) => console.log(response, 'the response'));
-
-    setMessages([...messages, new Message({ id: 0, message: message })]);
-    setIsTyping(false);
+    // console.log(message);
+    // axios
+    //   .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
+    //   .then((response) => setMessage(response.data.message));
+    // setMessages([...messages, new Message({ id: 0, message: message })]);
+    // setIsTyping(false);
   };
+  socket.on('chat message', (msg) => {
+    setMessages([...messages, new Message({ id: 0, message: msg })]);
+  });
 
   // const handleClick = user => {
   //   const body = [auth.id, user.id];
   //   axios.post('/api/chat', body).then(response => {
   //     if (!response.data) {
   //       console.log('creating chat since there was no previous chat');
-  //       axios.post('/api/createchat', [auth.id, user.id]).then(response => {
-  //         return response.data;
-  //       });
+
   //       console.log(chat, 'first test that chat was set');
   //     } else {
   //       axios
@@ -67,11 +93,11 @@ const Chat = ({ auth, users, user, setUser }) => {
 
   //when clicking the user you want to chat - create a new chat id in database sending both userids to the db
   //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
-  console.log(user);
+
   return (
     <div id="chatPage">
       <span>
-        <button onClick={() => setChat()}>X</button>
+        <Link to="/">X</Link>
         Chat with: {user.firstname + user.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
