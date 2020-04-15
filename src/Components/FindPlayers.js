@@ -36,11 +36,11 @@ const FindPlayers = ({
   };
 
   const handleChatClick = (user) => {
-    setUser(user);
     window.localStorage.setItem('user', JSON.stringify(user));
-    axios.post('/api/chat', [user.id, auth.id]).then((response) => {
-      setChat(response.data);
-    });
+    // axios.get(`/api/chat/:${user.id}/${auth.id}`).then((response) => {
+    //   setChat(response.data);
+    //   window.localStorage.setItem('chat', JSON.stringify(response.data));
+    // });
   };
 
   if (auth.id) {
@@ -103,7 +103,13 @@ const FindPlayers = ({
                   </h4>
                   <span>
                     {' '}
-                    <Link to="/chat" onClick={() => handleChatClick(user)}>
+                    <Link
+                      to="/chat"
+                      onClick={() => {
+                        setUser(user);
+                        handleChatClick(user);
+                      }}
+                    >
                       Send a Chat
                     </Link>
                     {' - '}
