@@ -7,10 +7,6 @@ const UserProfile = ({ user, setFriendsView, favoriteGames, allGames }) => {
       return game.userId === user.id;
     }
   });
-  const userFavoritesList = userFavorites.map((favorite) => {
-    const userFavorite = allGames.find((game) => game.id === favorite.gameId);
-    return <li>{userFavorite.name}</li>;
-  });
 
   return (
     <div id="userProfile">
@@ -38,10 +34,10 @@ const UserProfile = ({ user, setFriendsView, favoriteGames, allGames }) => {
         onClick={(ev) => setFriendsView(user)}
       >
         <h5>
-          <b>Favorite Games</b>
+          <b>Favorite Games ({userFavorites.length})</b>
         </h5>
       </Link>
-      {userFavoritesList}
+
       <h6>
         <i># Mutual</i>
       </h6>
