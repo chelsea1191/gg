@@ -27,7 +27,9 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   });
   // }, [messages]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios.get('/api/');
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -71,7 +73,7 @@ const Chat = ({ auth, users, user, setUser }) => {
   //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
   console.log(user);
   return (
-    <div id="loginpage">
+    <div id="chatPage">
       <span>
         <button onClick={() => setChat()}>X</button>
         Chat with: {user.firstname + user.lastname}

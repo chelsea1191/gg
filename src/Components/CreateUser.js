@@ -1,8 +1,13 @@
-import React from 'react';
 import axios from 'axios';
 import Location from './Location';
+import React, { useState, useEffect } from 'react';
+import SearchDropdown from './SearchDropdown';
 
-export default function CreateUser({ auth, setAuth }) {
+export default function CreateUser({ auth, setAuth, allGames }) {
+  const [location, setLocation] = useState([]);
+
+  const [filtered, setFiltered] = useState([]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let name = e.target[2].value;
@@ -18,6 +23,8 @@ export default function CreateUser({ auth, setAuth }) {
       password: password,
       email: email,
       bio: bio,
+      latitude: location[0],
+      longitude: location[1],
     };
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
@@ -26,67 +33,79 @@ export default function CreateUser({ auth, setAuth }) {
   };
 
   return (
-    <div id="createUserPage">
+    <div id='createUserPage'>
       <form
-        id="createUserForm"
+        id='createUserForm'
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <h3>Create New User</h3>
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="text" placeholder="Username" />
-        <input placeholder="Password" type="password" />
-        <input type="text" placeholder="Email Address" />
+        <input type='text' placeholder='First Name' />
+        <input type='text' placeholder='Last Name' />
+        <input type='text' placeholder='Username' />
+        <input placeholder='Password' type='password' />
+        <input type='text' placeholder='Email Address' />
+
+        <div
+          id='imageUploadForm'
+          action='upload.php'
+          method='post'
+          encType='multipart/form-data'>
+          <h5>
+            <b>Add a Profile Picture</b>
+          </h5>
+          <input type='file' name='imageToUpload' id='imageToUpload' />
+          <input type='submit' value='Upload' name='submitImage' />
+        </div>
+
         <textarea
-          id="bioInput"
-          placeholder="Say something about yourself!"
-          maxLength="300"
+          id='bioInput'
+          placeholder='Say something about yourself!'
+          maxLength='300'
         />
 
-        <Location />
+        <Location location={location} setLocation={setLocation} />
 
         <h5>
           <b>What types of games do you play?</b>
         </h5>
-        <div className="checkBoxes">
-          <label htmlFor="boardgamesCheckbox">
+        <div className='checkBoxes'>
+          <label className='checkbox' htmlFor='boardgamesCheckbox'>
             <input
-              type="checkbox"
-              id="boardgamesCheckbox"
-              name="gameTypes"
-              value="Board Games"
+              type='checkbox'
+              id='boardgamesCheckbox'
+              name='gameTypes'
+              value='Board Games'
             />
             <h6>Board Games</h6>
           </label>
 
-          <label htmlFor="tabletopCheckbox">
+          <label className='checkbox' htmlFor='tabletopCheckbox'>
             <input
-              type="checkbox"
-              id="tabletopCheckbox"
-              name="gameTypes"
-              value="Tabletop Games & RPGs"
+              type='checkbox'
+              id='tabletopCheckbox'
+              name='gameTypes'
+              value='Tabletop Games & RPGs'
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label htmlFor="videogamesCheckbox">
+          <label className='checkbox' htmlFor='videogamesCheckbox'>
             <input
-              type="checkbox"
-              id="videogamesCheckbox"
-              name="gameTypes"
-              value="Video Games"
+              type='checkbox'
+              id='videogamesCheckbox'
+              name='gameTypes'
+              value='Video Games'
             />
             <h6>Video Games</h6>
           </label>
 
-          <label htmlFor="sportsCheckbox">
+          <label className='checkbox' htmlFor='sportsCheckbox'>
             <input
-              type="checkbox"
-              id="sportsCheckbox"
-              name="gameTypes"
-              value="Sports & Field Games"
+              type='checkbox'
+              id='sportsCheckbox'
+              name='gameTypes'
+              value='Sports & Field Games'
             />
             <h6>Sports & Field Games</h6>
           </label>
@@ -95,14 +114,17 @@ export default function CreateUser({ auth, setAuth }) {
         <h5>
           <b>What's your favorite game?</b>
         </h5>
-        <input type="text" placeholder="Search for a Game" />
+        <div>
+          <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+        </div>
+        {filtered.length > 0 && <p>game selected: {filtered[0].name}</p>}
         {/*
           INPUT NEEDS AUTO-SUGGEST/COMPLETE DROPDOWN OPTIONS BASED ON ALL GAME NAMES THAT MATCH FIELD INPUT;
           */}
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <button type="submit">
+        <button type='submit'>
           <h5>Create User</h5>
         </button>
       </form>

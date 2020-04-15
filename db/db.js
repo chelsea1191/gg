@@ -4,7 +4,12 @@ const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
-const models = ({ users, games } = require('./models'));
+const models = ({
+  users,
+  games,
+  gameTypes,
+  favoriteGames,
+} = require('./models'));
 const {
   getAllGames,
   createChat,
@@ -27,6 +32,7 @@ const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   DROP TABLE IF EXISTS message;
   DROP TABLE IF EXISTS chat;
+  DROP TABLE IF EXISTS favoritegames;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
   DROP TABLE IF EXISTS game;
@@ -45,23 +51,30 @@ const sync = async () => {
     CHECK (char_length(username) > 0),
     photo VARCHAR,
     bio VARCHAR(300),
-    location VARCHAR,
+    latitude VARCHAR,
+    longitude VARCHAR,
     date_create TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     gametype VARCHAR
   );
   CREATE TABLE game (
     id VARCHAR PRIMARY KEY UNIQUE,
     name VARCHAR,
-    "gameTypeID" UUID REFERENCES users(id),
+    "gameTypeID" INTEGER,
     description VARCHAR,
     image_url VARCHAR,
     min_players INT,
-    max_players INT
+    max_players INT,
+    url VARCHAR,
+    primary_publisher VARCHAR,
+    min_age INT,
+    year_published INT,
+    min_playtime INT,
+    max_playtime INT
   );
-  CREATE TABLE user_game (
+  CREATE TABLE favoritegames (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "gameId" VARCHAR REFERENCES game(id)
@@ -95,6 +108,14 @@ const sync = async () => {
   const [foo, bar, baz] = await Promise.all(
     Object.values(_games).map((each) => games.create(each))
   );
+  const _gameTypes = [
+    { gametype: 'board' },
+    { gametype: 'sport' },
+    { gametype: 'video' },
+  ];
+  const [board, sport, video] = await Promise.all(
+    Object.values(_gameTypes).map((each) => gameTypes.create(each))
+  );
 
   const _users = {
     admin: {
@@ -105,6 +126,8 @@ const sync = async () => {
       role: 'ADMIN',
       email: 'admin@gmail.com',
       bio: 'admin here',
+      latitude: '30.055760',
+      longitude: '-81.500880',
     },
     friend: {
       username: 'friend',
@@ -114,6 +137,8 @@ const sync = async () => {
       role: 'PLAYER',
       email: 'friend@gmail.com',
       bio: 'friend here',
+      latitude: '30.280240',
+      longitude: '-81.724630',
     },
     buddy: {
       username: 'buddy',
@@ -123,6 +148,8 @@ const sync = async () => {
       role: 'PLAYER',
       email: 'buddy@gmail.com',
       bio: 'buddy here',
+      latitude: '30.303406',
+      longitude: '-81.469178',
     },
   };
 

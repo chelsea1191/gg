@@ -1,12 +1,9 @@
-import React from 'react';
-import { usePosition } from 'use-position';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// truncate gps coordinates? or doesnt matter bc will not show them that
-// fix it so that it doesnt pull locatino until you click button
-// fix so that form doesnt submit until you hit submit (currently submitting when you hit locate me )
-// get gps coordinates translated to city or zip
 // store gps coordinates in db
-// Next: google maps for stores
+// distance between two users (geolib?)
+// google maps for stores
 
 // BUGS i've noticed
 // nav bar looks like its been squished - was previously working
@@ -15,13 +12,48 @@ import { usePosition } from 'use-position';
 // Trello - user stories that we can move through from planned/in progress/QA/complete like with GS?
 // Trello - category for bugs, as we notice them we can add them and then start working through them as we can
 
-const Location = () => {
-  const { latitude, longitude, timestamp, accuracy, error } = usePosition();
+const Location = ({ location, setLocation }) => {
+  const [showButton, setShowButton] = useState(true);
+  const [prettyLocation, setPrettyLocation] = useState([]);
+
+  useEffect(() => {
+    const lat = location[0];
+    const long = location[1];
+
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}
+    &result_type=street_address&key=AIzaSyCUxDqDqR3PMKAaiBglCz62PAxiRu_evTk`
+      )
+      .then((results) => {
+        let city = results.data.results[0].address_components[3].short_name;
+        let state = results.data.results[0].address_components[5].short_name;
+        let zip = results.data.results[0].address_components[7].short_name;
+        let locationString = `${city}, ${state} ${zip}`;
+        setPrettyLocation(locationString);
+      });
+  }, [location]);
 
   const handleClick = () => {
-    console.log('location button was clicked');
-    const locationDiv = document.getElementById('location');
-    locationDiv.style.display = 'block';
+    getLocation();
+    setShowButton(!showButton);
+    // need some kind of preloader here while it waits
+  };
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      return 'Geolocation is not supported by this browser.';
+    }
+  };
+
+  const showPosition = (position) => {
+    const userPosition = [
+      position.coords.latitude.toFixed(7),
+      position.coords.longitude.toFixed(7),
+    ];
+    setLocation(userPosition);
   };
 
   return (
@@ -29,12 +61,14 @@ const Location = () => {
       <h5>
         <b>Where are you located?</b>
       </h5>
-      <button onClick={handleClick}>
+      <button
+        type="button"
+        onClick={handleClick}
+        style={{ display: showButton ? 'inline-block' : 'none' }}
+      >
         <h5>Locate me!</h5>
       </button>
-      <div id='location' style={{ display: 'none' }}>
-        You are located at Latitude {latitude} and longitude {longitude}
-      </div>
+      <div id="location">{prettyLocation}</div>
     </div>
   );
 };
