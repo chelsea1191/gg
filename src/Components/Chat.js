@@ -1,10 +1,10 @@
 import { ChatFeed, Message } from 'react-chat-ui';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-const Chat = ({ auth, users, user, setUser }) => {
-  const [chat, setChat] = useState();
+const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [responseId, setResponseId] = useState('');
   const [message, setMessage] = useState('');
 
@@ -16,6 +16,18 @@ const Chat = ({ auth, users, user, setUser }) => {
     new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    console.log('useeffect running');
+    console.log(chat);
+    if (!chat) {
+      console.log('no chat yet');
+      axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+        console.log(response, 'created chat');
+        return response.data;
+      });
+    }
+  }, [chat]);
 
   // useEffect(() => {
   //   axios.get(`/api/getMessages/${responseId}/${auth.id}`).then(response => {
@@ -31,7 +43,6 @@ const Chat = ({ auth, users, user, setUser }) => {
     e.preventDefault();
 
     console.log(chat.id, 'the chat id');
-    console.log(message, 'the message');
 
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
@@ -46,9 +57,7 @@ const Chat = ({ auth, users, user, setUser }) => {
   //   axios.post('/api/chat', body).then(response => {
   //     if (!response.data) {
   //       console.log('creating chat since there was no previous chat');
-  //       axios.post('/api/createchat', [auth.id, user.id]).then(response => {
-  //         return response.data;
-  //       });
+
   //       console.log(chat, 'first test that chat was set');
   //     } else {
   //       axios
@@ -67,11 +76,11 @@ const Chat = ({ auth, users, user, setUser }) => {
 
   //when clicking the user you want to chat - create a new chat id in database sending both userids to the db
   //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
-  console.log(user);
+
   return (
     <div id="chatPage">
       <span>
-        <button onClick={() => setChat()}>X</button>
+        <Link to="/">X</Link>
         Chat with: {user.firstname + user.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
