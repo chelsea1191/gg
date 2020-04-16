@@ -7,18 +7,18 @@ import io from 'socket.io-client';
 
 const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   var socket = io();
-  const [responseId, setResponseId] = useState('');
+  const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
 
   const localUser = JSON.parse(window.sessionStorage.getItem('user'));
-  // const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
+  const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
 
   const [messages, setMessages] = useState([
-    new Message({
-      id: 1,
-      message: "I'm the recipient! (The person you're talking to)",
-    }), // Gray bubble
-    new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
+    // new Message({
+    //   id: 1,
+    //   message: "I'm the recipient! (The person you're talking to)",
+    // }), // Gray bubble
+    // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -28,22 +28,39 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   */
 
   useEffect(() => {
-    // const localChat = JSON.parse(window.localStorage.getItem('chat'));
-    // console.log(localChat);
-    // if (localChat) {
-    //   axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
-    //     console.log(response.data.message, 'the first check for messages');
-    //     setMessage(response.data.message);
-    //   });
-    // }
-  }, [messages]);
+    axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      response.data.forEach((messageObj) => {
+        if (messageObj.sender_id === auth.id) {
+          setMessages([
+            ...messages,
+            new Message({ id: 0, message: messageObj.message }),
+          ]);
+        } else {
+          console.log(
+            messageObj.message,
+            'this is the message from the other person'
+          );
+          setMessages([
+            ...messages,
+            new Message({ id: 1, message: messageObj.message }),
+          ]);
+        }
+        //  console.log(messageObj, 'each message');
+      });
+      console.log(response.data, 'the first check for messages');
+
+      // setMessage(response.data.message);
+    });
+  }, [refreshMessage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // axios
-    //   .post('/api/sendMessages', [localChat[0].id, auth.id, message, moment()])
-    //   .then((response) => {
-    //     console.log(response, 'my response from sending the message');
+    axios
+      .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
+      .then((response) => {
+        console.log(response, 'my response from sending the message');
+        setRefreshMessage(response.data.message);
+      });
     //     setMessages([
     //       ...messages,
     //       new Message({ id: 0, message: response.data.message }),
@@ -59,31 +76,6 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     //   console.log(msg);
     // });
   };
-
-  // const handleClick = user => {
-  //   const body = [auth.id, user.id];
-  //   axios.post('/api/chat', body).then(response => {
-  //     if (!response.data) {
-  //       console.log('creating chat since there was no previous chat');
-
-  //       console.log(chat, 'first test that chat was set');
-  //     } else {
-  //       axios
-  //         .get(`/api/getMessages/${response.data.id}/${auth.id}`)
-  //         .then(response => console.log(response, 'my next response'));
-  //     }
-  //     setMessages([
-  //       ...messages,
-  //       new Message({ id: 0, message: response.data.message }),
-  //       new Message({ id: 1, message: response.data.message })
-  //     ]);
-  //     setChat(response.data);
-  //     console.log(chat, 'the chat id in handleclick');
-  //   });
-  // };
-
-  //when clicking the user you want to chat - create a new chat id in database sending both userids to the db
-  //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
 
   return (
     <div id="chatPage">

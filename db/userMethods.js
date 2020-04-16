@@ -47,6 +47,7 @@ const getMessage = async (chatId) => {
     `SELECT * from message WHERE chat_id = $1 `,
     [chatId]
   );
+  console.log(response.rows, 'my db response to get messages');
   return response.rows;
 };
 

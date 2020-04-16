@@ -47,11 +47,9 @@ const FindPlayers = ({
     axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
       if (!response.data) {
         axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-          console.log(response.data, 'the response with the new chat');
           window.sessionStorage.setItem('chat', JSON.stringify(response.data));
         });
       } else {
-        console.dir(response.data, 'the response from a previous chat');
         window.sessionStorage.setItem('chat', JSON.stringify(response.data));
       }
     });
