@@ -19,7 +19,11 @@ const GamesPage = ({
       setFiltered(filteredItemIfPresent);
     }
   }, [setFiltered]);
-
+  useEffect(() => {
+    if (filtered.length === 0) {
+      setFiltered(allGames);
+    }
+  });
   return (
     <div id='gamesPage'>
       <form id='searchGamesForm'>
@@ -43,6 +47,7 @@ const GamesPage = ({
           </a>
         </h6>
       </form>
+      <p>displaying {filtered.length} games</p>
       <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
@@ -71,34 +76,6 @@ const GamesPage = ({
               </li>
             );
           })}
-        {/* {filtered.length === 0 &&
-          allGames.map((game) => {
-            const addFavorite = async () => {
-              const favoriteGamesCopy = [...favoriteGames];
-              const newFavoriteGame = await Axios.post('/api/favoritegames', {
-                userId: auth.id,
-                gameId: game.id,
-              }).data;
-
-              setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
-            };
-            return (
-              <li key={game.id} className="gamesListItem">
-                <Link
-                  to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}
-                >
-                  <img className="gameListItemImage" src={game.image_url} />{' '}
-                </Link>
-                <h5>{game.name}</h5>
-
-                <button type="button" onClick={addFavorite}>
-                  Favorite
-                </button>
-                <hr className="hr" />
-              </li>
-            );
-          })} */}
         {/*
           LIST OF GAMES THAT MATCH SEARCH PARAMETERS
            INCLUDES COVER IMAGE, TITLE, NUMBER OF USERS, FRIENDS THAT PLAY, AVERAGE RATING, AND 'ADD FAVORITE GAME' BUTTON

@@ -72,7 +72,8 @@ const sync = async () => {
     min_age INT,
     year_published INT,
     min_playtime INT,
-    max_playtime INT
+    max_playtime INT,
+    average_user_rating DECIMAL
   );
   CREATE TABLE favoritegames (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

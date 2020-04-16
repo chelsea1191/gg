@@ -7,7 +7,6 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
     setFiltered(allGames);
   };
   const onChange = (search) => {
-    console.log('search term: ', search);
     if (search.length > 0) {
       let filtered = allGames.filter((each) => {
         let uppercaseName = each.name.toUpperCase();

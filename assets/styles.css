@@ -488,18 +488,10 @@ select {
   margin: 8px 0 16px 0;
   max-height: 85vh;
 }
-.toltip::before {
-  color: black;
-  z-index: 1;
-  padding: 6px 12px;
-  border-radius: 10px;
-  position: absolute;
-  background: hsla(45, 82%, 64%, 0.9);
-  top: -100%;
-  left: 0;
-  content: attr(data-toltip);
-  display: none;
+
+.fa {
+  font-size: 25px;
 }
-.toltip:hover {
-  display: inline;
+.checked {
+  color: orange;
 }
