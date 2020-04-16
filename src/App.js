@@ -299,7 +299,7 @@ const App = () => {
                     auth={auth}
                     users={users}
                     user={user}
-                    setUsers={setUser}
+                    setUser={setUser}
                     chat={chat}
                     setChat={setChat}
                   />

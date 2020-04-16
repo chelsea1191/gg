@@ -10,6 +10,9 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [responseId, setResponseId] = useState('');
   const [message, setMessage] = useState('');
 
+  const localUser = JSON.parse(window.sessionStorage.getItem('user'));
+  //  var localChat = JSON.parse(window.localStorage.getItem('chat'));
+
   const [messages, setMessages] = useState([
     new Message({
       id: 1,
@@ -19,55 +22,53 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const localUser = JSON.parse(window.localStorage.getItem('user'));
-  const localChat = JSON.parse(window.localStorage.getItem('chat'));
+  /*
+  TOMORROW - need to fix this whole thing - I want the find players page to set the localstorage user and also look for any chats from the auth user and local user - then on chat page, automatically look for a chat
+
+  */
 
   // useEffect(() => {
-  //   if (chat) {
-  //     console.log(user, 'user in chat');
-  //   } else {
-  //     axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-  //       console.log(chat, 'in useeffect chat id');
-  //       setChat(response.data);
-  //     });
+  //   if (!localChat || localChat.length === 0) {
+  //     axios
+  //       .post('/api/createchat', [auth.id, localUser.id])
+  //       .then((response) => {
+  //         window.localStorage.setItem('chat', JSON.stringify(response.data[0]));
+  //       });
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   console.log('useeffect works');
-  //   console.log(
-  //     chat.id,
-  //     'my chat id',
-  //     auth.id,
-  //     'my authid',
-  //     user.id,
-  //     'my userid'
-  //   );
-  //   axios.get(`/api/getMessages/${chat.id}/${auth.id}`).then((response) => {
-  //     console.log(response.message, 'the first check for messages');
-  //     axios
-  //       .get(`/api/getMessages/${chat.id}/${user.id}`)
-  //       .then((responseTwo) => {
-  //         console.log(responseTwo, 'my next response');
-  //       });
-  //   });
-  // }, [message]);
+  useEffect(() => {
+    // const localChat = JSON.parse(window.localStorage.getItem('chat'));
+    // console.log(localChat);
+    // if (localChat) {
+    //   axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+    //     console.log(response.data.message, 'the first check for messages');
+    //     setMessage(response.data.message);
+    //   });
+    // }
+  }, [messages]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit('chat message', message);
-    return false;
-
-    // console.log(message);
     // axios
-    //   .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-    //   .then((response) => setMessage(response.data.message));
-    // setMessages([...messages, new Message({ id: 0, message: message })]);
-    // setIsTyping(false);
+    //   .post('/api/sendMessages', [localChat[0].id, auth.id, message, moment()])
+    //   .then((response) => {
+    //     console.log(response, 'my response from sending the message');
+    //     setMessages([
+    //       ...messages,
+    //       new Message({ id: 0, message: response.data.message }),
+    //     ]);
+    //   });
+    // socket.emit('chat message', message);
+
+    // // console.log(message);
+    // //   .then((response) => setMessage(response.data.message));
+    // // setMessages([...messages, new Message({ id: 0, message: message })]);
+    // // setIsTyping(false);
+    // socket.on('chat message', (msg) => {
+    //   console.log(msg);
+    // });
   };
-  socket.on('chat message', (msg) => {
-    setMessages([...messages, new Message({ id: 0, message: msg })]);
-  });
 
   // const handleClick = user => {
   //   const body = [auth.id, user.id];
@@ -98,7 +99,7 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     <div id="chatPage">
       <span>
         <Link to="/">X</Link>
-        Chat with: {user.firstname + user.lastname}
+        Chat with: {localUser.firstname + localUser.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
