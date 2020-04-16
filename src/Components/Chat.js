@@ -11,7 +11,7 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [message, setMessage] = useState('');
 
   const localUser = JSON.parse(window.sessionStorage.getItem('user'));
-  //  var localChat = JSON.parse(window.localStorage.getItem('chat'));
+  // const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
 
   const [messages, setMessages] = useState([
     new Message({
@@ -26,16 +26,6 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   TOMORROW - need to fix this whole thing - I want the find players page to set the localstorage user and also look for any chats from the auth user and local user - then on chat page, automatically look for a chat
 
   */
-
-  // useEffect(() => {
-  //   if (!localChat || localChat.length === 0) {
-  //     axios
-  //       .post('/api/createchat', [auth.id, localUser.id])
-  //       .then((response) => {
-  //         window.localStorage.setItem('chat', JSON.stringify(response.data[0]));
-  //       });
-  //   }
-  // }, []);
 
   useEffect(() => {
     // const localChat = JSON.parse(window.localStorage.getItem('chat'));

@@ -45,17 +45,14 @@ const FindPlayers = ({
       })
     );
     axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
-      console.log(response);
       if (!response.data) {
-        console.log(response, 'no response');
         axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-          window.sessionStorage.setItem(
-            'chat',
-            JSON.stringify(response.data[0])
-          );
+          console.log(response.data, 'the response with the new chat');
+          window.sessionStorage.setItem('chat', JSON.stringify(response.data));
         });
       } else {
-        window.sessionStorage.setItem('chat', JSON.stringify(response.data[0]));
+        console.dir(response.data, 'the response from a previous chat');
+        window.sessionStorage.setItem('chat', JSON.stringify(response.data));
       }
     });
   };
