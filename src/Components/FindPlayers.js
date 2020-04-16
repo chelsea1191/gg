@@ -36,11 +36,23 @@ const FindPlayers = ({
   };
 
   const handleChatClick = (user) => {
-    window.localStorage.setItem('user', JSON.stringify(user));
-    // axios.get(`/api/chat/:${user.id}/${auth.id}`).then((response) => {
-    //   setChat(response.data);
-    //   window.localStorage.setItem('chat', JSON.stringify(response.data));
-    // });
+    window.sessionStorage.setItem(
+      'user',
+      JSON.stringify({
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+      })
+    );
+    axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
+      if (!response.data) {
+        axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+          window.sessionStorage.setItem('chat', JSON.stringify(response.data));
+        });
+      } else {
+        window.sessionStorage.setItem('chat', JSON.stringify(response.data));
+      }
+    });
   };
 
   if (auth.id) {

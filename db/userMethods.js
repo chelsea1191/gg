@@ -23,7 +23,6 @@ const getChat = async (userId1, userId2) => {
     `SELECT * FROM chat WHERE creator_id = $1 AND user_id = $2 OR creator_id = $2 AND user_id = $1 ORDER BY date_updated DESC`,
     [userId1, userId2]
   );
-  console.log(response.rows, 'my db response with a chat');
   return response.rows[0];
 };
 const updateChat = async (chatId, updatedTime) => {
@@ -43,13 +42,13 @@ const createMessage = async (chatId, userId) => {
   return response.rows[0];
 };
 
-const getMessage = async (chatId, userId) => {
+const getMessage = async (chatId) => {
   const response = await client.query(
-    `SELECT * from message WHERE chat_id = $1 and sender_id = $2 ORDER BY date_updated DESC `,
-    [chatId, userId]
+    `SELECT * from message WHERE chat_id = $1 `,
+    [chatId]
   );
-  console.log(response.rows);
-  return response.rows[0];
+  console.log(response.rows, 'my db response to get messages');
+  return response.rows;
 };
 
 const putMessage = async (chatId, userId, message, time) => {
