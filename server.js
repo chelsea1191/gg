@@ -34,7 +34,8 @@ app.use(myLogger);
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+    console.log(msg, 'server msg');
+    // io.emit('chat message', msg);
   });
 });
 
@@ -114,7 +115,6 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/getMessages/:chatid', (req, res, next) => {
   db.getMessage(req.params.chatid).then((response) => {
-    console.log(response, 'get messages response from server');
     res.send(response);
   });
 });
@@ -127,7 +127,6 @@ app.get('/api/favoritegames', (req, res, next) => {
 });
 app.get('/api/chat/:userId/:authId', (req, res, next) => {
   db.getChat(req.params.userId, req.params.authId).then((response) => {
-    console.log(response, 'my server response for get chat');
     res.send(response);
   });
 });

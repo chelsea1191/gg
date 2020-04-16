@@ -5,10 +5,11 @@ import axios from 'axios';
 import moment from 'moment';
 import io from 'socket.io-client';
 
-const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
+const Chat = ({ auth }) => {
   var socket = io();
   const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
+  const messageArray = [];
 
   const localUser = JSON.parse(window.sessionStorage.getItem('user'));
   const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
@@ -23,7 +24,8 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
   const [isTyping, setIsTyping] = useState(false);
 
   /*
-  TOMORROW - need to fix this whole thing - I want the find players page to set the localstorage user and also look for any chats from the auth user and local user - then on chat page, automatically look for a chat
+when the page loads, look for all emssages with the chat id - then display them on the page bue for logged in user and gray for other user
+then when chatting use socket io to display chats but also axios.push the messages
 
   */
 
@@ -31,23 +33,42 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
     axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
       response.data.forEach((messageObj) => {
         if (messageObj.sender_id === auth.id) {
-          setMessages([
-            ...messages,
-            new Message({ id: 0, message: messageObj.message }),
+          // console.log(
+          //   messageObj.message,
+          //   'this is the message from the logged in user'
+          // );
+          messageArray.push([
+            new Message({
+              id: 0,
+              message: messageObj.message,
+              senderName: messageObj.sender_id,
+            }),
           ]);
+
+          // console.log(messageArray, 'this is the message array after');
         } else {
-          console.log(
-            messageObj.message,
-            'this is the message from the other person'
-          );
-          setMessages([
-            ...messages,
-            new Message({ id: 1, message: messageObj.message }),
+          messageArray.push([
+            new Message({
+              id: 1,
+              message: messageObj.message,
+              senderName: messageObj.sender_id,
+            }),
           ]);
+
+          // console.log(
+          //   messageObj.message,
+          //   'this is the message from the other person'
+          // );
+          // setMessages([
+          //   ...messages,
+          //   new Message({ id: 1, message: messageObj.message }),
+          // ]);
         }
         //  console.log(messageObj, 'each message');
       });
-      console.log(response.data, 'the first check for messages');
+      // console.log(messageArray, 'this is the message array');
+      // console.log(messages, 'this is the messages)');
+      setMessages([...messages, messageArray]);
 
       // setMessage(response.data.message);
     });
@@ -59,22 +80,26 @@ const Chat = ({ auth, users, user, setUser, chat, setChat }) => {
       .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
       .then((response) => {
         console.log(response, 'my response from sending the message');
-        setRefreshMessage(response.data.message);
+        // socket.emit('chat message', response.data);
+        socket.emit('chat message', message);
+        // setRefreshMessage(response.data.message);
       });
     //     setMessages([
     //       ...messages,
     //       new Message({ id: 0, message: response.data.message }),
     //     ]);
     //   });
-    // socket.emit('chat message', message);
 
     // // console.log(message);
     // //   .then((response) => setMessage(response.data.message));
-    // // setMessages([...messages, new Message({ id: 0, message: message })]);
     // // setIsTyping(false);
-    // socket.on('chat message', (msg) => {
-    //   console.log(msg);
-    // });
+    socket.on('chat message', (msg) => {
+      console.log(msg, 'socket msg receive');
+      setMessages([
+        ...messages,
+        new Message({ id: 0, message: msg, senderName: auth.id }),
+      ]);
+    });
   };
 
   return (
