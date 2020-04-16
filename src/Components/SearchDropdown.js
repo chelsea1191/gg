@@ -2,14 +2,10 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 const SearchDropdown = ({ allGames, setFiltered }) => {
-  useEffect(() => {
-    let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
-    if (filteredItemIfPresent) {
-      console.log('filtered item present: ', filteredItemIfPresent);
-      setFiltered(filteredItemIfPresent);
-    }
-  }, [setFiltered]);
-
+  const reset = (ev) => {
+    ev.preventDefault();
+    setFiltered(allGames);
+  };
   const onChange = (search) => {
     if (search.length > 0) {
       let filtered = allGames.filter((each) => {
@@ -19,6 +15,8 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
       });
       setFiltered(filtered);
       localStorage.setItem('filtered', JSON.stringify(filtered));
+    } else {
+      setFiltered(allGames);
     }
   };
   return (
@@ -32,6 +30,7 @@ const SearchDropdown = ({ allGames, setFiltered }) => {
         selectHintOnEnter
         highlightOnlyResult
       />
+      <button onClick={(ev) => reset(ev)}>reset</button>
     </Fragment>
   );
 };

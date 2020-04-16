@@ -488,3 +488,10 @@ select {
   margin: 8px 0 16px 0;
   max-height: 85vh;
 }
+
+.fa {
+  font-size: 25px;
+}
+.checked {
+  color: orange;
+}
