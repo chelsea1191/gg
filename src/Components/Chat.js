@@ -35,32 +35,55 @@ const Chat = ({ auth }) => {
   //   }
   // }, [setLocalUser, setLocalChat]);
 
-  const getMessages = async (id) => {
-    const response = await axios.get(`/api/getMessages/${id}`);
-    response.data.forEach((messageObj) => {
-      if (messageObj.sender_id === auth.id) {
-        messageArray.push(
-          new Message({
-            id: 0,
-            message: messageObj.message,
-            senderName: messageObj.sender_id,
-          })
-        );
-      } else {
-        messageArray.push(
-          new Message({
-            id: 1,
-            message: messageObj.message,
-            senderName: messageObj.sender_id,
-          })
-        );
-      }
-      setMessages([...messageArray]);
-    });
-  };
+  // const getMessages = async (id) => {
+  //   const response = await axios.get(`/api/getMessages/${id}`);
+  //   response.data.forEach((messageObj) => {
+  //     if (messageObj.sender_id === auth.id) {
+  //       messageArray.push(
+  //         new Message({
+  //           id: 0,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
+  //     } else {
+  //       messageArray.push(
+  //         new Message({
+  //           id: 1,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
+  //     }
+  //     setMessages([...messageArray]);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   getMessages(localChat.id);
+  // }, []);
 
   useEffect(() => {
-    getMessages(localChat.id);
+    axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      response.data.forEach((messageObj) => {
+        if (messageObj.sender_id === auth.id) {
+          messageArray.push(
+            new Message({
+              id: 0,
+              message: messageObj.message,
+            })
+          );
+        } else {
+          messageArray.push(
+            new Message({
+              id: 1,
+              message: messageObj.message,
+            })
+          );
+        }
+        setMessages([...messageArray]);
+      });
+    });
   }, []);
 
   const handleSubmit = (e) => {
@@ -88,19 +111,20 @@ const Chat = ({ auth }) => {
         'should be true always right nows',
         socketMessage.sender_id
       );
-      if (socketMessage.sender_id) {
+      if (socketMessage.sender_id === auth.id) {
         console.log(auth.id, 'i send this one it should be a blue bubble');
-        setMessages([
-          ...messages,
-          new Message({ id: 1, message: socketMessage.message }),
-          setIsTyping(false),
-        ]);
-      } else {
         setMessages([
           ...messages,
           new Message({ id: 0, message: socketMessage.message }),
         ]);
-        setIsTyping(false);
+      } else {
+        setMessages([
+          ...messages,
+          new Message({
+            id: 1,
+            message: socketMessage.message,
+          }),
+        ]);
       }
     });
     setMessage('');
