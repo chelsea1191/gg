@@ -35,7 +35,7 @@ const FindPlayers = ({
     ).toFixed(0);
   };
 
-  const handleChatClick = (user) => {
+  const handleChatClick = async (user) => {
     window.sessionStorage.setItem(
       'user',
       JSON.stringify({
@@ -44,15 +44,14 @@ const FindPlayers = ({
         lastname: user.lastname,
       })
     );
-    axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
-      if (!response.data) {
-        axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-          window.sessionStorage.setItem('chat', JSON.stringify(response.data));
-        });
-      } else {
+    const response = await axios.get(`/api/chat/${user.id}/${auth.id}`);
+    if (!response.data) {
+      axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
         window.sessionStorage.setItem('chat', JSON.stringify(response.data));
-      }
-    });
+      });
+    } else {
+      window.sessionStorage.setItem('chat', JSON.stringify(response.data));
+    }
   };
 
   if (auth.id) {
