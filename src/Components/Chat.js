@@ -22,8 +22,8 @@ const Chat = ({ auth }) => {
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
 
-  const localUser = JSON.parse(window.sessionStorage.getItem('user'));
-  const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+  const localChat = JSON.parse(window.localStorage.getItem('chat'));
   // useEffect(() => {
   // let localUserIfPresent = JSON.parse(window.sessionStorage.getItem('user'));
   // let localChatIfPresent = JSON.parse(window.sessionStorage.getItem('chat'));
@@ -35,38 +35,55 @@ const Chat = ({ auth }) => {
   //   }
   // }, [setLocalUser, setLocalChat]);
 
-  const getMessages = async (id) => {
-    const response = await axios.get(`/api/getMessages/${id}`);
-    console.log(response.data, 'the response');
-    response.data.forEach((messageObj) => {
-      console.log(messageObj);
-      if (messageObj.sender_id === auth.id) {
-        console.log(
-          messageObj.message,
-          'this is the message from the logged in user'
-        );
-        messageArray.push(
-          new Message({
-            id: 0,
-            message: messageObj.message,
-            senderName: messageObj.sender_id,
-          })
-        );
-      } else {
-        messageArray.push(
-          new Message({
-            id: 1,
-            message: messageObj.message,
-            senderName: messageObj.sender_id,
-          })
-        );
-      }
-      setMessages([...messageArray]);
-    });
-  };
+  // const getMessages = async (id) => {
+  //   const response = await axios.get(`/api/getMessages/${id}`);
+  //   response.data.forEach((messageObj) => {
+  //     if (messageObj.sender_id === auth.id) {
+  //       messageArray.push(
+  //         new Message({
+  //           id: 0,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
+  //     } else {
+  //       messageArray.push(
+  //         new Message({
+  //           id: 1,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
+  //     }
+  //     setMessages([...messageArray]);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   getMessages(localChat.id);
+  // }, []);
 
   useEffect(() => {
-    getMessages(localChat.id);
+    axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      response.data.forEach((messageObj) => {
+        if (messageObj.sender_id === auth.id) {
+          messageArray.push(
+            new Message({
+              id: 0,
+              message: messageObj.message,
+            })
+          );
+        } else {
+          messageArray.push(
+            new Message({
+              id: 1,
+              message: messageObj.message,
+            })
+          );
+        }
+        setMessages([...messageArray]);
+      });
+    });
   }, []);
 
   const handleSubmit = (e) => {
@@ -74,37 +91,56 @@ const Chat = ({ auth }) => {
     axios
       .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
       .then((response) => {
-        console.log(response, 'my response from sending the message');
-        // socket.emit('chat message', response.data);
+        console.log(response);
+        socket.emit(
+          'chat message',
+          JSON.stringify({
+            message: message,
+            sender_id: response.data.sender_id,
+            typing: 'yes',
+          })
+        );
       });
-    socket.emit('chat message', {
-      msg: message,
-      senderId: response.data.senderId,
+    socket.on('is typing', (isTyping) => {
+      setIsTyping(true);
     });
-    setMessage('');
-    //     setMessages([
-    //       ...messages,
-    //       new Message({ id: 0, message: response.data.message }),
-    //     ]);
-    //   });
-
-    // // console.log(message);
-    // //   .then((response) => setMessage(response.data.message));
-    // // setIsTyping(false);
     socket.on('chat message', (msg) => {
-      console.log(msg, 'socket msg receive');
-      if (msg.sender_id === auth.id) {
-        setMessages([new Message({ id: 0, message: msg })]);
+      const socketMessage = JSON.parse(msg);
+      console.log(
+        socketMessage.sender_id === auth.id,
+        'should be true always right nows',
+        socketMessage.sender_id
+      );
+      if (socketMessage.sender_id === auth.id) {
+        console.log(auth.id, 'i send this one it should be a blue bubble');
+        setMessages([
+          ...messages,
+          new Message({ id: 0, message: socketMessage.message }),
+        ]);
       } else {
-        setMessages([new Message({ id: 1, message: msg })]);
+        setMessages([
+          ...messages,
+          new Message({
+            id: 1,
+            message: socketMessage.message,
+          }),
+        ]);
       }
     });
+    setMessage('');
+    setIsTyping(false);
   };
 
   return (
     <div id="chatPage">
       <span>
-        <Link to="/" onClick={() => sessionStorage.clear()}>
+        <Link
+          to="/"
+          onClick={() => {
+            localStorage.removeItem('chat');
+            localStorage.removeItem('user');
+          }}
+        >
           X
         </Link>
         Chat with: {localUser.firstname + localUser.lastname}
@@ -130,7 +166,6 @@ const Chat = ({ auth }) => {
             value={message}
             onChange={(ev) => {
               setMessage(ev.target.value);
-              setIsTyping(true);
             }}
             placeholder="message"
           />
