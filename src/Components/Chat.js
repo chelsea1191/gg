@@ -33,17 +33,25 @@ then when chatting use socket io to display chats but also axios.push the messag
     axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
       response.data.forEach((messageObj) => {
         if (messageObj.sender_id === auth.id) {
-          // console.log(
-          //   messageObj.message,
-          //   'this is the message from the logged in user'
-          // );
-          messageArray.push([
+          console.log(
+            messageObj.message,
+            'this is the message from the logged in user'
+          );
+          setMessages([
+            ...message,
             new Message({
               id: 0,
               message: messageObj.message,
               senderName: messageObj.sender_id,
             }),
           ]);
+          // messageArray.push([
+          //   new Message({
+          //     id: 0,
+          //     message: messageObj.message,
+          //     senderName: messageObj.sender_id,
+          //   }),
+          // ]);
 
           // console.log(messageArray, 'this is the message array after');
         } else {
@@ -59,20 +67,20 @@ then when chatting use socket io to display chats but also axios.push the messag
           //   messageObj.message,
           //   'this is the message from the other person'
           // );
-          // setMessages([
-          //   ...messages,
-          //   new Message({ id: 1, message: messageObj.message }),
-          // ]);
+          setMessages([
+            ...messages,
+            new Message({ id: 1, message: messageObj.message }),
+          ]);
         }
         //  console.log(messageObj, 'each message');
       });
       // console.log(messageArray, 'this is the message array');
       // console.log(messages, 'this is the messages)');
-      setMessages([...messages, messageArray]);
+      //  setMessages([...messages, messageArray]);
 
       // setMessage(response.data.message);
     });
-  }, [refreshMessage]);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,7 +90,7 @@ then when chatting use socket io to display chats but also axios.push the messag
         console.log(response, 'my response from sending the message');
         // socket.emit('chat message', response.data);
         socket.emit('chat message', message);
-        // setRefreshMessage(response.data.message);
+        setRefreshMessage(response.data.message);
       });
     //     setMessages([
     //       ...messages,
@@ -97,7 +105,7 @@ then when chatting use socket io to display chats but also axios.push the messag
       console.log(msg, 'socket msg receive');
       setMessages([
         ...messages,
-        new Message({ id: 0, message: msg, senderName: auth.id }),
+        new Message({ id: 1, message: msg, senderName: auth.id }),
       ]);
     });
   };
