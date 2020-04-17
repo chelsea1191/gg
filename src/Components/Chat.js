@@ -77,22 +77,23 @@ const Chat = ({ auth }) => {
       response.data.forEach((messageObj) => {
         //console.log('each message: ', messageObj);
         if (messageObj.sender_id === auth.id) {
-          messageArray.push(
+          let count = messageArray.push(
             new Message({
               id: 0,
               message: messageObj.message,
             })
           );
+          //console.log('count is: ', count);
         } else {
-          messageArray.push(
+          let count = messageArray.push(
             new Message({
               id: 1,
               message: messageObj.message,
             })
           );
         }
-        setMessages([...messageArray]);
       });
+      setMessages([...messageArray]);
     });
   }, []);
 
