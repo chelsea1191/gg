@@ -1,105 +1,171 @@
 import { ChatFeed, Message } from 'react-chat-ui';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import io from 'socket.io-client';
 
-const Chat = ({ auth, users, user, setUser }) => {
-  const [chat, setChat] = useState();
-  const [responseId, setResponseId] = useState('');
+const Chat = ({ auth }) => {
+  var socket = io();
+  const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
+  const messageArray = [];
+  // const [localUser, setLocalUser] = useState([]);
+  // const [locaChat, setLocalChat] = useState([]);
 
-  const [messages, setMessages] = useState([
-    new Message({
-      id: 1,
-      message: "I'm the recipient! (The person you're talking to)"
-    }), // Gray bubble
-    new Message({ id: 0, message: "I'm you -- the blue bubble!" }) // Blue bubble
-  ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState([
+    // new Message({
+    //   id: 1,
+    //   message: "I'm the recipient! (The person you're talking to)",
+    // }), // Gray bubble
+    // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
+  ]);
 
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+  const localChat = JSON.parse(window.localStorage.getItem('chat'));
   // useEffect(() => {
-  //   axios.get(`/api/getMessages/${responseId}/${auth.id}`).then(response => {
-  //     axios
-  //       .get(`/api/getMessages/${auth.id}/${response.data.id}`)
-  //       .then(responseTwo => {
-  //         console.log(responseTwo, 'my next response');
-  //       });
-  //   });
-  // }, [messages]);
+  // let localUserIfPresent = JSON.parse(window.sessionStorage.getItem('user'));
+  // let localChatIfPresent = JSON.parse(window.sessionStorage.getItem('chat'));
+  //   if (localUserIfPresent) {
+  //     setLocalUser(localUserIfPresent);
+  //   }
+  //   if (localChatIfPresent) {
+  //     setLocalChat(localChatIfPresent);
+  //   }
+  // }, [setLocalUser, setLocalChat]);
 
-  useEffect(() => {
-    axios.get('/api/');
-  }, []);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    console.log(chat.id, 'the chat id');
-    console.log(message, 'the message');
-
-    axios
-      .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then(response => console.log(response, 'the response'));
-
-    setMessages([...messages, new Message({ id: 0, message: message })]);
-    setIsTyping(false);
-  };
-
-  // const handleClick = user => {
-  //   const body = [auth.id, user.id];
-  //   axios.post('/api/chat', body).then(response => {
-  //     if (!response.data) {
-  //       console.log('creating chat since there was no previous chat');
-  //       axios.post('/api/createchat', [auth.id, user.id]).then(response => {
-  //         return response.data;
-  //       });
-  //       console.log(chat, 'first test that chat was set');
+  // const getMessages = async (id) => {
+  //   const response = await axios.get(`/api/getMessages/${id}`);
+  //   response.data.forEach((messageObj) => {
+  //     if (messageObj.sender_id === auth.id) {
+  //       messageArray.push(
+  //         new Message({
+  //           id: 0,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
   //     } else {
-  //       axios
-  //         .get(`/api/getMessages/${response.data.id}/${auth.id}`)
-  //         .then(response => console.log(response, 'my next response'));
+  //       messageArray.push(
+  //         new Message({
+  //           id: 1,
+  //           message: messageObj.message,
+  //           senderName: messageObj.sender_id,
+  //         })
+  //       );
   //     }
-  //     setMessages([
-  //       ...messages,
-  //       new Message({ id: 0, message: response.data.message }),
-  //       new Message({ id: 1, message: response.data.message })
-  //     ]);
-  //     setChat(response.data);
-  //     console.log(chat, 'the chat id in handleclick');
+  //     setMessages([...messageArray]);
   //   });
   // };
 
-  //when clicking the user you want to chat - create a new chat id in database sending both userids to the db
-  //when i type something to my friend - needs to make a post to the db and provide the message for my userid then once i hit submit - post then get from db the messages
-  console.log(user);
+  // useEffect(() => {
+  //   getMessages(localChat.id);
+  // }, []);
+
+  useEffect(() => {
+    axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      response.data.forEach((messageObj) => {
+        if (messageObj.sender_id === auth.id) {
+          messageArray.push(
+            new Message({
+              id: 0,
+              message: messageObj.message,
+            })
+          );
+        } else {
+          messageArray.push(
+            new Message({
+              id: 1,
+              message: messageObj.message,
+            })
+          );
+        }
+        setMessages([...messageArray]);
+      });
+    });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
+      .then((response) => {
+        console.log(response);
+        socket.emit(
+          'chat message',
+          JSON.stringify({
+            message: message,
+            sender_id: response.data.sender_id,
+            typing: 'yes',
+          })
+        );
+      });
+    socket.on('is typing', (isTyping) => {
+      setIsTyping(true);
+    });
+    socket.on('chat message', (msg) => {
+      const socketMessage = JSON.parse(msg);
+      console.log(
+        socketMessage.sender_id === auth.id,
+        'should be true always right nows',
+        socketMessage.sender_id
+      );
+      if (socketMessage.sender_id === auth.id) {
+        console.log(auth.id, 'i send this one it should be a blue bubble');
+        setMessages([
+          ...messages,
+          new Message({ id: 0, message: socketMessage.message }),
+        ]);
+      } else {
+        setMessages([
+          ...messages,
+          new Message({
+            id: 1,
+            message: socketMessage.message,
+          }),
+        ]);
+      }
+    });
+    setMessage('');
+    setIsTyping(false);
+  };
+
   return (
     <div id="chatPage">
       <span>
-        <button onClick={() => setChat()}>X</button>
-        Chat with: {user.firstname + user.lastname}
+        <Link
+          to="/"
+          onClick={() => {
+            localStorage.removeItem('chat');
+            localStorage.removeItem('user');
+          }}
+        >
+          X
+        </Link>
+        Chat with: {localUser.firstname + localUser.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
             isTyping={isTyping} // Boolean: is the recipient typing
             hasInputField={false} // Boolean: use our input, or use your own
-            showSenderName // show the name of the user who sent the message
             bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
             // JSON: Custom bubble styles
             bubbleStyles={{
               text: {
-                fontSize: 30
+                fontSize: 30,
               },
               chatbubble: {
                 borderRadius: 70,
-                padding: 40
-              }
+                padding: 40,
+              },
             }}
           />
           <input
             type="text"
-            onChange={ev => {
+            value={message}
+            onChange={(ev) => {
               setMessage(ev.target.value);
-              setIsTyping(true);
             }}
             placeholder="message"
           />
@@ -112,12 +178,7 @@ const Chat = ({ auth, users, user, setUser }) => {
 
 export default Chat;
 
-//for backend - need to make call to db //front end need to look into how to setup the chat so both users can see - will need to anticipate opening up to multi user chats
-//once session is over - will send delete request to remove chat from db UNLESS user selects the save chat option.. then can save chat
+//add delete feature - add two tables in db and have it be renderuser default false
+//then upon useeffect if render user is false dont get the old messages
 
-//click on rfiends name - useeffect looks for any chats from sender and other and loads based on descending time - if there are none then thats fine if there are some then loads all messages from both sender IDs and sets the message id 0 to the blue bubble thats me- where sender if = me, and all from senderid = map user to grey bubbles,
-//then when i type and submit a new chat - it will post it to the messages and then useeffect will load again because messages will be a parameter for useeffect to run
-
-//click on friends name - firs tthing that should happen is looking for a chat with person 1 and person  in it in either order and grab the newest one.
-//if there are no chats then create a new chat with both parties
-//if there is a chat - look for messages with the chat id and load //all messages
+//add online as well

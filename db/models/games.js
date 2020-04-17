@@ -5,7 +5,7 @@ const games = {
     return (await client.query('SELECT * from games')).rows;
   },
   create: async (each) => {
-    const SQL = `INSERT INTO game(id, name, description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning *`;
+    const SQL = `INSERT INTO game(id, name, description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime, average_user_rating) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
     return (
       await client.query(SQL, [
         each.id,
@@ -20,6 +20,7 @@ const games = {
         each.year_published,
         each.min_playtime,
         each.max_playtime,
+        each.average_user_rating,
       ])
     ).rows[0];
   },

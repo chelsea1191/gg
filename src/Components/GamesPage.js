@@ -8,13 +8,22 @@ const GamesPage = ({
   auth,
   allGames,
   setGameView,
-
   favoriteGames,
   setFavoriteGames,
 }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [filtered, setFiltered] = useState([]);
-
+  useEffect(() => {
+    let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
+    if (filteredItemIfPresent) {
+      setFiltered(filteredItemIfPresent);
+    }
+  }, [setFiltered]);
+  useEffect(() => {
+    if (filtered.length === 0) {
+      setFiltered(allGames);
+    }
+  });
   return (
     <div id='gamesPage'>
       <form id='searchGamesForm'>
@@ -23,41 +32,25 @@ const GamesPage = ({
           <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
         </div>
         <h6>
-          <AdvancedSearch allGames={allGames} />
+          <AdvancedSearch setFiltered={setFiltered} allGames={allGames} />
         </h6>
-
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
-        <button
-          className='searchButton'
-          onSubmit={(ev) => onSubmit(ev.target.value)}>
-          <h5>Search</h5>
-        </button>
         <h6>
           <i>Can't find your favorite game? </i>
-          <a href='' style={greentext}>
+          <a
+            href='mailto:support@gg-connect.com?Subject=Game%20Support'
+            target='_top'>
             Let Us Know!
           </a>
         </h6>
       </form>
+      <p>displaying {filtered.length} games</p>
       <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
-            return (
-              <li key={game.id} className='gamesListItem'>
-                <Link
-                  to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
-                </Link>
-                <h5>{game.name}</h5>
-              </li>
-            );
-          })}
-        {filtered.length === 0 &&
-          allGames.map((game) => {
             const addFavorite = async () => {
               const favoriteGamesCopy = [...favoriteGames];
               const newFavoriteGame = await Axios.post('/api/favoritegames', {
