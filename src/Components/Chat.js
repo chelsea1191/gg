@@ -37,14 +37,8 @@ const Chat = ({ auth }) => {
 
   const getMessages = async (id) => {
     const response = await axios.get(`/api/getMessages/${id}`);
-    console.log(response.data, 'the response');
     response.data.forEach((messageObj) => {
-      console.log(messageObj);
       if (messageObj.sender_id === auth.id) {
-        console.log(
-          messageObj.message,
-          'this is the message from the logged in user'
-        );
         messageArray.push(
           new Message({
             id: 0,
@@ -74,31 +68,37 @@ const Chat = ({ auth }) => {
     axios
       .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
       .then((response) => {
-        console.log(response, 'my response from sending the message');
-        // socket.emit('chat message', response.data);
+        console.log(response);
+        socket.emit(
+          'chat message',
+          JSON.stringify({
+            message: message,
+            senderId: response.data.sender_id,
+            typing: 'yes',
+          })
+        );
       });
-    socket.emit('chat message', {
-      msg: message,
-      senderId: response.data.senderId,
+    socket.on('is typing', (isTyping) => {
+      setIsTyping(true);
     });
-    setMessage('');
-    //     setMessages([
-    //       ...messages,
-    //       new Message({ id: 0, message: response.data.message }),
-    //     ]);
-    //   });
-
-    // // console.log(message);
-    // //   .then((response) => setMessage(response.data.message));
-    // // setIsTyping(false);
     socket.on('chat message', (msg) => {
-      console.log(msg, 'socket msg receive');
-      if (msg.sender_id === auth.id) {
-        setMessages([new Message({ id: 0, message: msg })]);
+      const socketMessage = JSON.parse(msg);
+      if (socketMessage.sender_id === auth.id) {
+        setMessages([
+          ...messages,
+          new Message({ id: 1, message: socketMessage.message }),
+          setIsTyping(false),
+        ]);
       } else {
-        setMessages([new Message({ id: 1, message: msg })]);
+        setMessages([
+          ...messages,
+          new Message({ id: 0, message: socketMessage.message }),
+        ]);
+        setIsTyping(false);
       }
     });
+    setMessage('');
+    setIsTyping(false);
   };
 
   return (
@@ -130,7 +130,6 @@ const Chat = ({ auth }) => {
             value={message}
             onChange={(ev) => {
               setMessage(ev.target.value);
-              setIsTyping(true);
             }}
             placeholder="message"
           />
