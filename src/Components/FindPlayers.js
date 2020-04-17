@@ -56,10 +56,10 @@ const FindPlayers = ({
 
   if (auth.id) {
     return (
-      <div className="findPlayersPage">
-        <form id="findPlayersForm">
+      <div className='findPlayersPage'>
+        <form id='findPlayersForm'>
           <h3>Find Players</h3>
-          <hr className="hr" />
+          <hr className='hr' />
           <h5>
             <b>What do you want to play?</b>
           </h5>
@@ -77,7 +77,7 @@ const FindPlayers = ({
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
           </select>
-          <select className="select" id="distance-options" name="Distance">
+          <select className='select' id='distance-options' name='Distance'>
             <option>Search Distance</option>
             <option>5 miles</option>
             <option>10 miles</option>
@@ -88,7 +88,7 @@ const FindPlayers = ({
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-          <button className="searchButton">
+          <button className='searchButton'>
             <h5>Search</h5>
           </button>
         </form>
@@ -97,7 +97,7 @@ const FindPlayers = ({
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
 
-        <ul id="playersList">
+        <ul id='playersList'>
           {/*
           LIST OF PLAYERS THAT MATCH SEARCH PARAMETERS.
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
@@ -108,26 +108,24 @@ const FindPlayers = ({
             if (user.id !== auth.id) {
               //console.log(user);
               return (
-                <li key={user.id} className="userResults">
+                <li key={user.id} className='userResults'>
                   <h4>
                     {user.username} - {findDistance(user)} miles away
                   </h4>
                   <span>
                     {' '}
                     <Link
-                      to="/chat"
+                      to='/chat'
                       onClick={() => {
                         setUser(user);
                         handleChatClick(user);
-                      }}
-                    >
+                      }}>
                       Send a Chat
                     </Link>
                     {' - '}
                     <Link
                       to={`/users/${user.id}`}
-                      onClick={(ev) => setUserView(user)}
-                    >
+                      onClick={(ev) => setUserView(user)}>
                       View Profile
                     </Link>
                   </span>
@@ -153,14 +151,14 @@ const FindPlayers = ({
     );
   } else {
     return (
-      <div id="guestRestricted">
-        <h3>Not a Member?</h3> <hr className="hr" />
+      <div id='guestRestricted'>
+        <h3>Not a Member?</h3> <hr className='hr' />
         <p>
           <b style={greentext}>gg</b> works best with lots of active users.
         </p>
         <p>
           {' '}
-          <Link className="link" to="/register">
+          <Link className='link' to='/register'>
             Create a Profile{' '}
           </Link>
           and start finding people to play with!{' '}
