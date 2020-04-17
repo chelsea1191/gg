@@ -64,25 +64,36 @@ const Chat = ({ auth }) => {
   // }, []);
 
   useEffect(() => {
+    console.log('messages that should be displaying: ', messages);
+  }, [setMessages]);
+
+  useEffect(() => {
+    console.log('refreshMessage triggered');
     axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      console.log(
+        'all messages in this chat from getMessages: ',
+        response.data
+      );
       response.data.forEach((messageObj) => {
+        //console.log('each message: ', messageObj);
         if (messageObj.sender_id === auth.id) {
-          messageArray.push(
+          let count = messageArray.push(
             new Message({
               id: 0,
               message: messageObj.message,
             })
           );
+          //console.log('count is: ', count);
         } else {
-          messageArray.push(
+          let count = messageArray.push(
             new Message({
               id: 1,
               message: messageObj.message,
             })
           );
         }
-        setMessages([...messageArray]);
       });
+      setMessages([...messageArray]);
     });
   }, []);
 
@@ -132,15 +143,14 @@ const Chat = ({ auth }) => {
   };
 
   return (
-    <div id="chatPage">
+    <div id='chatPage'>
       <span>
         <Link
-          to="/"
+          to='/'
           onClick={() => {
             localStorage.removeItem('chat');
             localStorage.removeItem('user');
-          }}
-        >
+          }}>
           X
         </Link>
         Chat with: {localUser.firstname + localUser.lastname}
@@ -162,12 +172,12 @@ const Chat = ({ auth }) => {
             }}
           />
           <input
-            type="text"
+            type='text'
             value={message}
             onChange={(ev) => {
               setMessage(ev.target.value);
             }}
-            placeholder="message"
+            placeholder='message'
           />
           <button>Submit</button>
         </form>
