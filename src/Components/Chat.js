@@ -30,8 +30,18 @@ then when chatting use socket io to display chats but also axios.push the messag
   */
 
   useEffect(() => {
+    console.log('messages that should be displaying: ', messages);
+  }, [setMessages]);
+
+  useEffect(() => {
+    console.log('refreshMessage triggered');
     axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
+      console.log(
+        'all messages in this chat from getMessages: ',
+        response.data
+      );
       response.data.forEach((messageObj) => {
+        //console.log('each message: ', messageObj);
         if (messageObj.sender_id === auth.id) {
           // console.log(
           //   messageObj.message,
@@ -68,8 +78,8 @@ then when chatting use socket io to display chats but also axios.push the messag
       });
       // console.log(messageArray, 'this is the message array');
       // console.log(messages, 'this is the messages)');
-      setMessages([...messages, messageArray]);
-
+      //console.log('message array: ', messageArray);
+      setMessages([...messages, messageArray]); //************************** not working */
       // setMessage(response.data.message);
     });
   }, [refreshMessage]);
@@ -82,7 +92,7 @@ then when chatting use socket io to display chats but also axios.push the messag
         console.log(response, 'my response from sending the message');
         // socket.emit('chat message', response.data);
         socket.emit('chat message', message);
-        // setRefreshMessage(response.data.message);
+        setRefreshMessage(response.data.message);
       });
     //     setMessages([
     //       ...messages,
@@ -103,9 +113,9 @@ then when chatting use socket io to display chats but also axios.push the messag
   };
 
   return (
-    <div id="chatPage">
+    <div id='chatPage'>
       <span>
-        <Link to="/">X</Link>
+        <Link to='/'>X</Link>
         Chat with: {localUser.firstname + localUser.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
@@ -126,12 +136,12 @@ then when chatting use socket io to display chats but also axios.push the messag
             }}
           />
           <input
-            type="text"
+            type='text'
             onChange={(ev) => {
               setMessage(ev.target.value);
               setIsTyping(true);
             }}
-            placeholder="message"
+            placeholder='message'
           />
           <button>Submit</button>
         </form>
