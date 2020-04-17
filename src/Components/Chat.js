@@ -22,8 +22,8 @@ const Chat = ({ auth }) => {
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
 
-  const localUser = JSON.parse(window.sessionStorage.getItem('user'));
-  const localChat = JSON.parse(window.sessionStorage.getItem('chat'));
+  const localUser = JSON.parse(window.localStorage.getItem('user'));
+  const localChat = JSON.parse(window.localStorage.getItem('chat'));
   // useEffect(() => {
   // let localUserIfPresent = JSON.parse(window.sessionStorage.getItem('user'));
   // let localChatIfPresent = JSON.parse(window.sessionStorage.getItem('chat'));
@@ -73,7 +73,7 @@ const Chat = ({ auth }) => {
           'chat message',
           JSON.stringify({
             message: message,
-            senderId: response.data.sender_id,
+            sender_id: response.data.sender_id,
             typing: 'yes',
           })
         );
@@ -83,7 +83,13 @@ const Chat = ({ auth }) => {
     });
     socket.on('chat message', (msg) => {
       const socketMessage = JSON.parse(msg);
-      if (socketMessage.sender_id === auth.id) {
+      console.log(
+        socketMessage.sender_id === auth.id,
+        'should be true always right nows',
+        socketMessage.sender_id
+      );
+      if (socketMessage.sender_id) {
+        console.log(auth.id, 'i send this one it should be a blue bubble');
         setMessages([
           ...messages,
           new Message({ id: 1, message: socketMessage.message }),
@@ -104,7 +110,13 @@ const Chat = ({ auth }) => {
   return (
     <div id="chatPage">
       <span>
-        <Link to="/" onClick={() => sessionStorage.clear()}>
+        <Link
+          to="/"
+          onClick={() => {
+            localStorage.removeItem('chat');
+            localStorage.removeItem('user');
+          }}
+        >
           X
         </Link>
         Chat with: {localUser.firstname + localUser.lastname}

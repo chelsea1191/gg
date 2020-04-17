@@ -36,7 +36,7 @@ const FindPlayers = ({
   };
 
   const handleChatClick = async (user) => {
-    window.sessionStorage.setItem(
+    window.localStorage.setItem(
       'user',
       JSON.stringify({
         id: user.id,
@@ -47,10 +47,10 @@ const FindPlayers = ({
     const response = await axios.get(`/api/chat/${user.id}/${auth.id}`);
     if (!response.data) {
       axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-        window.sessionStorage.setItem('chat', JSON.stringify(response.data));
+        window.localStorage.setItem('chat', JSON.stringify(response.data));
       });
     } else {
-      window.sessionStorage.setItem('chat', JSON.stringify(response.data));
+      window.localStorage.setItem('chat', JSON.stringify(response.data));
     }
   };
 
