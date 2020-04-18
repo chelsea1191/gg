@@ -3,7 +3,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-const AdvancedSearch = ({ allGames, setFiltered }) => {
+const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
   const [playerSelections, setPlayerSelections] = useState([]); //array of checkbox selections
 
   const handleSubmit = (ev) => {
@@ -127,6 +127,7 @@ const AdvancedSearch = ({ allGames, setFiltered }) => {
                 onClick={(ev) => handleSubmit(ev)}>
                 <h5>Search</h5>
               </button>
+              {link === 'findPlayers' && <p>{filtered.length} results</p>}
             </div>
           </Card.Body>
         </Accordion.Collapse>
