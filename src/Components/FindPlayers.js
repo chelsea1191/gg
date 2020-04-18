@@ -27,7 +27,15 @@ const FindPlayers = ({
   const [distance, setDistance] = useState();
   const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
+
+  useEffect(() => {
+    const results = JSON.parse(window.localStorage.getItem('results'));
+    if (results) {
+      setResults(results);
+    }
+  }, []);
 
   const findDistance = (player) => {
     return (
@@ -67,10 +75,14 @@ const FindPlayers = ({
     }
   };
 
-  //first, foreach over filtered games (id)
-  //foreach over favorite games
-  //for each filtered game, if the filtered game (id) === favorite games (gameId) then push the favorite game ROW into arrayOfFilteredFavGames- now we have only the favorites of the game we want
-  //for each arrayOfFilteredFaveGames, run Kelli's distance function
+  const handleSelectFavorite = (e) => {
+    const selection = allGames.filter((each) => {
+      if (each.id === e.target.value) {
+        return each;
+      }
+    });
+    setFiltered(selection);
+  };
 
   const searchForUsers = (e) => {
     e.preventDefault();
@@ -109,6 +121,7 @@ const FindPlayers = ({
     );
     console.log('users after filtering for selected distance is', userResults);
     setResults(userResults);
+    window.localStorage.setItem('results', JSON.stringify(userResults));
   };
 
   if (auth.id) {
@@ -133,11 +146,25 @@ const FindPlayers = ({
             />
           </div>
           <h6>-- or --</h6>
-          <select>
-            <option>Pick a Favorite Game</option>
-            {/*
-          LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
-          */}
+          <select
+            className='select'
+            id='fav-game-options'
+            name='Favorited Game'
+            onChange={(e) => handleSelectFavorite(e)}>
+            <option value='default'>Pick a Favorite Game</option>
+            {favoriteGames.map((eachFavGame) => {
+              if (eachFavGame.userId === auth.id) {
+                return (
+                  <option key={eachFavGame.id} value={eachFavGame.gameId}>
+                    {allGames.map((each) => {
+                      if (each.id === eachFavGame.gameId) {
+                        return each.name;
+                      }
+                    })}
+                  </option>
+                );
+              }
+            })}
           </select>
           <select
             className='select'
@@ -153,10 +180,6 @@ const FindPlayers = ({
             <option value='25'>25 miles</option>
             <option value='50'>50 miles</option>
             <option value='100'>100 miles</option>
-
-            {/*
-          LIST OF OPTIONS FOR VARYING DISTANCES
-          */}
           </select>
           <button className='searchButton' onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
