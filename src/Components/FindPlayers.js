@@ -22,7 +22,8 @@ const FindPlayers = ({
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
   // ON FORM SUBMIT, RETURNS LIST OF ALL USERS THAT MATCH SEARCH
   const greentext = { color: 'rgb(0, 200, 0)' };
-
+  const [distance, setDistance] = useState();
+  const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
 
@@ -41,6 +42,27 @@ const FindPlayers = ({
     //   setChat(response.data);
     //   window.localStorage.setItem('chat', JSON.stringify(response.data));
     // });
+  };
+
+  const handleDistance = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    if (e.target.value === 'any') {
+      setDistance(Number.MAX_VALUE);
+    } else {
+      setDistance(e.target.value * 1);
+    }
+  };
+
+  const searchForUsers = (e) => {
+    e.preventDefault();
+    const otherUsers = users.filter((user) => user.id !== auth.id);
+    otherUsers.forEach(
+      (otherUser) => (otherUser.distanceFromAuth = findDistance(otherUser) * 1)
+    );
+    const userResults = otherUsers.filter((u) => u.distanceFromAuth < distance);
+    console.log('users after filtering for selected distance is', userResults);
+    setResults(userResults);
   };
 
   if (auth.id) {
@@ -66,19 +88,28 @@ const FindPlayers = ({
           LIST OF OPTIONS BASED ON TITLES OF USER'S FAVORITE GAMES
           */}
           </select>
-          <select className="select" id="distance-options" name="Distance">
-            <option>Search Distance</option>
-            <option>5 miles</option>
-            <option>10 miles</option>
-            <option>25 miles</option>
-            <option>50 miles</option>
-            <option>100 miles</option>
+          <select
+            className="select"
+            id="distance-options"
+            name="Distance"
+            onChange={(e) => {
+              handleDistance(e);
+            }}
+          >
+            <option value="default">Select a Distance</option>
+            <option value="any">Any</option>
+            <option value="5">5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+            <option value="50">50 miles</option>
+            <option value="100">100 miles</option>
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-          <button className="searchButton">
+          <button className="searchButton" onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
+            {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
         </form>
         {/*
@@ -92,14 +123,13 @@ const FindPlayers = ({
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
-
-          {users.map((user) => {
+          {results.map((user) => {
             if (user.id !== auth.id) {
               //console.log(user);
               return (
                 <li key={user.id} className="userResults">
                   <h4>
-                    {user.username} - {findDistance(user)} miles away
+                    {user.username} - {user.distanceFromAuth} miles away
                   </h4>
                   <span>
                     {' '}
@@ -124,6 +154,7 @@ const FindPlayers = ({
               );
             }
           })}
+
           {/*
           {users.map((mapUser) => {
             if (mapUser.id != auth.id) {
