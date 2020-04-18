@@ -1,7 +1,10 @@
 import React from 'react';
+import Rating from './Rating';
 
 const GamePage = ({ game }) => {
   console.log('path: ', window.location.pathname);
+
+  let rating = game.average_user_rating;
 
   return (
     <div id='gamePage'>
@@ -11,6 +14,8 @@ const GamePage = ({ game }) => {
       </h4>
       <hr className='hr' />
       <h6>
+        <Rating rating={rating} />
+        <span>average rating: {rating}</span> <br />
         <i>
           {game.min_players} - {game.max_players} Players
         </i>

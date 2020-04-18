@@ -34,7 +34,9 @@ app.use(myLogger);
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
+    console.log(msg, 'server msg');
     io.emit('chat message', msg);
+    socket.broadcast.emit('is typing', msg.typing);
   });
 });
 
@@ -112,9 +114,8 @@ app.get('/api/users', (req, res, next) => {
     .catch(next);
 });
 
-app.get('/api/getMessages/:chatid/:userid', (req, res, next) => {
-  db.getMessage(req.params.chatid, req.params.userid).then((response) => {
-    console.log(response, 'get messages response from server');
+app.get('/api/getMessages/:chatid', (req, res, next) => {
+  db.getMessage(req.params.chatid).then((response) => {
     res.send(response);
   });
 });
@@ -126,9 +127,9 @@ app.get('/api/favoritegames', (req, res, next) => {
     .catch(next);
 });
 app.get('/api/chat/:userId/:authId', (req, res, next) => {
-  db.getChat(req.params.userId, req.params.authId).then((response) =>
-    res.send(response)
-  );
+  db.getChat(req.params.userId, req.params.authId).then((response) => {
+    res.send(response);
+  });
 });
 
 //////////////////post////////////////////
@@ -149,9 +150,7 @@ app.post('/api/createchat', (req, res, next) => {
       db.createMessage(
         chatCreatedResponse.id,
         chatCreatedResponse.creator_id
-      ).then((messageCreatedResponse) => {
-        res.send([chatCreatedResponse, messageCreatedResponse]);
-      });
+      ).then(res.send(chatCreatedResponse));
     })
     .catch(next);
 });

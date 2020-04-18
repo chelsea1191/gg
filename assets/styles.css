@@ -149,6 +149,7 @@ h1 {
   border-radius: 15px;
   padding: 16px;
   margin: 32px;
+  overflow: scroll;
 }
 
 #advSearchHeader {
@@ -487,4 +488,11 @@ select {
   border-radius: 15px;
   margin: 8px 0 16px 0;
   max-height: 85vh;
+}
+
+.fa {
+  font-size: 25px;
+}
+.checked {
+  color: orange;
 }
