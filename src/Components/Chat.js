@@ -163,11 +163,11 @@ const Chat = ({ auth }) => {
             // JSON: Custom bubble styles
             bubbleStyles={{
               text: {
-                fontSize: 12,
+                fontSize: 30,
               },
               chatbubble: {
                 borderRadius: 70,
-                padding: 16,
+                padding: 40,
               },
             }}
           />
