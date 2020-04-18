@@ -16,12 +16,14 @@ const FindPlayers = ({
   setGameView,
   chat,
   setChat,
+  favoriteGames,
 }) => {
   // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
   // ON FORM SUBMIT, RETURNS LIST OF ALL USERS THAT MATCH SEARCH
   const greentext = { color: 'rgb(0, 200, 0)' };
+  const link = 'findPlayers';
   const [distance, setDistance] = useState();
   const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
@@ -57,7 +59,7 @@ const FindPlayers = ({
 
   const handleDistance = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+    //console.log(e.target.value);
     if (e.target.value === 'any') {
       setDistance(Number.MAX_VALUE);
     } else {
@@ -65,13 +67,46 @@ const FindPlayers = ({
     }
   };
 
+  //first, foreach over filtered games (id)
+  //foreach over favorite games
+  //for each filtered game, if the filtered game (id) === favorite games (gameId) then push the favorite game ROW into arrayOfFilteredFavGames- now we have only the favorites of the game we want
+  //for each arrayOfFilteredFaveGames, run Kelli's distance function
+
   const searchForUsers = (e) => {
     e.preventDefault();
-    const otherUsers = users.filter((user) => user.id !== auth.id);
-    otherUsers.forEach(
-      (otherUser) => (otherUser.distanceFromAuth = findDistance(otherUser) * 1)
+    let arrayOfFilteredFavGames = [];
+    let arrayOfFavUserIds = [];
+    let arrayOfUniqueFavUserIds = [];
+    filtered.forEach((filteredGame) => {
+      favoriteGames.forEach((favGame) => {
+        if (filteredGame.id === favGame.gameId) {
+          arrayOfFilteredFavGames.push(favGame);
+        }
+      });
+    });
+    arrayOfFilteredFavGames.forEach((filteredFavGame) => {
+      arrayOfFavUserIds.push(filteredFavGame.userId);
+    });
+    arrayOfUniqueFavUserIds = arrayOfFavUserIds.filter(
+      (v, i, a) => a.indexOf(v) === i
     );
-    const userResults = otherUsers.filter((u) => u.distanceFromAuth < distance);
+    const otherUsers = arrayOfUniqueFavUserIds.filter(
+      (userId) => userId !== auth.id
+    );
+    const arrayOfOtherUserObjs = [];
+    users.forEach((user) => {
+      otherUsers.forEach((otherUser) => {
+        if (otherUser === user.id) {
+          arrayOfOtherUserObjs.push(user);
+        }
+      });
+    });
+    arrayOfOtherUserObjs.forEach((otherUser) => {
+      otherUser.distanceFromAuth = findDistance(otherUser) * 1;
+    });
+    const userResults = arrayOfOtherUserObjs.filter(
+      (u) => u.distanceFromAuth < distance
+    );
     console.log('users after filtering for selected distance is', userResults);
     setResults(userResults);
   };
@@ -88,9 +123,14 @@ const FindPlayers = ({
           <div>
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
-          {filtered.length > 0 && <p>game selected: {filtered[0].name}</p>}
+          {filtered.length === 1 && <p>game selected: {filtered[0].name}</p>}
           <div>
-            <AdvancedSearch allGames={allGames} />
+            <AdvancedSearch
+              link={link}
+              filtered={filtered}
+              allGames={allGames}
+              setFiltered={setFiltered}
+            />
           </div>
           <h6>-- or --</h6>
           <select>
@@ -100,27 +140,25 @@ const FindPlayers = ({
           */}
           </select>
           <select
-            className="select"
-            id="distance-options"
-            name="Distance"
+            className='select'
+            id='distance-options'
+            name='Distance'
             onChange={(e) => {
               handleDistance(e);
-            }}
-          >
-            <option value="default">Select a Distance</option>
-            <option value="any">Any</option>
-            <option value="5">5 miles</option>
-            <option value="10">10 miles</option>
-            <option value="25">25 miles</option>
-            <option value="50">50 miles</option>
-            <option value="100">100 miles</option>
+            }}>
+            <option value='default'>Select a Distance</option>
+            <option value='any'>Any</option>
+            <option value='5'>5 miles</option>
+            <option value='10'>10 miles</option>
+            <option value='25'>25 miles</option>
+            <option value='50'>50 miles</option>
+            <option value='100'>100 miles</option>
 
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-          <button className="searchButton" onClick={(e) => searchForUsers(e)}>
-
+          <button className='searchButton' onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
@@ -136,6 +174,9 @@ const FindPlayers = ({
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
+          {results.length === 0 && (
+            <p>no results found- please widen your search area</p>
+          )}
           {results.map((user) => {
             if (user.id !== auth.id) {
               //console.log(user);

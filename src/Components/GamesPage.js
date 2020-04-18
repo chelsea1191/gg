@@ -12,6 +12,7 @@ const GamesPage = ({
   setFavoriteGames,
 }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
+  const link = 'gamesPage';
   const [filtered, setFiltered] = useState([]);
   useEffect(() => {
     let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
@@ -32,7 +33,12 @@ const GamesPage = ({
           <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
         </div>
         <h6>
-          <AdvancedSearch setFiltered={setFiltered} allGames={allGames} />
+          <AdvancedSearch
+            filtered={filtered}
+            link={link}
+            setFiltered={setFiltered}
+            allGames={allGames}
+          />
         </h6>
         {/*
           ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
