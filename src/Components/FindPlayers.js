@@ -36,12 +36,23 @@ const FindPlayers = ({
     ).toFixed(0);
   };
 
-  const handleChatClick = (user) => {
-    window.localStorage.setItem('user', JSON.stringify(user));
-    // axios.get(`/api/chat/:${user.id}/${auth.id}`).then((response) => {
-    //   setChat(response.data);
-    //   window.localStorage.setItem('chat', JSON.stringify(response.data));
-    // });
+  const handleChatClick = async (user) => {
+    window.localStorage.setItem(
+      'user',
+      JSON.stringify({
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+      })
+    );
+    const response = await axios.get(`/api/chat/${user.id}/${auth.id}`);
+    if (!response.data) {
+      axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+        window.localStorage.setItem('chat', JSON.stringify(response.data));
+      });
+    } else {
+      window.localStorage.setItem('chat', JSON.stringify(response.data));
+    }
   };
 
   const handleDistance = (e) => {
@@ -67,10 +78,10 @@ const FindPlayers = ({
 
   if (auth.id) {
     return (
-      <div className="findPlayersPage">
-        <form id="findPlayersForm">
+      <div className='findPlayersPage'>
+        <form id='findPlayersForm'>
           <h3>Find Players</h3>
-          <hr className="hr" />
+          <hr className='hr' />
           <h5>
             <b>What do you want to play?</b>
           </h5>
@@ -103,11 +114,13 @@ const FindPlayers = ({
             <option value="25">25 miles</option>
             <option value="50">50 miles</option>
             <option value="100">100 miles</option>
+
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
           <button className="searchButton" onClick={(e) => searchForUsers(e)}>
+
             <h5>Search</h5>
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
@@ -117,7 +130,7 @@ const FindPlayers = ({
           FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
           */}
 
-        <ul id="playersList">
+        <ul id='playersList'>
           {/*
           LIST OF PLAYERS THAT MATCH SEARCH PARAMETERS.
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
@@ -127,26 +140,24 @@ const FindPlayers = ({
             if (user.id !== auth.id) {
               //console.log(user);
               return (
-                <li key={user.id} className="userResults">
+                <li key={user.id} className='userResults'>
                   <h4>
                     {user.username} - {user.distanceFromAuth} miles away
                   </h4>
                   <span>
                     {' '}
                     <Link
-                      to="/chat"
+                      to='/chat'
                       onClick={() => {
                         setUser(user);
                         handleChatClick(user);
-                      }}
-                    >
+                      }}>
                       Send a Chat
                     </Link>
                     {' - '}
                     <Link
                       to={`/users/${user.id}`}
-                      onClick={(ev) => setUserView(user)}
-                    >
+                      onClick={(ev) => setUserView(user)}>
                       View Profile
                     </Link>
                   </span>
@@ -173,14 +184,14 @@ const FindPlayers = ({
     );
   } else {
     return (
-      <div id="guestRestricted">
-        <h3>Not a Member?</h3> <hr className="hr" />
+      <div id='guestRestricted'>
+        <h3>Not a Member?</h3> <hr className='hr' />
         <p>
           <b style={greentext}>gg</b> works best with lots of active users.
         </p>
         <p>
           {' '}
-          <Link className="link" to="/register">
+          <Link className='link' to='/register'>
             Create a Profile{' '}
           </Link>
           and start finding people to play with!{' '}
