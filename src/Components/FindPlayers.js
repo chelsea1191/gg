@@ -88,9 +88,12 @@ const FindPlayers = ({
           <div>
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
-          {filtered.length > 0 && <p>game selected: {filtered[0].name}</p>}
+          {filtered.length === 1 && <p>game selected: {filtered[0].name}</p>}
           <div>
-            <AdvancedSearch allGames={allGames} />
+            <AdvancedSearch allGames={allGames} setFiltered={setFiltered} />
+            {filtered.length > -1 && (
+              <p>{filtered.length} games result from advanced search</p>
+            )}
           </div>
           <h6>-- or --</h6>
           <select>
@@ -100,27 +103,25 @@ const FindPlayers = ({
           */}
           </select>
           <select
-            className="select"
-            id="distance-options"
-            name="Distance"
+            className='select'
+            id='distance-options'
+            name='Distance'
             onChange={(e) => {
               handleDistance(e);
-            }}
-          >
-            <option value="default">Select a Distance</option>
-            <option value="any">Any</option>
-            <option value="5">5 miles</option>
-            <option value="10">10 miles</option>
-            <option value="25">25 miles</option>
-            <option value="50">50 miles</option>
-            <option value="100">100 miles</option>
+            }}>
+            <option value='default'>Select a Distance</option>
+            <option value='any'>Any</option>
+            <option value='5'>5 miles</option>
+            <option value='10'>10 miles</option>
+            <option value='25'>25 miles</option>
+            <option value='50'>50 miles</option>
+            <option value='100'>100 miles</option>
 
             {/*
           LIST OF OPTIONS FOR VARYING DISTANCES
           */}
           </select>
-          <button className="searchButton" onClick={(e) => searchForUsers(e)}>
-
+          <button className='searchButton' onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
