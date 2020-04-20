@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const UserGamesPage = ({ user, allGames, favoriteGames }) => {
@@ -19,25 +20,24 @@ const UserGamesPage = ({ user, allGames, favoriteGames }) => {
       setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
     };
     return (
-      <li key={userFavorite.id} className="gamesListItem">
+      <li key={userFavorite.id} className='gamesListItem'>
         <Link
           to={`/games/${userFavorite.id}`}
-          onClick={(ev) => setGameView(userFavorite)}
-        >
-          <img className="gameListItemImage" src={userFavorite.image_url} />{' '}
+          onClick={(ev) => setGameView(userFavorite)}>
+          <img className='gameListItemImage' src={userFavorite.image_url} />{' '}
         </Link>
         <h5>{userFavorite.name}</h5>
 
-        <button type="button" onClick={addFavorite}>
+        <button type='button' onClick={addFavorite}>
           Favorite
         </button>
-        <hr className="hr" />
+        <hr className='hr' />
       </li>
     );
   });
 
   return (
-    <div id="userGamesPage">
+    <div id='userGamesPage'>
       <h3>{user.username}'s Favorite Games</h3>
       {userFavoritesList}
     </div>
