@@ -86,6 +86,7 @@ const FindPlayers = ({
 
   const searchForUsers = (e) => {
     e.preventDefault();
+    console.log(filtered);
     let arrayOfFilteredFavGames = [];
     let arrayOfFavUserIds = [];
     let arrayOfUniqueFavUserIds = [];
