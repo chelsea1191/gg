@@ -143,14 +143,15 @@ const Chat = ({ auth }) => {
   };
 
   return (
-    <div id='chatPage'>
+    <div id="chatPage">
       <span>
         <Link
-          to='/'
+          to="/"
           onClick={() => {
             localStorage.removeItem('chat');
             localStorage.removeItem('user');
-          }}>
+          }}
+        >
           X
         </Link>
         Chat with: {localUser.firstname + localUser.lastname}
@@ -172,12 +173,12 @@ const Chat = ({ auth }) => {
             }}
           />
           <input
-            type='text'
+            type="text"
             value={message}
             onChange={(ev) => {
               setMessage(ev.target.value);
             }}
-            placeholder='message'
+            placeholder="message"
           />
           <button>Submit</button>
         </form>

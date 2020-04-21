@@ -9,6 +9,7 @@ const models = ({
   games,
   gameTypes,
   favoriteGames,
+  friendships,
 } = require('./models'));
 const {
   getAllGames,
@@ -56,6 +57,7 @@ const sync = async () => {
   DROP TABLE IF EXISTS message;
   DROP TABLE IF EXISTS chat;
   DROP TABLE IF EXISTS favoritegames;
+  DROP TABLE IF EXISTS friendships;
   DROP TABLE IF EXISTS user_game;
   DROP TABLE IF EXISTS user_group;
   DROP TABLE IF EXISTS game;
@@ -76,7 +78,8 @@ const sync = async () => {
     bio VARCHAR(300),
     latitude VARCHAR,
     longitude VARCHAR,
-    date_create TIMESTAMP default CURRENT_TIMESTAMP
+    "gameTypes" TEXT [],
+    date_created TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -102,6 +105,12 @@ const sync = async () => {
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "gameId" VARCHAR REFERENCES game(id)
+  );
+  CREATE TABLE friendships (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "userId" UUID REFERENCES users(id),
+    "friendId" UUID REFERENCES users(id),
+    status VARCHAR DEFAULT 'unsent'
   );
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

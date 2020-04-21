@@ -3,4 +3,5 @@ module.exports = {
   games: require('./games'),
   gameTypes: require('./gameTypes'),
   favoriteGames: require('./favoriteGames'),
+  friendships: require('./friendships'),
 };
