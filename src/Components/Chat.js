@@ -1,11 +1,17 @@
 import { ChatFeed, Message } from 'react-chat-ui';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import io from 'socket.io-client';
 
-const Chat = ({ auth }) => {
+const Chat = ({ auth, user }) => {
   var socket = io();
   const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
@@ -21,6 +27,18 @@ const Chat = ({ auth }) => {
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
+
+  useEffect(() => {
+    axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
+      if (!response.data) {
+        axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+          window.localStorage.setItem('chat', JSON.stringify(response.data));
+        });
+      } else {
+        window.localStorage.setItem('chat', JSON.stringify(response.data));
+      }
+    });
+  });
 
   const localUser = JSON.parse(window.localStorage.getItem('user'));
   const localChat = JSON.parse(window.localStorage.getItem('chat'));
@@ -97,6 +115,30 @@ const Chat = ({ auth }) => {
     });
   }, []);
 
+  socket.on('chat message', (msg) => {
+    const socketMessage = JSON.parse(msg);
+    console.log(
+      socketMessage.sender_id === auth.id,
+      'should be true always right nows',
+      socketMessage.sender_id
+    );
+    if (socketMessage.sender_id === auth.id) {
+      console.log(auth.id, 'i send this one it should be a blue bubble');
+      setMessages([
+        ...messages,
+        new Message({ id: 0, message: socketMessage.message }),
+      ]);
+    } else {
+      setMessages([
+        ...messages,
+        new Message({
+          id: 1,
+          message: socketMessage.message,
+        }),
+      ]);
+    }
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -112,32 +154,9 @@ const Chat = ({ auth }) => {
           })
         );
       });
-    socket.on('is typing', (isTyping) => {
-      setIsTyping(true);
-    });
-    socket.on('chat message', (msg) => {
-      const socketMessage = JSON.parse(msg);
-      console.log(
-        socketMessage.sender_id === auth.id,
-        'should be true always right nows',
-        socketMessage.sender_id
-      );
-      if (socketMessage.sender_id === auth.id) {
-        console.log(auth.id, 'i send this one it should be a blue bubble');
-        setMessages([
-          ...messages,
-          new Message({ id: 0, message: socketMessage.message }),
-        ]);
-      } else {
-        setMessages([
-          ...messages,
-          new Message({
-            id: 1,
-            message: socketMessage.message,
-          }),
-        ]);
-      }
-    });
+    // socket.on('is typing', (isTyping) => {
+    //   setIsTyping(true);
+    // });
     setMessage('');
     setIsTyping(false);
   };
@@ -193,3 +212,19 @@ export default Chat;
 //then upon useeffect if render user is false dont get the old messages
 
 //add online as well
+//add notifications for chat -
+
+//separate find players and chat more -
+
+/*In find players
+//upon clicking the players name - find players component should pass the user through to chat - roght now using local storage
+//then make an http request to see if there is an existing chat or create a new chat if there is a new one
+//then take the chat object and ssend it to chat component - right now using local storage
+
+In chat component
+run useeffect to look for any messages with the chat id - display messages using set messages
+
+on submit - send the message via http request to save in db and use socket io for the realtime chat portion
+
+
+*/

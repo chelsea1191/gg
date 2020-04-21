@@ -1,5 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from 'react-router-dom';
 const geolib = require('geolib');
 import SearchDropdown from './SearchDropdown';
 import AdvancedSearch from './AdvancedSearch';
@@ -46,24 +52,7 @@ const FindPlayers = ({
     ).toFixed(0);
   };
 
-  const handleChatClick = async (user) => {
-    window.localStorage.setItem(
-      'user',
-      JSON.stringify({
-        id: user.id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-      })
-    );
-    const response = await axios.get(`/api/chat/${user.id}/${auth.id}`);
-    if (!response.data) {
-      axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-        window.localStorage.setItem('chat', JSON.stringify(response.data));
-      });
-    } else {
-      window.localStorage.setItem('chat', JSON.stringify(response.data));
-    }
-  };
+  const handleChatClick = async (user) => {};
 
   const handleDistance = (e) => {
     e.preventDefault();
@@ -213,7 +202,11 @@ const FindPlayers = ({
                   <span>
                     {' '}
                     <Link
+<<<<<<< Updated upstream
                       to='/chat'
+=======
+                      to={`"/chat/${user.id}"`}
+>>>>>>> Stashed changes
                       onClick={() => {
                         setUser(user);
                         handleChatClick(user);

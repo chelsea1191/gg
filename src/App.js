@@ -332,7 +332,17 @@ const App = () => {
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route path="/chat">
+                <Route path={`/chat`}>
+                  <Chat
+                    auth={auth}
+                    users={users}
+                    user={user}
+                    setUser={setUser}
+                    chat={chat}
+                    setChat={setChat}
+                  />
+                </Route>
+                <Route exact path={`/chat/${user.id}`}>
                   <Chat
                     auth={auth}
                     users={users}
