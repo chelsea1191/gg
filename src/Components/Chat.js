@@ -18,6 +18,7 @@ const Chat = ({ auth, users }) => {
   const [chat, setChat] = useState([]);
   const [chats, setChats] = useState([]);
   const [user, setUser] = useState([]);
+  const [userId, setUserId] = useState([]);
   // const [localUser, setLocalUser] = useState([]);
   // const [locaChat, setLocalChat] = useState([]);
 
@@ -138,51 +139,31 @@ const Chat = ({ auth, users }) => {
       console.log(chats);
       return (
         <div>
+          Chats already in progress:
           {chats.map((eachChat) => {
-            // users.map((eachUser) => {
-            //   if (eachChat.user_id === eachUser.id) {
-            //     console.log(eachChat.user_id, eachUser.id, 'in if statement');
-            //     return <div>test</div>;
-            //   }
             return (
               <div key={eachChat.id}>
-                <Link to={`/chat/${eachChat.user_id}`}>{eachChat.id}</Link>
+                {users.map((eachUser) => {
+                  if (eachChat.user_id === eachUser.id) {
+                    console.log(eachUser);
+                    return (
+                      <div key={eachUser.id}>
+                        <Link
+                          to={`/chat/${eachUser.id}`}
+                          onClick={() => setUser(eachUser)}
+                        >
+                          {eachUser.firstname + eachUser.lastname}
+                        </Link>
+                      </div>
+                    );
+                  }
+                })}
               </div>
             );
           })}
         </div>
       );
     }
-    //           if (eachChat.user_id === eachUser.id) {
-
-    //           } else {
-    //             return <div> Hi</div>;
-    //           }
-    //         });
-    //       })
-    //     }
-    //  </div>
-    //  )
-
-    // } else {
-    //     return (
-    //       <div>
-    //         {' '}
-    //         Find some users to have a chat with!
-    //         {users.map((eachUser) => {
-    //           return (
-    //             <div key={eachUser.id}>
-    //               <Link
-    //                 to={`/chat/${eachUser.id}`}
-    //                 onClick={() => setUser(eachUser)}
-    //               >
-    //                 {eachUser.firstname + eachUser.lastname}
-    //               </Link>
-    //             </div>
-    //           );
-    //         })}
-    //       </div>
-    //     );
   } else {
     return (
       <div id="chatPage">
