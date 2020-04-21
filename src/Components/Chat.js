@@ -11,11 +11,14 @@ import axios from 'axios';
 import moment from 'moment';
 import io from 'socket.io-client';
 
-const Chat = ({ auth, user }) => {
+const Chat = ({ auth, users }) => {
   var socket = io();
   const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
   const messageArray = [];
+  const [chat, setChat] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [user, setUser] = useState([]);
   // const [localUser, setLocalUser] = useState([]);
   // const [locaChat, setLocalChat] = useState([]);
 
@@ -27,92 +30,65 @@ const Chat = ({ auth, user }) => {
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ]);
+  useEffect(() => {
+    axios.get(`/api/chat/${auth.id}`).then((response) => {
+      setChats(response.data);
+    });
+  }, [user]);
+  console.log(user, 'in chat this is the user');
 
   useEffect(() => {
-    axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
-      if (!response.data) {
-        axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-          window.localStorage.setItem('chat', JSON.stringify(response.data));
-        });
-      } else {
-        window.localStorage.setItem('chat', JSON.stringify(response.data));
-      }
-    });
-  });
-
-  const localUser = JSON.parse(window.localStorage.getItem('user'));
-  const localChat = JSON.parse(window.localStorage.getItem('chat'));
-  // useEffect(() => {
-  // let localUserIfPresent = JSON.parse(window.sessionStorage.getItem('user'));
-  // let localChatIfPresent = JSON.parse(window.sessionStorage.getItem('chat'));
-  //   if (localUserIfPresent) {
-  //     setLocalUser(localUserIfPresent);
-  //   }
-  //   if (localChatIfPresent) {
-  //     setLocalChat(localChatIfPresent);
-  //   }
-  // }, [setLocalUser, setLocalChat]);
-
-  // const getMessages = async (id) => {
-  //   const response = await axios.get(`/api/getMessages/${id}`);
-  //   response.data.forEach((messageObj) => {
-  //     if (messageObj.sender_id === auth.id) {
-  //       messageArray.push(
-  //         new Message({
-  //           id: 0,
-  //           message: messageObj.message,
-  //           senderName: messageObj.sender_id,
-  //         })
-  //       );
-  //     } else {
-  //       messageArray.push(
-  //         new Message({
-  //           id: 1,
-  //           message: messageObj.message,
-  //           senderName: messageObj.sender_id,
-  //         })
-  //       );
-  //     }
-  //     setMessages([...messageArray]);
-  //   });
-  // };
+    if (user.id) {
+      axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
+        if (!response.data) {
+          axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+            setChat(response.data);
+          });
+        } else {
+          setChat(response.data);
+        }
+      });
+    }
+  }, [user]);
 
   // useEffect(() => {
   //   getMessages(localChat.id);
   // }, []);
 
-  useEffect(() => {
-    console.log('messages that should be displaying: ', messages);
-  }, [setMessages]);
+  // useEffect(() => {
+  //   console.log('messages that should be displaying: ', messages);
+  // }, [setMessages]);
 
   useEffect(() => {
     console.log('refreshMessage triggered');
-    axios.get(`/api/getMessages/${localChat.id}`).then((response) => {
-      console.log(
-        'all messages in this chat from getMessages: ',
-        response.data
-      );
-      response.data.forEach((messageObj) => {
-        //console.log('each message: ', messageObj);
-        if (messageObj.sender_id === auth.id) {
-          let count = messageArray.push(
-            new Message({
-              id: 0,
-              message: messageObj.message,
-            })
-          );
-          //console.log('count is: ', count);
-        } else {
-          let count = messageArray.push(
-            new Message({
-              id: 1,
-              message: messageObj.message,
-            })
-          );
-        }
+    if (chat.id) {
+      axios.get(`/api/getMessages/${chat.id}`).then((response) => {
+        console.log(
+          'all messages in this chat from getMessages: ',
+          response.data
+        );
+        response.data.forEach((messageObj) => {
+          //console.log('each message: ', messageObj);
+          if (messageObj.sender_id === auth.id) {
+            let count = messageArray.push(
+              new Message({
+                id: 0,
+                message: messageObj.message,
+              })
+            );
+            //console.log('count is: ', count);
+          } else {
+            let count = messageArray.push(
+              new Message({
+                id: 1,
+                message: messageObj.message,
+              })
+            );
+          }
+        });
+        setMessages([...messageArray]);
       });
-      setMessages([...messageArray]);
-    });
+    }
   }, []);
 
   socket.on('chat message', (msg) => {
@@ -142,7 +118,7 @@ const Chat = ({ auth, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('/api/sendMessages', [localChat.id, auth.id, message, moment()])
+      .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
       .then((response) => {
         console.log(response);
         socket.emit(
@@ -161,49 +137,88 @@ const Chat = ({ auth, user }) => {
     setIsTyping(false);
   };
 
-  return (
-    <div id="chatPage">
-      <span>
-        <Link
-          to="/"
-          onClick={() => {
-            localStorage.removeItem('chat');
-            localStorage.removeItem('user');
-          }}
-        >
-          X
-        </Link>
-        Chat with: {localUser.firstname + localUser.lastname}
-        <form onSubmit={handleSubmit}>
-          <ChatFeed
-            messages={messages} // Boolean: list of message objects
-            isTyping={isTyping} // Boolean: is the recipient typing
-            hasInputField={false} // Boolean: use our input, or use your own
-            bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
-            // JSON: Custom bubble styles
-            bubbleStyles={{
-              text: {
-                fontSize: 30,
-              },
-              chatbubble: {
-                borderRadius: 70,
-                padding: 40,
-              },
+  //start jsx
+  if (!user.id) {
+    if (chats.id) {
+      return (
+        <div>
+          <div>
+            {chats.map((eachChat) => {
+              console.log(
+                eachChat,
+                'this is the chats that already exists for the user'
+              );
+              return <div key={eachChat.id}></div>;
+            })}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {' '}
+          Find some users to have a chat with!
+          {users.map((eachUser) => {
+            return (
+              <div key={eachUser.id}>
+                <Link
+                  to={`/chat/${eachUser.id}`}
+                  onClick={() => setUser(eachUser)}
+                >
+                  {eachUser.firstname + eachUser.lastname}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+  } else {
+    console.log(user.id);
+    return (
+      <div id="chatPage">
+        <span>
+          <Link
+            to="/"
+            onClick={() => {
+              localStorage.removeItem('chat');
+              localStorage.removeItem('user');
             }}
-          />
-          <input
-            type="text"
-            value={message}
-            onChange={(ev) => {
-              setMessage(ev.target.value);
-            }}
-            placeholder="message"
-          />
-          <button>Submit</button>
-        </form>
-      </span>
-    </div>
-  );
+          >
+            X
+          </Link>
+          Chat with: {user.firstname + user.lastname}
+          <form onSubmit={handleSubmit}>
+            <ChatFeed
+              messages={messages} // Boolean: list of message objects
+              isTyping={isTyping} // Boolean: is the recipient typing
+              hasInputField={false} // Boolean: use our input, or use your own
+              bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+              // JSON: Custom bubble styles
+              bubbleStyles={{
+                text: {
+                  fontSize: 30,
+                },
+                chatbubble: {
+                  borderRadius: 70,
+                  padding: 40,
+                },
+              }}
+            />
+            <input
+              type="text"
+              value={message}
+              onChange={(ev) => {
+                setMessage(ev.target.value);
+              }}
+              placeholder="message"
+            />
+            <button>Submit</button>
+          </form>
+        </span>
+      </div>
+    );
+  }
 };
 
 export default Chat;
