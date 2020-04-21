@@ -51,7 +51,7 @@ const allDataFromAPI = axios //CLIENT
     console.log('error.config: ', error.config);
     console.log('trying next API....');
   });
-
+//changed password NOT NULL
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   DROP TABLE IF EXISTS message;
@@ -69,7 +69,7 @@ const sync = async () => {
     username VARCHAR(100) NOT NULL UNIQUE,
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    password VARCHAR(100),
     role VARCHAR(20) DEFAULT 'player',
     email VARCHAR(100) NOT NULL UNIQUE,
     "isBlocked" BOOLEAN DEFAULT false,
@@ -117,7 +117,6 @@ const sync = async () => {
     "userId" UUID REFERENCES users(id) NOT NULL,
     "gameTypeID" UUID REFERENCES game_type(id) NOT NULL
   );
-
   CREATE TABLE chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     creator_id UUID REFERENCES users(id) NOT NULL,
@@ -133,7 +132,9 @@ const sync = async () => {
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540');
+  INSERT INTO game (id, name) VALUES ('1', 'TEST GAME');
+   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
   `;
   await client.query(SQL);
 
