@@ -37,7 +37,7 @@ const App = () => {
   const [friendships, setFriendships] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState([]);
-  const [chat, setChat] = useState([]);
+
   const [userFriends, setUserFriends] = useState([]);
 
   useEffect(() => {
@@ -332,14 +332,20 @@ const App = () => {
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route path="/chat">
+                <Route path={`/chat`}>
                   <Chat
                     auth={auth}
                     users={users}
                     user={user}
                     setUser={setUser}
-                    chat={chat}
-                    setChat={setChat}
+                  />
+                </Route>
+                <Route exact path={`/chat/${user.id}`}>
+                  <Chat
+                    auth={auth}
+                    users={users}
+                    user={user}
+                    setUser={setUser}
                   />
                 </Route>
                 <Route path="/">
@@ -352,8 +358,6 @@ const App = () => {
                     allGames={allGames}
                     setUserView={setUserView}
                     setGameView={setGameView}
-                    chat={chat}
-                    setChat={setChat}
                     favoriteGames={favoriteGames}
                   />
                 </Route>
