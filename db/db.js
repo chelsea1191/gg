@@ -23,33 +23,25 @@ const {
 } = require('./userMethods');
 const client_id = 'u7xbcBEfgP';
 //we can also use axios.all to get data from multiple endpoints
-const allDataFromAPI = axios //CLIENT
+const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
   .then((response) => {
     return response.data.games;
   })
   .catch((error) => {
     if (error.response) {
-      /*
-       * The request was made and the server responded with a
-       * status code that falls out of the range of 2xx
-       */
+      // server responded with status code outside of 2xx
       console.log('error.response.data: ', error.response.data);
       console.log('error.response.status: ', error.response.status);
       console.log('error.response.headers: ', error.response.headers);
     } else if (error.request) {
-      /*
-       * The request was made but no response was received, `error.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
+      // no response received
       console.log('error.request: ', error.request);
     } else {
-      // Something happened in setting up the request and triggered an Error
+      // something happened in setting up the request and triggered an Error
       console.log('Error', error.message);
     }
     console.log('error.config: ', error.config);
-    console.log('trying next API....');
   });
 
 const sync = async () => {
@@ -82,13 +74,13 @@ const sync = async () => {
     date_created TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE game_type (
-     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     gametype VARCHAR
   );
   CREATE TABLE game (
     id VARCHAR PRIMARY KEY UNIQUE,
     name VARCHAR,
-    "gameTypeID" INTEGER,
+    "gameTypeID" INT,
     description VARCHAR,
     image_url VARCHAR,
     min_players INT,
@@ -115,7 +107,7 @@ const sync = async () => {
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id) NOT NULL,
-    "gameTypeID" UUID REFERENCES game_type(id) NOT NULL
+    "gameTypeID" INT REFERENCES game_type(id) NOT NULL
   );
 
   CREATE TABLE chat (
@@ -144,9 +136,10 @@ const sync = async () => {
   const _gameTypes = [
     { gametype: 'board' },
     { gametype: 'sport' },
+    { gametype: 'rpg' },
     { gametype: 'video' },
   ];
-  const [board, sport, video] = await Promise.all(
+  const [board, sport, rpg, video] = await Promise.all(
     Object.values(_gameTypes).map((each) => gameTypes.create(each))
   );
 
@@ -199,19 +192,6 @@ const sync = async () => {
     users: userMap,
   };
 };
-//////////////////get///////////////////
-// const readUsers = async () => {
-//   const SQL = `SELECT * FROM users;`;
-//   const response = await client.query(SQL);
-//   return response.rows;
-// };
-
-//////////////////put///////////////////
-// const updateUserThing = async ({ isFavorite, id }) => {
-//   const SQL = `UPDATE user_things SET (isFavorite) = ($1) WHERE (id) = ($2) returning *`;
-//   const response = await client.query(SQL, [isFavorite, id]);
-//   return response.rows[0];
-// };
 
 module.exports = {
   sync,
