@@ -18,9 +18,6 @@ const Chat = ({ auth, users }) => {
   const [chat, setChat] = useState([]);
   const [chats, setChats] = useState([]);
   const [user, setUser] = useState([]);
-  const [userId, setUserId] = useState([]);
-  // const [localUser, setLocalUser] = useState([]);
-  // const [locaChat, setLocalChat] = useState([]);
 
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
@@ -122,16 +119,18 @@ const Chat = ({ auth, users }) => {
           {' '}
           Find some users to have a chat with!
           {users.map((eachUser) => {
-            return (
-              <div key={eachUser.id}>
-                <Link
-                  to={`/chat/${eachUser.id}`}
-                  onClick={() => setUser(eachUser)}
-                >
-                  {eachUser.firstname + eachUser.lastname}
-                </Link>
-              </div>
-            );
+            if (eachUser.id != auth.id) {
+              return (
+                <div key={eachUser.id}>
+                  <Link
+                    to={`/chat/${eachUser.id}`}
+                    onClick={() => setUser(eachUser)}
+                  >
+                    {eachUser.firstname + eachUser.lastname}
+                  </Link>
+                </div>
+              );
+            }
           })}
         </div>
       );
