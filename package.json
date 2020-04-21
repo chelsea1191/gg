@@ -36,7 +36,8 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "use-position": "0.0.6",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

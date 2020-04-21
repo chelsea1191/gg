@@ -3,6 +3,8 @@ const uuid = require('uuid/v4');
 const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
+var xml2js = require('xml2js'); //convert xml to json
+var parseString = require('xml2js').parseString;
 const { authenticate, compare, findUserFromToken, hash } = require('./auth');
 const models = ({
   users,
@@ -22,12 +24,14 @@ const {
 } = require('./userMethods');
 const client_id = 'u7xbcBEfgP';
 //we can also use axios.all to get data from multiple endpoints
-const allDataFromAPI = axios //CLIENT
+const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
   .then((response) => {
+    console.log('Success! Data is coming from Board Game Atlas API');
     return response.data.games;
   })
   .catch((error) => {
+    console.log('****************error***********: ', error);
     if (error.response) {
       /*
        * The request was made and the server responded with a
