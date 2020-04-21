@@ -167,7 +167,9 @@ const Chat = ({ auth, users }) => {
     return (
       <div id="chatPage">
         <span>
-          <Link to="/">X</Link>
+          <Link to="/chat" onClick={() => setUser('')}>
+            X
+          </Link>
           Chat with: {user.firstname + user.lastname}
           <form onSubmit={handleSubmit}>
             <ChatFeed
