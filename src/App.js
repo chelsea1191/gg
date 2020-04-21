@@ -87,6 +87,7 @@ const App = () => {
     window.location.hash = '#';
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('filtered');
+    window.localStorage.removeItem('results');
     setAuth({});
     setIsAdmin(false);
     console.log('user has been logged out');
