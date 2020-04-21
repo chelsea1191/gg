@@ -39,7 +39,7 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
         </h6>
       </div>
 
-      <form action="/profileImage" method="post" enctype="multipart/form-data">
+      <form action="/profileImage" method="post" encType="multipart/form-data">
         <input type="file" name="profileImage" />
       </form>
 

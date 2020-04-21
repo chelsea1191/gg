@@ -126,6 +126,13 @@ app.get('/api/favoritegames', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
+app.get('/api/friendships', (req, res, next) => {
+  db.models.friendships
+    .read()
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
 app.get('/api/chat/:userId/:authId', (req, res, next) => {
   db.getChat(req.params.userId, req.params.authId).then((response) => {
     res.send(response);
@@ -159,6 +166,13 @@ app.post('/api/favoritegames', (req, res, next) => {
   db.models.favoriteGames
     .create(req.body)
     .then((user) => res.send(user))
+    .catch(next);
+});
+
+app.post('/api/friendships', (req, res, next) => {
+  db.models.friendships
+    .create(req.body)
+    .then((friendship) => res.send(friendship))
     .catch(next);
 });
 
