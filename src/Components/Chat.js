@@ -13,7 +13,6 @@ import io from 'socket.io-client';
 
 const Chat = ({ auth, users }) => {
   var socket = io();
-  const [refreshMessage, setRefreshMessage] = useState('');
   const [message, setMessage] = useState('');
   const messageArray = [];
   const [chat, setChat] = useState([]);
@@ -32,10 +31,13 @@ const Chat = ({ auth, users }) => {
   ]);
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
-      setChats(response.data);
+      if (response.data.length) {
+        setChats(response.data);
+      } else {
+        setChats(null);
+      }
     });
   }, [user]);
-  console.log(user, 'in chat this is the user');
 
   useEffect(() => {
     if (user.id) {
@@ -51,34 +53,19 @@ const Chat = ({ auth, users }) => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   getMessages(localChat.id);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('messages that should be displaying: ', messages);
-  // }, [setMessages]);
-
   useEffect(() => {
-    console.log('refreshMessage triggered');
     if (chat.id) {
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-        console.log(
-          'all messages in this chat from getMessages: ',
-          response.data
-        );
         response.data.forEach((messageObj) => {
-          //console.log('each message: ', messageObj);
           if (messageObj.sender_id === auth.id) {
-            let count = messageArray.push(
+            messageArray.push(
               new Message({
                 id: 0,
                 message: messageObj.message,
               })
             );
-            //console.log('count is: ', count);
           } else {
-            let count = messageArray.push(
+            messageArray.push(
               new Message({
                 id: 1,
                 message: messageObj.message,
@@ -86,20 +73,14 @@ const Chat = ({ auth, users }) => {
             );
           }
         });
-        setMessages([...messageArray]);
       });
+      setMessages([...messageArray]);
     }
   }, []);
 
   socket.on('chat message', (msg) => {
     const socketMessage = JSON.parse(msg);
-    console.log(
-      socketMessage.sender_id === auth.id,
-      'should be true always right nows',
-      socketMessage.sender_id
-    );
     if (socketMessage.sender_id === auth.id) {
-      console.log(auth.id, 'i send this one it should be a blue bubble');
       setMessages([
         ...messages,
         new Message({ id: 0, message: socketMessage.message }),
@@ -120,7 +101,6 @@ const Chat = ({ auth, users }) => {
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
       .then((response) => {
-        console.log(response);
         socket.emit(
           'chat message',
           JSON.stringify({
@@ -130,30 +110,12 @@ const Chat = ({ auth, users }) => {
           })
         );
       });
-    // socket.on('is typing', (isTyping) => {
-    //   setIsTyping(true);
-    // });
     setMessage('');
     setIsTyping(false);
   };
 
-  //start jsx
   if (!user.id) {
-    if (chats.id) {
-      return (
-        <div>
-          <div>
-            {chats.map((eachChat) => {
-              console.log(
-                eachChat,
-                'this is the chats that already exists for the user'
-              );
-              return <div key={eachChat.id}></div>;
-            })}
-          </div>
-        </div>
-      );
-    } else {
+    if (!chats || chats === []) {
       return (
         <div>
           {' '}
@@ -172,21 +134,60 @@ const Chat = ({ auth, users }) => {
           })}
         </div>
       );
+    } else {
+      console.log(chats);
+      return (
+        <div>
+          {chats.map((eachChat) => {
+            // users.map((eachUser) => {
+            //   if (eachChat.user_id === eachUser.id) {
+            //     console.log(eachChat.user_id, eachUser.id, 'in if statement');
+            //     return <div>test</div>;
+            //   }
+            return (
+              <div key={eachChat.id}>
+                <Link to={`/chat/${eachChat.user_id}`}>{eachChat.id}</Link>
+              </div>
+            );
+          })}
+        </div>
+      );
     }
+    //           if (eachChat.user_id === eachUser.id) {
+
+    //           } else {
+    //             return <div> Hi</div>;
+    //           }
+    //         });
+    //       })
+    //     }
+    //  </div>
+    //  )
+
+    // } else {
+    //     return (
+    //       <div>
+    //         {' '}
+    //         Find some users to have a chat with!
+    //         {users.map((eachUser) => {
+    //           return (
+    //             <div key={eachUser.id}>
+    //               <Link
+    //                 to={`/chat/${eachUser.id}`}
+    //                 onClick={() => setUser(eachUser)}
+    //               >
+    //                 {eachUser.firstname + eachUser.lastname}
+    //               </Link>
+    //             </div>
+    //           );
+    //         })}
+    //       </div>
+    //     );
   } else {
-    console.log(user.id);
     return (
       <div id="chatPage">
         <span>
-          <Link
-            to="/"
-            onClick={() => {
-              localStorage.removeItem('chat');
-              localStorage.removeItem('user');
-            }}
-          >
-            X
-          </Link>
+          <Link to="/">X</Link>
           Chat with: {user.firstname + user.lastname}
           <form onSubmit={handleSubmit}>
             <ChatFeed
