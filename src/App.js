@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import qs from 'qs';
-import FindPlayers from './Components/FindPlayers.js';
-import GamesPage from './Components/GamesPage';
-import GamePage from './Components/GamePage';
-import UserProfile from './Components/UserProfile';
-import About from './Components/About';
-import Login from './Components/Login';
-import CreateUser from './Components/CreateUser';
-import UserFriendsPage from './Components/UserFriendsPage';
-import UserGamesPage from './Components/UserGamesPage';
-import UserSettings from './Components/UserSettings';
-import Chat from './Components/Chat';
+import FindPlayers from './components/FindPlayers.js';
+import GamesPage from './components/GamesPage';
+import GamePage from './components/GamePage';
+import UserProfile from './components/UserProfile';
+import About from './components/About';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
+import UserFriendsPage from './components/UserFriendsPage';
+import UserGamesPage from './components/UserGamesPage';
+import UserSettings from './components/UserSettings';
+import Chat from './components/chat/Chat';
+import UserChat from './components/chat/UserChat';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
@@ -323,7 +324,7 @@ const App = () => {
                 <Route path='/about'>
                   <About />
                 </Route>
-                <Route path={`/chat`}>
+                <Route exact path='/chat'>
                   <Chat
                     auth={auth}
                     users={users}
@@ -331,8 +332,8 @@ const App = () => {
                     setUser={setUser}
                   />
                 </Route>
-                <Route exact path={`/chat/${user.id}`}>
-                  <Chat
+                <Route exact path='/chat/:id'>
+                  <UserChat
                     auth={auth}
                     users={users}
                     user={user}
