@@ -1,111 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import moment from 'moment';
-import qs from 'qs';
-import FindPlayers from './Components/FindPlayers.js';
-import GamesPage from './Components/GamesPage';
-import GamePage from './Components/GamePage';
-import UserProfile from './Components/UserProfile';
-import About from './Components/About';
-import Login from './Components/Login';
-import CreateUser from './Components/CreateUser';
-import UserFriendsPage from './Components/UserFriendsPage';
-import UserGamesPage from './Components/UserGamesPage';
-import UserSettings from './Components/UserSettings';
-import Chat from './Components/Chat';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import moment from 'moment'
+import qs from 'qs'
+import FindPlayers from './components/FindPlayers.js'
+import GamesPage from './components/GamesPage'
+import GamePage from './components/GamePage'
+import UserProfile from './components/UserProfile'
+import About from './components/About'
+import Login from './components/Login'
+import CreateUser from './components/CreateUser'
+import UserFriendsPage from './components/UserFriendsPage'
+import UserGamesPage from './components/UserGamesPage'
+import UserSettings from './components/UserSettings'
+import Chat from './components/chat/Chat'
+import UserChat from './components/chat/UserChat'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
 
 const headers = () => {
-  const token = window.localStorage.getItem('token');
+  const token = window.localStorage.getItem('token')
   return {
     headers: {
       authorization: token,
     },
-  };
-};
+  }
+}
 
 const App = () => {
-  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)));
-  const [auth, setAuth] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [allGames, setAllGames] = useState([]);
-  const [gameView, setGameView] = useState([]);
-  const [userView, setUserView] = useState([]);
-  const [friendsView, setFriendsView] = useState([]);
-  const [favoriteGames, setFavoriteGames] = useState([]);
-  const [friendships, setFriendships] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState([]);
+  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)))
+  const [auth, setAuth] = useState({})
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [allGames, setAllGames] = useState([])
+  const [gameView, setGameView] = useState([])
+  const [userView, setUserView] = useState([])
+  const [friendsView, setFriendsView] = useState([])
+  const [favoriteGames, setFavoriteGames] = useState([])
+  const [friendships, setFriendships] = useState([])
+  const [users, setUsers] = useState([])
+  const [user, setUser] = useState([])
 
-  const [userFriends, setUserFriends] = useState([]);
+  const [userFriends, setUserFriends] = useState([])
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       //console.log('all games: ', response.data);
-      setAllGames(response.data);
-    });
-  }, [auth]);
+      setAllGames(response.data)
+    })
+  }, [auth])
 
   useEffect(() => {
     axios.get('/api/users').then((response) => {
-      setUsers(response.data);
-    });
-  }, []);
+      setUsers(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     axios.get('/api/favoritegames').then((response) => {
-      setFavoriteGames(response.data);
-    });
-  }, []);
+      setFavoriteGames(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
-      setFriendships(response.data);
-    });
-  }, []);
+      setFriendships(response.data)
+    })
+  }, [])
 
   const login = async (credentials) => {
-    const token = (await axios.post('/api/auth', credentials)).data.token;
-    window.localStorage.setItem('token', token);
-    exchangeTokenForAuth();
-  };
+    const token = (await axios.post('/api/auth', credentials)).data.token
+    window.localStorage.setItem('token', token)
+    exchangeTokenForAuth()
+  }
 
   const exchangeTokenForAuth = async () => {
-    const response = await axios.get('/api/auth', headers());
-    setAuth(response.data);
+    const response = await axios.get('/api/auth', headers())
+    setAuth(response.data)
     if (response.data.role === 'admin') {
-      console.log('logged in! user is an admin');
-      setIsAdmin(true);
+      console.log('logged in! user is an admin')
+      setIsAdmin(true)
     }
     if (response.data.role === 'player') {
-      console.log('logged in! user is a player');
+      console.log('logged in! user is a player')
     }
-  };
+  }
 
   const logout = () => {
-    window.location.hash = '#';
-    window.localStorage.removeItem('token');
-    window.localStorage.removeItem('filtered');
-    window.localStorage.removeItem('results');
-    setAuth({});
-    setIsAdmin(false);
-    console.log('user has been logged out');
-  };
+    window.location.hash = '#'
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('filtered')
+    window.localStorage.removeItem('results')
+    setAuth({})
+    setIsAdmin(false)
+    console.log('user has been logged out')
+  }
 
   const changePassword = (newCredentials) => {
-    axios.put(`/api/auth/${auth.id}`, newCredentials);
-  };
+    axios.put(`/api/auth/${auth.id}`, newCredentials)
+  }
 
   useEffect(() => {
     window.addEventListener('hashchange', () => {
-      setParams(qs.parse(window.location.hash.slice(1)));
-    });
-  }, []);
+      setParams(qs.parse(window.location.hash.slice(1)))
+    })
+  }, [])
 
   useEffect(() => {
-    exchangeTokenForAuth();
-  }, []);
+    exchangeTokenForAuth()
+  }, [])
 
   if (!auth.id) {
     return (
@@ -207,7 +208,7 @@ const App = () => {
           </div>
         </Router>
       </div>
-    );
+    )
   } else {
     return (
       <div className="App">
@@ -248,6 +249,9 @@ const App = () => {
                     ></img>{' '}
                   </Link>{' '}
                 </li>{' '}
+                <li>
+                  <Link to="/chat/:id"></Link>
+                </li>
                 <li>
                   <Link className="link" to="/usersettings">
                     <img
@@ -332,7 +336,7 @@ const App = () => {
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route path={`/chat`}>
+                <Route path="/chat">
                   <Chat
                     auth={auth}
                     users={users}
@@ -340,8 +344,8 @@ const App = () => {
                     setUser={setUser}
                   />
                 </Route>
-                <Route exact path={`/chat/${user.id}`}>
-                  <Chat
+                <Route path="/chat/:id">
+                  <UserChat
                     auth={auth}
                     users={users}
                     user={user}
@@ -366,10 +370,10 @@ const App = () => {
           </div>
         </Router>
       </div>
-    );
+    )
   }
-};
+}
 
-export default App;
+export default App
 
 //maybe add to improve user experience: upon page load, if user is NOT on mobile, alert and say "this site is best viewable on a mobile device but proceed as everything should still work"
