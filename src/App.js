@@ -37,7 +37,6 @@ const App = () => {
   const [friendships, setFriendships] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState([]);
-
   const [userFriends, setUserFriends] = useState([]);
 
   useEffect(() => {
@@ -109,58 +108,55 @@ const App = () => {
 
   if (!auth.id) {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
                 <li>
-                  <Link className="link" to="/">
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Bootstrap"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/games">
+                  <Link className='link' to='/games'>
                     <img
-                      src="/assets/search.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/search.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/about">
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/login">
-                    <button id="logButton">
+                  <Link className='link' to='/login'>
+                    <button id='logButton'>
                       <h6>Login</h6>
                     </button>
                   </Link>
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
-                <Route path="/login">
+                <Route path='/login'>
                   <Login login={login} />
                 </Route>
-                <Route path="/register">
+                <Route path='/register'>
                   <CreateUser
                     auth={auth}
                     setAuth={setAuth}
@@ -185,13 +181,13 @@ const App = () => {
                     setUserView={setUserView}
                   />
                 </Route>
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage allGames={allGames} setGameView={setGameView} />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
-                <Route path="/">
+                <Route path='/'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
@@ -210,76 +206,71 @@ const App = () => {
     );
   } else {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
                 <li>
-                  <Link className="link" to="/">
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Bootstrap"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/games">
+                  <Link className='link' to='/games'>
                     <img
-                      src="/assets/search.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/search.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/chat">
+                  <Link className='link' to='/chat'>
                     <img
-                      id="chatButton"
-                      src="/assets/chat.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>{' '}
+                      id='chatButton'
+                      src='/assets/chat.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>{' '}
                   </Link>{' '}
                 </li>{' '}
                 <li>
-                  <Link className="link" to="/usersettings">
+                  <Link className='link' to='/usersettings'>
                     <img
-                      src="/assets/settings.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/settings.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/about">
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/login">
-                    <button type="button" id="logButton" onClick={logout}>
+                  <Link className='link' to='/login'>
+                    <button type='button' id='logButton' onClick={logout}>
                       <h6>Log Out</h6>
                     </button>
                   </Link>
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage
@@ -313,7 +304,7 @@ const App = () => {
                     users={users}
                   />
                 </Route>
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage
                     auth={auth}
                     allGames={allGames}
@@ -322,14 +313,14 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route path="/usersettings">
+                <Route path='/usersettings'>
                   <UserSettings
                     auth={auth}
                     changePassword={changePassword}
                     setUserView={setUserView}
                   />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
                 <Route path={`/chat`}>
@@ -348,7 +339,7 @@ const App = () => {
                     setUser={setUser}
                   />
                 </Route>
-                <Route path="/">
+                <Route path='/'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
