@@ -311,6 +311,7 @@ const App = () => {
                     friendships={friendships}
                     setFriendships={setFriendships}
                     users={users}
+                    auth={auth}
                   />
                 </Route>
                 <Route path="/games">

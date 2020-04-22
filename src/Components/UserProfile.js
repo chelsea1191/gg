@@ -10,6 +10,7 @@ const UserProfile = ({
   friendships,
   setFriendships,
   users,
+  auth,
 }) => {
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
@@ -23,10 +24,11 @@ const UserProfile = ({
       userId: auth.id,
       friendId: user.id,
     }).data;
-    const friendRequests = friendships.filter(
-      (friendship) =>
-        friendship.userId === user.id && friendship.friendId === auth.id
-    );
+    const friendRequests = friendships.filter((friendship) => {
+      if (friendship) {
+        friendship.userId === user.id && friendship.friendId === auth.id;
+      }
+    });
     if (friendRequests.length === 1) {
       const friendRequestCopy = { ...friendRequests[0] };
       const friendRequestIndex = friendships.indexOf(friendRequestCopy);
@@ -42,10 +44,11 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = friendships.filter(
-    (friendship) =>
-      friendship.userId === user.Id && friendship.status === 'confirmed'
-  );
+  const confirmedFriendships = friendships.filter((friendship) => {
+    if (friendship) {
+      friendship.userId === user.Id && friendship.status === 'confirmed';
+    }
+  });
   const userFriends = confirmedFriendships.map((friendship) => {
     const friend = users.find((user) => user.id === friendship.friendId);
     return friend;

@@ -2,7 +2,7 @@ const client = require('../client');
 
 const friendships = {
   read: async () => {
-    const response = await client.query('SELECT * FROM friends');
+    const response = await client.query('SELECT * FROM friendships');
     return response.rows;
   },
 
