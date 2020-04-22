@@ -10,6 +10,7 @@ const models = ({
   gameTypes,
   favoriteGames,
   friendships,
+  hardcodedGames,
 } = require('./models'));
 const {
   getAllGames,
@@ -44,7 +45,7 @@ const allDataFromAPI = axios
     }
     console.log('error.config: ', error.config);
   });
-//changed password NOT NULL
+
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   DROP TABLE IF EXISTS message;
@@ -62,7 +63,7 @@ const sync = async () => {
     username VARCHAR(100) NOT NULL UNIQUE,
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
-    password VARCHAR(100),
+    password VARCHAR(100) NOT NULL,
     role VARCHAR(20) DEFAULT 'player',
     email VARCHAR(100) NOT NULL UNIQUE,
     "isBlocked" BOOLEAN DEFAULT false,
@@ -117,7 +118,6 @@ const sync = async () => {
     date_create TIMESTAMP default CURRENT_TIMESTAMP,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-
   CREATE TABLE message (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     chat_id UUID REFERENCES chat(id) NOT NULL,
@@ -126,22 +126,23 @@ const sync = async () => {
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
   INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540');
-  INSERT INTO game (id, name) VALUES ('1', 'TEST GAME');
-   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
+  INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30');
+  INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
   `;
   await client.query(SQL);
 
-  const _games = await allDataFromAPI;
-  const [foo, bar, baz] = await Promise.all(
-    Object.values(_games).map((each) => games.create(each))
+  await Promise.all(
+    Object.values(hardcodedGames).map((each) => games.create(each))
   );
+
+  const _games = await allDataFromAPI;
+  await Promise.all(Object.values(_games).map((each) => games.create(each)));
   const _gameTypes = [
     { gametype: 'board' },
-    { gametype: 'sport' },
-    { gametype: 'rpg' },
-    { gametype: 'video' },
+    { gametype: 'card' },
+    { gametype: 'tabletop rpg' },
   ];
-  const [board, sport, rpg, video] = await Promise.all(
+  await Promise.all(
     Object.values(_gameTypes).map((each) => gameTypes.create(each))
   );
 
@@ -181,9 +182,7 @@ const sync = async () => {
     },
   };
 
-  const [admin, friend] = await Promise.all(
-    Object.values(_users).map((user) => users.create(user))
-  );
+  await Promise.all(Object.values(_users).map((user) => users.create(user)));
 
   const userMap = (await users.read()).reduce((acc, user) => {
     acc[user.username] = user;
@@ -210,3 +209,5 @@ module.exports = {
   getMessage,
   putMessage,
 };
+
+// INSERT INTO game(id, name, "gameTypeID", description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime, average_user_rating) VALUES ('2', 'Dungeons & Dragons (5th edition)', '3', 'Dungeons & Dragons (abbreviated as D&D or DnD) is a fantasy tabletop role-playing game (RPG) originally designed by Gary Gygax and Dave Arneson, and first published in 1974 by Tactical Studies Rules, Inc.. The game has been published by Wizards of the Coast (now a subsidiary of Hasbro) since 1997. It was derived from miniature wargames with a variation of the Chainmail game serving as the initial rule system. D&D‍‍s publication is widely regarded as the beginning of modern role-playing games and the role-playing game industry.', 'https://static0.srcdn.com/wordpress/wp-content/uploads/2019/09/Dungeons-and-Dragons-Alignments.jpg', '3', '5', 'https://dnd.wizards.com/', 'TSR, Inc., Wizards of the Coast', '8', '2014', '120', '600', '4.5');

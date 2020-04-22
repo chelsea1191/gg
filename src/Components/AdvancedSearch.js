@@ -5,25 +5,42 @@ import Button from 'react-bootstrap/Button';
 
 const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
   const [playerSelections, setPlayerSelections] = useState([]); //array of checkbox selections
+  const [gameTypeSelections, setGameTypeSelections] = useState([]); //array of game type selections
 
   const handleSubmit = (ev) => {
-    //lord have mercy with this searching function
     ev.preventDefault();
-    //console.log('player Selections: ', playerSelections);
-    const arrayOfGames = []; //array of games that includes duplicates
-    const uniqueObj = new Set(playerSelections); //creates unique object
-    const uniqueSet = [...uniqueObj]; //converts to array of unique selections
-    //need to return all games where minimum is less than or equal to filterNum
-    uniqueSet.map((filterNum) => {
-      //map over selections
-      allGames.map((game) => {
-        //for each game, if the minimum is <= filterNum, push into array
-        if (game.min_players <= filterNum && game.max_players >= filterNum) {
-          arrayOfGames.push(game);
-        }
+    let arrayOfGamesFilteredByPlayers = []; //array of games that includes duplicates
+    let arrayOfGamesFilteredByGameType = [];
+    if (playerSelections.length === 0) {
+      //if no players were selected then just search allgames
+      arrayOfGamesFilteredByPlayers = [...allGames];
+    } else {
+      //filtering by player numbers
+      playerSelections.map((filterNum) => {
+        //map over selections
+        allGames.map((game) => {
+          //for each game, if the minimum is <= filterNum, push into array
+          if (game.min_players <= filterNum && game.max_players >= filterNum) {
+            arrayOfGamesFilteredByPlayers.push(game);
+          }
+        });
       });
-    });
-    const uniqueArrayOfGames = new Set(arrayOfGames);
+    }
+    if (gameTypeSelections.length === 0) {
+      arrayOfGamesFilteredByGameType = [...arrayOfGamesFilteredByPlayers];
+    } else {
+      //filtering by gametype
+      gameTypeSelections.map((filterType) => {
+        //map over selections
+        arrayOfGamesFilteredByPlayers.map((game) => {
+          //for each game, if the game.gameTypeID === the filterType, push into arrayOfGamesFilteredByGameType
+          if (game.gameTypeID == filterType) {
+            arrayOfGamesFilteredByGameType.push(game);
+          }
+        });
+      });
+    }
+    const uniqueArrayOfGames = new Set(arrayOfGamesFilteredByGameType);
     const finalArrayOfGames = [...uniqueArrayOfGames];
     setFiltered(finalArrayOfGames);
   };
@@ -31,11 +48,24 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
   const updatePlayerState = (ev) => {
     const indexOfNum = playerSelections.indexOf(ev.target.value);
     if (indexOfNum > -1) {
+      //if it already exists, take it out
       const oldArray = playerSelections;
       oldArray.splice(indexOfNum, 1);
       setPlayerSelections(oldArray);
     } else {
       setPlayerSelections([...playerSelections, ev.target.value]);
+    }
+  };
+
+  const updateGameTypeState = (ev) => {
+    const indexOfNum = gameTypeSelections.indexOf(ev.target.value);
+    if (indexOfNum > -1) {
+      //if it already exists, take it out
+      const oldArray = gameTypeSelections;
+      oldArray.splice(indexOfNum, 1);
+      setGameTypeSelections(oldArray);
+    } else {
+      setGameTypeSelections([...gameTypeSelections, ev.target.value]);
     }
   };
 
@@ -51,21 +81,13 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
           <Card.Body>
             <div className='advGameType'>
               <h5>Game Type</h5>
-              <label className='checkbox' htmlFor='advVideogamesCheckbox'>
-                <input
-                  type='checkbox'
-                  id='advVideogamesCheckbox'
-                  name='advGameTypes'
-                  value='Video Games'
-                />
-                <h6>Video Games</h6>
-              </label>
               <label className='checkbox' htmlFor='advBoardgamesCheckbox'>
                 <input
                   type='checkbox'
                   id='advBoardgamesCheckbox'
                   name='advGameTypes'
-                  value='Board Games'
+                  value='1'
+                  onClick={(ev) => updateGameTypeState(ev)}
                 />
                 <h6>Board Games</h6>
               </label>
@@ -74,18 +96,20 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
                   type='checkbox'
                   id='advTabletopCheckbox'
                   name='advGameTypes'
-                  value='Tabletop Games & RPGs'
+                  value='3'
+                  onClick={(ev) => updateGameTypeState(ev)}
                 />
                 <h6>Tabletop Games & RPGs</h6>
               </label>
-              <label className='checkbox' htmlFor='advSportsCheckbox'>
+              <label className='checkbox' htmlFor='advCardCheckbox'>
                 <input
                   type='checkbox'
-                  id='advSportsCheckbox'
+                  id='advCardCheckbox'
                   name='advGameTypes'
-                  value='Sport & Field Games'
+                  value='2'
+                  onClick={(ev) => updateGameTypeState(ev)}
                 />
-                <h6>Sport & Field Games</h6>
+                <h6>Card Games</h6>
               </label>
             </div>
             <hr />
@@ -119,13 +143,23 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
                   value='4'
                   onClick={(ev) => updatePlayerState(ev)}
                 />
-                <h6>4+</h6>
+                <h6>4</h6>
+              </label>
+              <label className='checkbox' htmlFor='advPlayers4checkbox'>
+                <input
+                  type='checkbox'
+                  id='advPlayers4checkbox'
+                  name='advPlayersNumber'
+                  value='5'
+                  onClick={(ev) => updatePlayerState(ev)}
+                />
+                <h6>5+</h6>
               </label>
               <button
                 className='searchButton'
                 type='submit'
                 onClick={(ev) => handleSubmit(ev)}>
-                <h5>Search</h5>
+                <h5>Apply</h5>
               </button>
               {link === 'findPlayers' && <p>{filtered.length} results</p>}
             </div>

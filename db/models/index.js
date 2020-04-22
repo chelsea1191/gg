@@ -4,4 +4,5 @@ module.exports = {
   gameTypes: require('./gameTypes'),
   favoriteGames: require('./favoriteGames'),
   friendships: require('./friendships'),
+  hardcodedGames: require('./hardcodedGames'),
 };

@@ -13,17 +13,16 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
       userId: auth.id,
       gameId: game.id,
     }).data;
-
     setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
   };
 
   return (
-    <div id="gamePage">
-      <img className="gameImage" src={game.image_url} />
+    <div id='gamePage'>
+      <img className='gameImage' src={game.image_url} />
       <h4>
         <b>{game.name}</b>
       </h4>
-      <hr className="hr" />
+      <hr className='hr' />
       <h6>
         <Rating rating={rating} />
         <span>average rating: {rating}</span> <br />
@@ -34,23 +33,23 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
         <i> ages {game.min_age} +</i> <br />
         <i>
           {game.min_playtime} - {game.max_playtime} minutes playtime
-        </i>{' '}
+        </i>
         <br />
         <i>
           Published by: {game.primary_publisher} in {game.year_published}
         </i>
       </h6>
 
-      <button type="button" onClick={addFavorite}>
+      <button type='button' onClick={addFavorite}>
         <h5>Add to Favorites</h5>
       </button>
-      <hr className="hr" />
+      <hr className='hr' />
       <h6>
         <i>{game.description}</i>
       </h6>
       <h6>
         Learn more about this game
-        <a href={game.url} target="_blank">
+        <a href={game.url} target='_blank'>
           {' '}
           here
         </a>
