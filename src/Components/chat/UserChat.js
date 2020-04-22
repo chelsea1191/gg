@@ -1,15 +1,15 @@
-import { ChatFeed, Message } from 'react-chat-ui'
-import React, { useState, useEffect } from 'react'
+import { ChatFeed, Message } from 'react-chat-ui';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom'
-import axios from 'axios'
-import moment from 'moment'
-import io from 'socket.io-client'
+} from 'react-router-dom';
+import axios from 'axios';
+import moment from 'moment';
+import io from 'socket.io-client';
 
 export default function UserChat({
   user,
@@ -20,18 +20,18 @@ export default function UserChat({
   location,
   history,
 }) {
-  console.log(match, location, history, 'this is user chat')
-  var socket = io()
-  const [message, setMessage] = useState('')
+  console.log(match, location, history, 'this is user chat');
+  var socket = io();
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
     // new Message({
     //   id: 1,
     //   message: "I'm the recipient! (The person you're talking to)",
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
-  ])
-  const [isTyping, setIsTyping] = useState(false)
-  console.log(match, 'this is userchat')
+  ]);
+  const [isTyping, setIsTyping] = useState(false);
+  console.log(match, 'this is userchat');
 
   // useEffect(() => {
   //   if (chat.id) {
@@ -60,12 +60,12 @@ export default function UserChat({
   // }, [])
 
   socket.on('chat message', (msg) => {
-    const socketMessage = JSON.parse(msg)
+    const socketMessage = JSON.parse(msg);
     if (socketMessage.sender_id === auth.id) {
       setMessages([
         ...messages,
         new Message({ id: 0, message: socketMessage.message }),
-      ])
+      ]);
     } else {
       setMessages([
         ...messages,
@@ -73,11 +73,11 @@ export default function UserChat({
           id: 1,
           message: socketMessage.message,
         }),
-      ])
+      ]);
     }
-  })
+  });
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     axios
       .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
       .then((response) => {
@@ -88,15 +88,15 @@ export default function UserChat({
             sender_id: response.data.sender_id,
             typing: 'yes',
           })
-        )
-      })
-    setMessage('')
-    setIsTyping(false)
-  }
+        );
+      });
+    setMessage('');
+    setIsTyping(false);
+  };
   return (
-    <div id="chatPage">
+    <div id='chatPage'>
       <span>
-        <Link to="/chat" onClick={() => setUser('')}>
+        <Link to='/chat' onClick={() => setUser('')}>
           X
         </Link>
         Chat with: {user.firstname + user.lastname}
@@ -118,16 +118,16 @@ export default function UserChat({
             }}
           />
           <input
-            type="text"
+            type='text'
             value={message}
             onChange={(ev) => {
-              setMessage(ev.target.value)
+              setMessage(ev.target.value);
             }}
-            placeholder="message"
+            placeholder='message'
           />
           <button>Submit</button>
         </form>
       </span>
     </div>
-  )
+  );
 }

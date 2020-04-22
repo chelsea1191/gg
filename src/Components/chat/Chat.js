@@ -1,24 +1,24 @@
-import { ChatFeed, Message } from 'react-chat-ui'
-import React, { useState, useEffect } from 'react'
+import { ChatFeed, Message } from 'react-chat-ui';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom'
-import axios from 'axios'
-import moment from 'moment'
-import io from 'socket.io-client'
-import UserChat from './UserChat'
+} from 'react-router-dom';
+import axios from 'axios';
+import moment from 'moment';
+import io from 'socket.io-client';
+import UserChat from './UserChat';
 
 const Chat = ({ auth, users, match }) => {
-  const messageArray = []
-  const [chat, setChat] = useState([])
-  const [chats, setChats] = useState([])
-  const [user, setUser] = useState([])
+  const messageArray = [];
+  const [chat, setChat] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [user, setUser] = useState([]);
 
-  console.log(match, 'the path')
+  console.log(match, 'the path');
 
   //search for existing chats if theres are none create one!
   useEffect(() => {
@@ -26,21 +26,21 @@ const Chat = ({ auth, users, match }) => {
       axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
         if (!response.data) {
           axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-            setChat(response.data)
-          })
+            setChat(response.data);
+          });
         } else {
-          setChat(response.data)
+          setChat(response.data);
         }
-      })
+      });
     }
     axios.get(`/api/chat/${auth.id}`).then((response) => {
       if (response.data.length) {
-        setChats(response.data)
+        setChats(response.data);
       } else {
-        setChats(null)
+        setChats(null);
       }
-    })
-  }, [user])
+    });
+  }, [user]);
 
   if (!chats || chats === []) {
     return (
@@ -53,18 +53,17 @@ const Chat = ({ auth, users, match }) => {
               <div key={eachUser.id}>
                 <Link
                   to={`/chat/${eachUser.id}`}
-                  onClick={() => setUser(eachUser)}
-                >
-                  {eachUser.firstname + eachUser.lastname}
+                  onClick={() => setUser(eachUser)}>
+                  {eachUser.firstname + ' ' + eachUser.lastname}
                 </Link>
               </div>
-            )
+            );
           }
         })}
       </div>
-    )
+    );
   } else {
-    console.log(chats)
+    console.log(chats);
     return (
       <div>
         Chats already in progress:
@@ -73,30 +72,29 @@ const Chat = ({ auth, users, match }) => {
             <div key={eachChat.id}>
               {users.map((eachUser) => {
                 if (eachChat.user_id === eachUser.id) {
-                  console.log(eachUser)
+                  console.log(eachUser);
                   return (
                     <div key={eachUser.id}>
                       <Link
                         to={`/chat/${eachUser.id}`}
                         onClick={() => {
-                          setUser(eachUser)
-                        }}
-                      >
+                          setUser(eachUser);
+                        }}>
                         {eachUser.firstname + eachUser.lastname}
                       </Link>
                     </div>
-                  )
+                  );
                 }
               })}
             </div>
-          )
+          );
         })}
       </div>
-    )
+    );
   }
-}
+};
 
-export default Chat
+export default Chat;
 
 //add delete feature - add two tables in db and have it be renderuser default false
 //then upon useeffect if render user is false dont get the old messages
