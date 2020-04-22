@@ -12,11 +12,13 @@ import moment from 'moment'
 import io from 'socket.io-client'
 import UserChat from './UserChat'
 
-const Chat = ({ auth, users }) => {
+const Chat = ({ auth, users, match }) => {
   const messageArray = []
   const [chat, setChat] = useState([])
   const [chats, setChats] = useState([])
   const [user, setUser] = useState([])
+
+  console.log(match, 'the path')
 
   //search for existing chats if theres are none create one!
   useEffect(() => {
@@ -40,62 +42,57 @@ const Chat = ({ auth, users }) => {
     })
   }, [user])
 
-  if (!user.id) {
-    if (!chats || chats === []) {
-      return (
-        <div>
-          {' '}
-          Find some users to have a chat with!
-          {users.map((eachUser) => {
-            if (eachUser.id != auth.id) {
-              return (
-                <div key={eachUser.id}>
-                  <Link
-                    to={`/chat/${eachUser.id}`}
-                    onClick={() => setUser(eachUser)}
-                  >
-                    {eachUser.firstname + eachUser.lastname}
-                  </Link>
-                </div>
-              )
-            }
-          })}
-        </div>
-      )
-    } else {
-      console.log(chats)
-      return (
-        <div>
-          Chats already in progress:
-          {chats.map((eachChat) => {
+  if (!chats || chats === []) {
+    return (
+      <div>
+        {' '}
+        Find some users to have a chat with!
+        {users.map((eachUser) => {
+          if (eachUser.id != auth.id) {
             return (
-              <div key={eachChat.id}>
-                {users.map((eachUser) => {
-                  if (eachChat.user_id === eachUser.id) {
-                    console.log(eachUser)
-                    return (
-                      <div key={eachUser.id}>
-                        <Link
-                          to={`/chat/${eachUser.id}`}
-                          onClick={() => {
-                            setUser(eachUser)
-                            setChat(chat)
-                          }}
-                        >
-                          {eachUser.firstname + eachUser.lastname}
-                        </Link>
-                      </div>
-                    )
-                  }
-                })}
+              <div key={eachUser.id}>
+                <Link
+                  to={`/chat/${eachUser.id}`}
+                  onClick={() => setUser(eachUser)}
+                >
+                  {eachUser.firstname + eachUser.lastname}
+                </Link>
               </div>
             )
-          })}
-        </div>
-      )
-    }
+          }
+        })}
+      </div>
+    )
   } else {
-    return <UserChat user={user} chat={chat} />
+    console.log(chats)
+    return (
+      <div>
+        Chats already in progress:
+        {chats.map((eachChat) => {
+          return (
+            <div key={eachChat.id}>
+              {users.map((eachUser) => {
+                if (eachChat.user_id === eachUser.id) {
+                  console.log(eachUser)
+                  return (
+                    <div key={eachUser.id}>
+                      <Link
+                        to={`/chat/${eachUser.id}`}
+                        onClick={() => {
+                          setUser(eachUser)
+                        }}
+                      >
+                        {eachUser.firstname + eachUser.lastname}
+                      </Link>
+                    </div>
+                  )
+                }
+              })}
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 }
 

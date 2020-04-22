@@ -250,9 +250,6 @@ const App = () => {
                   </Link>{' '}
                 </li>{' '}
                 <li>
-                  <Link to="/chat/:id"></Link>
-                </li>
-                <li>
                   <Link className="link" to="/usersettings">
                     <img
                       src="/assets/settings.png"
@@ -336,7 +333,7 @@ const App = () => {
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route path="/chat">
+                <Route exact path="/chat">
                   <Chat
                     auth={auth}
                     users={users}
@@ -344,7 +341,7 @@ const App = () => {
                     setUser={setUser}
                   />
                 </Route>
-                <Route path="/chat/:id">
+                <Route exact path="/chat/:id">
                   <UserChat
                     auth={auth}
                     users={users}

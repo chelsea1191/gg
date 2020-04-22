@@ -11,8 +11,16 @@ import axios from 'axios'
 import moment from 'moment'
 import io from 'socket.io-client'
 
-export default function UserChat({ user, chat, auth, match }) {
-  console.log(match, 'in userchat')
+export default function UserChat({
+  user,
+  setUser,
+  chat,
+  auth,
+  match,
+  location,
+  history,
+}) {
+  console.log(match, location, history, 'this is user chat')
   var socket = io()
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
@@ -23,30 +31,33 @@ export default function UserChat({ user, chat, auth, match }) {
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ])
   const [isTyping, setIsTyping] = useState(false)
+  console.log(match, 'this is userchat')
 
-  useEffect(() => {
-    console.log(chat.id, 'this is my chat in userchat')
-    axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-      response.data.forEach((messageObj) => {
-        if (messageObj.sender_id === auth.id) {
-          messageArray.push(
-            new Message({
-              id: 0,
-              message: messageObj.message,
-            })
-          )
-        } else {
-          messageArray.push(
-            new Message({
-              id: 1,
-              message: messageObj.message,
-            })
-          )
-        }
-      })
-      setMessages([...messageArray])
-    })
-  }, [])
+  // useEffect(() => {
+  //   if (chat.id) {
+  //     console.log(chat.id, 'this is my chat in userchat')
+  //     axios.get(`/api/getMessages/${chat.id}`).then((response) => {
+  //       response.data.forEach((messageObj) => {
+  //         if (messageObj.sender_id === auth.id) {
+  //           messageArray.push(
+  //             new Message({
+  //               id: 0,
+  //               message: messageObj.message,
+  //             })
+  //           )
+  //         } else {
+  //           messageArray.push(
+  //             new Message({
+  //               id: 1,
+  //               message: messageObj.message,
+  //             })
+  //           )
+  //         }
+  //       })
+  //       setMessages([...messageArray])
+  //     })
+  //   }
+  // }, [])
 
   socket.on('chat message', (msg) => {
     const socketMessage = JSON.parse(msg)
@@ -84,8 +95,7 @@ export default function UserChat({ user, chat, auth, match }) {
   }
   return (
     <div id="chatPage">
-      hi
-      {/* <span>
+      <span>
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
@@ -117,7 +127,7 @@ export default function UserChat({ user, chat, auth, match }) {
           />
           <button>Submit</button>
         </form>
-      </span> */}
+      </span>
     </div>
   )
 }
