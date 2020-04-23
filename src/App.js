@@ -62,7 +62,7 @@ const App = () => {
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
       setFriendships(response.data);
-      console.log(friendships);
+      console.log(response.data);
     });
   }, []);
 
