@@ -132,6 +132,13 @@ app.get('/api/chatuser/:userid', (req, res, next) => {
     .catch(next)
 })
 
+app.get('/api/friendships', (req, res, next) => {
+  db.models.friendships
+    .read()
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
 app.get('/api/chat/:authId', (req, res, next) => {
   db.getChats(req.params.authId)
     .then((response) => res.send(response))
@@ -175,6 +182,13 @@ app.post('/api/favoritegames', (req, res, next) => {
     .then((user) => res.send(user))
     .catch(next)
 })
+
+app.post('/api/friendships', (req, res, next) => {
+  db.models.friendships
+    .create(req.body)
+    .then((user) => res.send(user))
+    .catch(next);
+});
 
 app.post('/api/sendMessages', (req, res, next) => {
   db.putMessage(

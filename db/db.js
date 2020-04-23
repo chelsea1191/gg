@@ -105,7 +105,7 @@ const sync = async () => {
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "friendId" UUID REFERENCES users(id),
-    status VARCHAR DEFAULT 'unsent'
+    status VARCHAR DEFAULT 'sent'
   );
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
