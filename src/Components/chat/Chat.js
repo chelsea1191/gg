@@ -12,49 +12,25 @@ import moment from 'moment'
 import io from 'socket.io-client'
 import UserChat from './UserChat'
 
-const Chat = ({ auth, users, match }) => {
-  const messageArray = []
-  const [chat, setChat] = useState([])
+const Chat = ({ auth, users }) => {
   const [chats, setChats] = useState([])
-  const [user, setUser] = useState([])
-
-  console.log(match, 'the path')
 
   //search for existing chats if theres are none create one!
   useEffect(() => {
-    if (user.id) {
-      axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
-        if (!response.data) {
-          axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-            setChat(response.data)
-          })
-        } else {
-          setChat(response.data)
-        }
-      })
-    }
     axios.get(`/api/chat/${auth.id}`).then((response) => {
-      if (response.data.length) {
-        setChats(response.data)
-      } else {
-        setChats(null)
-      }
+      setChats(response.data)
     })
-  }, [user])
+  }, [])
 
-  if (!chats || chats === []) {
+  if (!chats || chats.length === 0) {
     return (
       <div>
-        {' '}
         Find some users to have a chat with!
         {users.map((eachUser) => {
           if (eachUser.id != auth.id) {
             return (
               <div key={eachUser.id}>
-                <Link
-                  to={`/chat/${eachUser.id}`}
-                  onClick={() => setUser(eachUser)}
-                >
+                <Link to={`/chat/${eachUser.id}`}>
                   {eachUser.firstname + eachUser.lastname}
                 </Link>
               </div>
@@ -64,7 +40,6 @@ const Chat = ({ auth, users, match }) => {
       </div>
     )
   } else {
-    console.log(chats)
     return (
       <div>
         Chats already in progress:
@@ -73,15 +48,9 @@ const Chat = ({ auth, users, match }) => {
             <div key={eachChat.id}>
               {users.map((eachUser) => {
                 if (eachChat.user_id === eachUser.id) {
-                  console.log(eachUser)
                   return (
                     <div key={eachUser.id}>
-                      <Link
-                        to={`/chat/${eachUser.id}`}
-                        onClick={() => {
-                          setUser(eachUser)
-                        }}
-                      >
+                      <Link to={`/chat/${eachUser.id}`}>
                         {eachUser.firstname + eachUser.lastname}
                       </Link>
                     </div>
