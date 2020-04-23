@@ -1,26 +1,26 @@
-import { ChatFeed, Message } from 'react-chat-ui'
-import React, { useState, useEffect } from 'react'
+import { ChatFeed, Message } from 'react-chat-ui';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom'
-import axios from 'axios'
-import moment from 'moment'
-import io from 'socket.io-client'
-import UserChat from './UserChat'
+} from 'react-router-dom';
+import axios from 'axios';
+import moment from 'moment';
+import io from 'socket.io-client';
+import UserChat from './UserChat';
 
 const Chat = ({ auth, users }) => {
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState([]);
 
   //search for existing chats if theres are none create one!
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
-      setChats(response.data)
-    })
-  }, [])
+      setChats(response.data);
+    });
+  }, []);
 
   if (!chats || chats.length === 0) {
     return (
@@ -34,11 +34,11 @@ const Chat = ({ auth, users }) => {
                   {eachUser.firstname + eachUser.lastname}
                 </Link>
               </div>
-            )
+            );
           }
         })}
       </div>
-    )
+    );
   } else {
     return (
       <div>
@@ -54,7 +54,7 @@ const Chat = ({ auth, users }) => {
                         {eachUser.firstname + eachUser.lastname} in progress
                       </Link>
                     </div>
-                  )
+                  );
                 } else {
                   if (eachUser.id != auth.id) {
                     return (
@@ -65,19 +65,19 @@ const Chat = ({ auth, users }) => {
                           </Link>
                         </span>
                       </div>
-                    )
+                    );
                   }
                 }
               })}
             </div>
-          )
+          );
         })}
       </div>
-    )
+    );
   }
-}
+};
 
-export default Chat
+export default Chat;
 
 //add delete feature - add two tables in db and have it be renderuser default false
 //then upon useeffect if render user is false dont get the old messages

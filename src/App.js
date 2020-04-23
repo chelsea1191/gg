@@ -1,166 +1,163 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import moment from 'moment'
-import qs from 'qs'
-import FindPlayers from './components/FindPlayers.js'
-import GamesPage from './components/GamesPage'
-import GamePage from './components/GamePage'
-import UserProfile from './components/UserProfile'
-import About from './components/About'
-import Login from './components/Login'
-import CreateUser from './components/CreateUser'
-import UserFriendsPage from './components/UserFriendsPage'
-import UserGamesPage from './components/UserGamesPage'
-import UserSettings from './components/UserSettings'
-import Chat from './components/chat/Chat'
-import UserChat from './components/chat/UserChat'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import 'react-bootstrap-typeahead/css/Typeahead.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import qs from 'qs';
+import FindPlayers from './components/FindPlayers.js';
+import GamesPage from './components/GamesPage';
+import GamePage from './components/GamePage';
+import UserProfile from './components/UserProfile';
+import About from './components/About';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
+import UserFriendsPage from './components/UserFriendsPage';
+import UserGamesPage from './components/UserGamesPage';
+import UserSettings from './components/UserSettings';
+import Chat from './components/chat/Chat';
+import UserChat from './components/chat/UserChat';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const headers = () => {
-  const token = window.localStorage.getItem('token')
+  const token = window.localStorage.getItem('token');
   return {
     headers: {
       authorization: token,
     },
-  }
-}
+  };
+};
 
 const App = () => {
-  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)))
-  const [auth, setAuth] = useState({})
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [allGames, setAllGames] = useState([])
-  const [gameView, setGameView] = useState([])
-  const [userView, setUserView] = useState([])
-  const [friendsView, setFriendsView] = useState([])
-  const [favoriteGames, setFavoriteGames] = useState([])
-  const [friendships, setFriendships] = useState([])
-  const [users, setUsers] = useState([])
-  const [user, setUser] = useState([])
-  const [userFriends, setUserFriends] = useState([])
+  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)));
+  const [auth, setAuth] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [allGames, setAllGames] = useState([]);
+  const [gameView, setGameView] = useState([]);
+  const [userView, setUserView] = useState([]);
+  const [friendsView, setFriendsView] = useState([]);
+  const [favoriteGames, setFavoriteGames] = useState([]);
+  const [friendships, setFriendships] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
+  const [userFriends, setUserFriends] = useState([]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       //console.log('all games: ', response.data);
-      setAllGames(response.data)
-    })
-  }, [auth])
+      setAllGames(response.data);
+    });
+  }, [auth]);
 
   useEffect(() => {
     axios.get('/api/users').then((response) => {
-      setUsers(response.data)
-    })
-  }, [])
+      setUsers(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     axios.get('/api/favoritegames').then((response) => {
-      setFavoriteGames(response.data)
-    })
-  }, [])
+      setFavoriteGames(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
-      setFriendships(response.data)
-    })
-  }, [])
+      setFriendships(response.data);
+    });
+  }, []);
 
   const login = async (credentials) => {
-    const token = (await axios.post('/api/auth', credentials)).data.token
-    window.localStorage.setItem('token', token)
-    exchangeTokenForAuth()
-  }
+    const token = (await axios.post('/api/auth', credentials)).data.token;
+    window.localStorage.setItem('token', token);
+    exchangeTokenForAuth();
+  };
 
   const exchangeTokenForAuth = async () => {
-    const response = await axios.get('/api/auth', headers())
-    setAuth(response.data)
+    const response = await axios.get('/api/auth', headers());
+    setAuth(response.data);
     if (response.data.role === 'admin') {
-      console.log('logged in! user is an admin')
-      setIsAdmin(true)
+      console.log('logged in! user is an admin');
+      setIsAdmin(true);
     }
     if (response.data.role === 'player') {
-      console.log('logged in! user is a player')
+      console.log('logged in! user is a player');
     }
-  }
+  };
 
   const logout = () => {
-    window.location.hash = '#'
-    window.localStorage.removeItem('token')
-    window.localStorage.removeItem('filtered')
-    window.localStorage.removeItem('results')
-    setAuth({})
-    setIsAdmin(false)
-    console.log('user has been logged out')
-  }
+    window.location.hash = '#';
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('filtered');
+    window.localStorage.removeItem('results');
+    setAuth({});
+    setIsAdmin(false);
+    console.log('user has been logged out');
+  };
 
   const changePassword = (newCredentials) => {
-    axios.put(`/api/auth/${auth.id}`, newCredentials)
-  }
+    axios.put(`/api/auth/${auth.id}`, newCredentials);
+  };
 
   useEffect(() => {
     window.addEventListener('hashchange', () => {
-      setParams(qs.parse(window.location.hash.slice(1)))
-    })
-  }, [])
+      setParams(qs.parse(window.location.hash.slice(1)));
+    });
+  }, []);
 
   useEffect(() => {
-    exchangeTokenForAuth()
-  }, [])
+    exchangeTokenForAuth();
+  }, []);
 
   if (!auth.id) {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
                 <li>
-                  <Link className="link" to="/">
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Bootstrap"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/games">
+                  <Link className='link' to='/games'>
                     <img
-                      src="/assets/search.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/search.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/about">
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/login">
-                    <button id="logButton">
+                  <Link className='link' to='/login'>
+                    <button id='logButton'>
                       <h6>Login</h6>
                     </button>
                   </Link>
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
-                <Route path="/login">
+                <Route path='/login'>
                   <Login login={login} />
                 </Route>
-                <Route path="/register">
+                <Route path='/register'>
                   <CreateUser
                     auth={auth}
                     setAuth={setAuth}
@@ -185,13 +182,13 @@ const App = () => {
                     setUserView={setUserView}
                   />
                 </Route>
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage allGames={allGames} setGameView={setGameView} />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
-                <Route path="/">
+                <Route path='/'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
@@ -207,79 +204,74 @@ const App = () => {
           </div>
         </Router>
       </div>
-    )
+    );
   } else {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
                 <li>
-                  <Link className="link" to="/">
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Bootstrap"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/games">
+                  <Link className='link' to='/games'>
                     <img
-                      src="/assets/search.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/search.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/chat">
+                  <Link className='link' to='/chat'>
                     <img
-                      id="chatButton"
-                      src="/assets/chat.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>{' '}
+                      id='chatButton'
+                      src='/assets/chat.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>{' '}
                   </Link>{' '}
                 </li>{' '}
                 <li>
-                  <Link className="link" to="/usersettings">
+                  <Link className='link' to='/usersettings'>
                     <img
-                      src="/assets/settings.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/settings.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/about">
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Bootstrap"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Bootstrap'></img>
                   </Link>
                 </li>
                 <li>
-                  <Link className="link" to="/login">
-                    <button type="button" id="logButton" onClick={logout}>
+                  <Link className='link' to='/login'>
+                    <button type='button' id='logButton' onClick={logout}>
                       <h6>Log Out</h6>
                     </button>
                   </Link>
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage
@@ -313,7 +305,7 @@ const App = () => {
                     users={users}
                   />
                 </Route>
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage
                     auth={auth}
                     allGames={allGames}
@@ -322,19 +314,20 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route path="/usersettings">
+                <Route path='/usersettings'>
                   <UserSettings
                     auth={auth}
                     changePassword={changePassword}
                     setUserView={setUserView}
                   />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
+
                 <Route
                   exact
-                  path="/chat"
+                  path='/chat'
                   component={(props) => {
                     return (
                       <Chat
@@ -343,19 +336,17 @@ const App = () => {
                         user={user}
                         setUser={setUser}
                       />
-                    )
-                  }}
-                ></Route>
+                    );
+                  }}></Route>
 
                 <Route
                   exact
-                  path="/chat/:id"
+                  path='/chat/:id'
                   component={(props) => {
-                    return <UserChat {...props} auth={auth} users={users} />
-                  }}
-                ></Route>
+                    return <UserChat {...props} auth={auth} users={users} />;
+                  }}></Route>
 
-                <Route path="/">
+                <Route path='/'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
@@ -373,10 +364,10 @@ const App = () => {
           </div>
         </Router>
       </div>
-    )
+    );
   }
-}
+};
 
-export default App
+export default App;
 
 //maybe add to improve user experience: upon page load, if user is NOT on mobile, alert and say "this site is best viewable on a mobile device but proceed as everything should still work"
