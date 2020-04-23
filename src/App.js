@@ -61,7 +61,6 @@ const App = () => {
 
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
-      console.log('friendships: ', response.data);
       setFriendships(response.data);
     });
   }, []);
