@@ -100,7 +100,6 @@ const FindPlayers = ({
         if (otherUser === user.id) {
           arrayOfOtherUserObjs.push(user);
         }
-        ReaRe;
       });
     });
     arrayOfOtherUserObjs.forEach((otherUser) => {
