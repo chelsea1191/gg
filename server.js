@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     console.log(msg, 'server msg');
     io.emit('chat message', msg);
-    socket.broadcast.emit('is typing', msg.typing);
+    //socket.broadcast.emit('is typing', msg.typing);
   });
 });
 
@@ -116,7 +116,7 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/getMessages/:chatid', (req, res, next) => {
   db.getMessage(req.params.chatid).then((response) => {
-    res.send(response);
+    console.log(response, 'my server response');
   });
 });
 
@@ -126,11 +126,9 @@ app.get('/api/favoritegames', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
-app.get('/api/friendships', (req, res, next) => {
-  db.models.friendships
-    .read()
-    .then((response) => res.send(response))
-    .catch(next);
+
+app.get('/api/chat/:authId', (req, res, next) => {
+  db.getChats(req.params.authId).then((response) => res.send(response));
 });
 
 app.get('/api/chat/:userId/:authId', (req, res, next) => {
@@ -166,13 +164,6 @@ app.post('/api/favoritegames', (req, res, next) => {
   db.models.favoriteGames
     .create(req.body)
     .then((user) => res.send(user))
-    .catch(next);
-});
-
-app.post('/api/friendships', (req, res, next) => {
-  db.models.friendships
-    .create(req.body)
-    .then((friendship) => res.send(friendship))
     .catch(next);
 });
 

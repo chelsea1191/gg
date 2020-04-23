@@ -25,6 +25,16 @@ const getChat = async (userId1, userId2) => {
   );
   return response.rows[0];
 };
+
+const getChats = async (authId) => {
+  const response = await client.query(
+    `SELECT * FROM chat WHERE creator_id = $1  ORDER BY date_updated DESC`,
+    [authId]
+  );
+  console.log(response.rows, 'this is my db reponse');
+  return response.rows;
+};
+
 const updateChat = async (chatId, updatedTime) => {
   const response = await client.query(
     `INSERT INTO chat (date_updated) VALUES ($2) WHERE id = $1`,
@@ -64,6 +74,7 @@ module.exports = {
   createChat,
   updateChat,
   getChat,
+  getChats,
   getUsers,
   createMessage,
   getMessage,

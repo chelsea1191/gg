@@ -5,6 +5,7 @@
 ## Deployed:
 
 http://gg-connect.herokuapp.com/
+http://goodgameapp.herokuapp.com/
 
 ## To run:
 
