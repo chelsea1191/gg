@@ -42,7 +42,7 @@ const Chat = ({ auth, users }) => {
   } else {
     return (
       <div>
-        Chats already in progress:
+        Chat with someone new or continue a chat chat already in progress:
         {chats.map((eachChat) => {
           return (
             <div key={eachChat.id}>
@@ -51,10 +51,22 @@ const Chat = ({ auth, users }) => {
                   return (
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
-                        {eachUser.firstname + eachUser.lastname}
+                        {eachUser.firstname + eachUser.lastname} in progress
                       </Link>
                     </div>
                   );
+                } else {
+                  if (eachUser.id != auth.id) {
+                    return (
+                      <div key={eachUser.id}>
+                        <span>
+                          <Link to={`/chat/${eachUser.id}`}>
+                            {eachUser.firstname + eachUser.lastname}
+                          </Link>
+                        </span>
+                      </div>
+                    );
+                  }
                 }
               })}
             </div>
