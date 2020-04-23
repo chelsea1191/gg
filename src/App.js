@@ -332,22 +332,29 @@ const App = () => {
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route exact path="/chat">
-                  <Chat
-                    auth={auth}
-                    users={users}
-                    user={user}
-                    setUser={setUser}
-                  />
-                </Route>
-                <Route exact path="/chat/:id">
-                  <UserChat
-                    auth={auth}
-                    users={users}
-                    user={user}
-                    setUser={setUser}
-                  />
-                </Route>
+                <Route
+                  exact
+                  path="/chat"
+                  component={(props) => {
+                    return (
+                      <Chat
+                        auth={auth}
+                        users={users}
+                        user={user}
+                        setUser={setUser}
+                      />
+                    )
+                  }}
+                ></Route>
+
+                <Route
+                  exact
+                  path="/chat/:id"
+                  component={(props) => {
+                    return <UserChat {...props} auth={auth} users={users} />
+                  }}
+                ></Route>
+
                 <Route path="/">
                   <FindPlayers
                     allGames={allGames}

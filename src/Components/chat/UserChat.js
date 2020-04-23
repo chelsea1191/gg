@@ -11,17 +11,12 @@ import axios from 'axios'
 import moment from 'moment'
 import io from 'socket.io-client'
 
-export default function UserChat({
-  user,
-  setUser,
-  chat,
-  auth,
-  match,
-  location,
-  history,
-}) {
-  console.log(match, location, history, 'this is user chat')
+export default function UserChat({ auth, match, test }) {
   var socket = io()
+  const messageArray = []
+  const [user, setUser] = useState([])
+  const [isTyping, setIsTyping] = useState(false)
+  const [chat, setChat] = useState([])
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
     // new Message({
@@ -30,34 +25,53 @@ export default function UserChat({
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
   ])
-  const [isTyping, setIsTyping] = useState(false)
-  console.log(match, 'this is userchat')
 
-  // useEffect(() => {
-  //   if (chat.id) {
-  //     console.log(chat.id, 'this is my chat in userchat')
-  //     axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-  //       response.data.forEach((messageObj) => {
-  //         if (messageObj.sender_id === auth.id) {
-  //           messageArray.push(
-  //             new Message({
-  //               id: 0,
-  //               message: messageObj.message,
-  //             })
-  //           )
-  //         } else {
-  //           messageArray.push(
-  //             new Message({
-  //               id: 1,
-  //               message: messageObj.message,
-  //             })
-  //           )
-  //         }
-  //       })
-  //       setMessages([...messageArray])
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    axios.get(`/api/chatuser/${match.params.id}`).then((response) => {
+      setUser(response.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (user.id) {
+      axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
+        if (!response.data) {
+          axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
+            setChat(response.data)
+          })
+        } else {
+          setChat(response.data)
+        }
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (chat.id) {
+      console.log(chat.id, 'this is my chat in userchat')
+      axios.get(`/api/getMessages/${chat.id}`).then((response) => {
+        console.log(response, 'my response for the messages')
+        response.data.forEach((messageObj) => {
+          if (messageObj.sender_id === auth.id) {
+            messageArray.push(
+              new Message({
+                id: 0,
+                message: messageObj.message,
+              })
+            )
+          } else {
+            messageArray.push(
+              new Message({
+                id: 1,
+                message: messageObj.message,
+              })
+            )
+          }
+        })
+        setMessages([...messageArray])
+      })
+    }
+  }, [chat])
 
   socket.on('chat message', (msg) => {
     const socketMessage = JSON.parse(msg)
