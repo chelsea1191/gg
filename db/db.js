@@ -3,7 +3,13 @@ const uuid = require('uuid/v4')
 const client = require('./client')
 const faker = require('faker')
 const axios = require('axios')
-const { authenticate, compare, findUserFromToken, hash } = require('./auth')
+const {
+  authenticate,
+  compare,
+  findUserFromToken,
+  hash,
+  markOnline,
+} = require('./auth')
 const models = ({
   users,
   games,
@@ -202,6 +208,7 @@ module.exports = {
   sync,
   models,
   authenticate,
+  markOnline,
   findUserFromToken,
   getAllGames,
   createChat,
