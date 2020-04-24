@@ -1,56 +1,55 @@
-import { ChatFeed, Message } from 'react-chat-ui';
-import React, { useState, useEffect } from 'react';
+import { ChatFeed, Message } from 'react-chat-ui'
+import React, { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom';
-import axios from 'axios';
-import moment from 'moment';
-import io from 'socket.io-client';
+} from 'react-router-dom'
+import axios from 'axios'
+import moment from 'moment'
+import io from 'socket.io-client'
 
 export default function UserChat({ auth, match, test }) {
-  var socket = io();
-  const messageArray = [];
-  const [user, setUser] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const [chat, setChat] = useState([]);
-  const [message, setMessage] = useState('');
+  var socket = io()
+  const messageArray = []
+  const [user, setUser] = useState([])
+  const [isTyping, setIsTyping] = useState(false)
+  const [chat, setChat] = useState([])
+  const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
     // new Message({
     //   id: 1,
     //   message: "I'm the recipient! (The person you're talking to)",
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
-  ]);
+  ])
 
   useEffect(() => {
     axios.get(`/api/chatuser/${match.params.id}`).then((response) => {
-      setUser(response.data);
-    });
-  }, []);
+      setUser(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     if (user.id) {
       axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
         if (!response.data) {
           axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-            setChat(response.data);
-          });
+            setChat(response.data)
+          })
         } else {
-          setChat(response.data);
+          setChat(response.data)
         }
-      });
+      })
     }
-  }, [user]);
+  }, [user])
 
   useEffect(() => {
     if (chat.id) {
-      console.log(chat.id, 'this is my chat in userchat');
+      console.log(chat.id, 'this is my chat in userchat')
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-        console.log(response, 'my response for the messages');
         response.data.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
             messageArray.push(
@@ -58,28 +57,28 @@ export default function UserChat({ auth, match, test }) {
                 id: 0,
                 message: messageObj.message,
               })
-            );
+            )
           } else {
             messageArray.push(
               new Message({
                 id: 1,
                 message: messageObj.message,
               })
-            );
+            )
           }
-        });
-        setMessages([...messageArray]);
-      });
+        })
+        setMessages([...messageArray])
+      })
     }
-  }, [chat]);
+  }, [chat])
 
   socket.on('chat message', (msg) => {
-    const socketMessage = JSON.parse(msg);
+    const socketMessage = JSON.parse(msg)
     if (socketMessage.sender_id === auth.id) {
       setMessages([
         ...messages,
         new Message({ id: 0, message: socketMessage.message }),
-      ]);
+      ])
     } else {
       setMessages([
         ...messages,
@@ -87,30 +86,38 @@ export default function UserChat({ auth, match, test }) {
           id: 1,
           message: socketMessage.message,
         }),
-      ]);
+      ])
     }
-  });
+  })
+
+  // socket.on('response', (res) => {
+  //   console.log(res, 'this is a test for socket')
+  // })
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post('/api/sendMessages', [chat.id, auth.id, message, moment()])
-      .then((response) => {
-        socket.emit(
-          'chat message',
-          JSON.stringify({
-            message: message,
-            sender_id: response.data.sender_id,
-            typing: 'yes',
-          })
-        );
-      });
-    setMessage('');
-    setIsTyping(false);
-  };
+    e.preventDefault()
+    socket.emit(
+      'chat message',
+      JSON.stringify({
+        chat_id: chat.id,
+        sender_id: auth.id,
+        message: message,
+        time: moment(),
+        typing: 'yes',
+      })
+    )
+    setMessage('')
+    setIsTyping(false)
+  }
+
+  // socket.emit('typing', (res) => {
+  //   console.log(res)
+  // })
+
   return (
-    <div id='chatPage'>
+    <div id="chatPage">
       <span>
-        <Link to='/chat' onClick={() => setUser('')}>
+        <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
         Chat with: {user.firstname + user.lastname}
@@ -132,16 +139,17 @@ export default function UserChat({ auth, match, test }) {
             }}
           />
           <input
-            type='text'
+            type="text"
             value={message}
             onChange={(ev) => {
-              setMessage(ev.target.value);
+              setMessage(ev.target.value)
+              socket.emit('typing', () => isTyping(true))
             }}
-            placeholder='message'
+            placeholder="message"
           />
           <button>Submit</button>
         </form>
       </span>
     </div>
-  );
+  )
 }
