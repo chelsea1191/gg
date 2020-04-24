@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// store gps coordinates in db
-// distance between two users (geolib?)
-// google maps for stores
-
-// BUGS i've noticed
-// nav bar looks like its been squished - was previously working
-
-// To discuss with group
-// Trello - user stories that we can move through from planned/in progress/QA/complete like with GS?
-// Trello - category for bugs, as we notice them we can add them and then start working through them as we can
-
 const Location = ({ location, setLocation }) => {
   const [showButton, setShowButton] = useState(true);
   const [prettyLocation, setPrettyLocation] = useState([]);

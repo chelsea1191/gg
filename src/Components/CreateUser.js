@@ -68,7 +68,11 @@ export default function CreateUser({
     <div id="createUserPage">
       <form
         id="createUserForm"
+        action="/upload"
+        method="POST"
+        encType="multipart/form-data"
         onSubmit={(e) => {
+          console.log('form submitted');
           handleSubmit(e);
         }}
       >
@@ -81,15 +85,20 @@ export default function CreateUser({
 
         <div
           id="imageUploadForm"
-          action="upload.php"
-          method="post"
-          encType="multipart/form-data"
+          // action="/upload"
+          // method="POST"
+          // encType="multipart/form-data"
         >
           <h5>
             <b>Add a Profile Picture</b>
           </h5>
           <input type="file" name="imageToUpload" id="imageToUpload" />
-          <input type="submit" value="Upload" name="submitImage" />
+          <input
+            type="submit"
+            value="upload"
+            name="submitImage"
+            onClick={console.log('file submit clicked')}
+          />
         </div>
 
         <textarea
