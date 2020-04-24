@@ -41,7 +41,7 @@ const FindPlayers = ({
     if (results) {
       setResults(results);
     }
-  }, []);
+  }, []); //userId
 
   const findDistance = (player) => {
     return (
@@ -56,6 +56,7 @@ const FindPlayers = ({
 
   const handleDistance = (e) => {
     e.preventDefault();
+    setIsSubmitted(false);
     //console.log(e.target.value);
     if (e.target.value === 'any') {
       setDistance(Number.MAX_VALUE);
@@ -65,6 +66,7 @@ const FindPlayers = ({
   };
 
   const handleSelectFavorite = (e) => {
+    setIsSubmitted(false);
     const selection = allGames.filter((each) => {
       if (each.id === e.target.value) {
         return each;
@@ -75,6 +77,7 @@ const FindPlayers = ({
 
   const searchForUsers = (e) => {
     e.preventDefault();
+    setIsSubmitted(true);
     let arrayOfFilteredFavGames = [];
     let arrayOfFavUserIds = [];
     let arrayOfUniqueFavUserIds = [];
@@ -141,6 +144,7 @@ const FindPlayers = ({
             name='Favorited Game'
             onChange={(e) => handleSelectFavorite(e)}>
             <option value='default'>Pick a Favorite Game</option>
+            {/* the below function is slower than the page loading.... so it creates an error sometimes that reads Cannot read property 'userId' of undefined*/}
             {favoriteGames.map((eachFavGame) => {
               if (eachFavGame.userId === auth.id) {
                 return (
@@ -186,38 +190,39 @@ const FindPlayers = ({
           INCLUDES PROFILE IMAGE, USERNAME, DISTANCE FROM USER, MUTUAL FRIENDS/GAMES, AND 'ADD FRIEND' BUTTON
           LIST ITEMS LINK TO USER PROFILES
           */}
-          {results.length === 0 && (
+          {isSubmitted === true && results.length === 0 && (
             <p>no results found- please widen your search area</p>
           )}
-          {results.map((user) => {
-            if (user.id !== auth.id) {
-              //console.log(user);
-              return (
-                <li key={user.id} className='userResults'>
-                  <h4>
-                    {user.username} - {user.distanceFromAuth} miles away
-                  </h4>
-                  <span>
-                    {' '}
-                    <Link
-                      to={`/chat/${user.id}`}
-                      onClick={() => {
-                        setUser(user);
-                        handleChatClick(user);
-                      }}>
-                      Send a Chat
-                    </Link>
-                    {' - '}
-                    <Link
-                      to={`/users/${user.id}`}
-                      onClick={(ev) => setUserView(user)}>
-                      View Profile
-                    </Link>
-                  </span>
-                </li>
-              );
-            }
-          })}
+          {isSubmitted === true &&
+            results.map((user) => {
+              if (user.id !== auth.id) {
+                //console.log(user);
+                return (
+                  <li key={user.id} className='userResults'>
+                    <h4>
+                      {user.username} - {user.distanceFromAuth} miles away
+                    </h4>
+                    <span>
+                      {' '}
+                      <Link
+                        to={`/chat/${user.id}`}
+                        onClick={() => {
+                          setUser(user);
+                          handleChatClick(user);
+                        }}>
+                        Send a Chat
+                      </Link>
+                      {' - '}
+                      <Link
+                        to={`/users/${user.id}`}
+                        onClick={(ev) => setUserView(user)}>
+                        View Profile
+                      </Link>
+                    </span>
+                  </li>
+                );
+              }
+            })}
 
           {/*
           {users.map((mapUser) => {

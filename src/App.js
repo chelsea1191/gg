@@ -29,7 +29,7 @@ const headers = () => {
 const App = () => {
   const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)));
   const [auth, setAuth] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false); //***********remove?
   const [allGames, setAllGames] = useState([]);
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
