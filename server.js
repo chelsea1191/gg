@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.use(express.static('./public'));
+
 var myLogger = function (req, res, next) {
   next();
 };
@@ -37,7 +38,7 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     console.log(msg, 'server msg');
     io.emit('chat message', msg);
-    socket.broadcast.emit('is typing', msg.typing);
+    //socket.broadcast.emit('is typing', msg.typing);
   });
 });
 
@@ -138,6 +139,7 @@ app.put('/api/auth/:id', (req, res, next) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
+
 app.get('/api/games', (req, res, next) => {
   db.getAllGames()
     .then((response) => res.send(response))
@@ -157,9 +159,9 @@ app.get('/api/users', (req, res, next) => {
 });
 
 app.get('/api/getMessages/:chatid', (req, res, next) => {
-  db.getMessage(req.params.chatid).then((response) => {
-    res.send(response);
-  });
+  db.getMessage(req.params.chatid)
+    .then((response) => res.send(response))
+    .catch(next);
 });
 
 app.get('/api/favoritegames', (req, res, next) => {
@@ -168,10 +170,32 @@ app.get('/api/favoritegames', (req, res, next) => {
     .then((response) => res.send(response))
     .catch(next);
 });
+
+app.get('/api/chatuser/:userid', (req, res, next) => {
+  db.getUser(req.params.userid)
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
+app.get('/api/friendships', (req, res, next) => {
+  db.models.friendships
+    .read()
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
+app.get('/api/chat/:authId', (req, res, next) => {
+  db.getChats(req.params.authId)
+    .then((response) => res.send(response))
+    .catch(next);
+});
+
 app.get('/api/chat/:userId/:authId', (req, res, next) => {
-  db.getChat(req.params.userId, req.params.authId).then((response) => {
-    res.send(response);
-  });
+  db.getChat(req.params.userId, req.params.authId)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch(next);
 });
 
 //////////////////post////////////////////
@@ -222,6 +246,13 @@ app.post('/api/createchat', (req, res, next) => {
 
 app.post('/api/favoritegames', (req, res, next) => {
   db.models.favoriteGames
+    .create(req.body)
+    .then((user) => res.send(user))
+    .catch(next);
+});
+
+app.post('/api/friendships', (req, res, next) => {
+  db.models.friendships
     .create(req.body)
     .then((user) => res.send(user))
     .catch(next);

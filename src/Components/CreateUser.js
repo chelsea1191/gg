@@ -2,11 +2,19 @@ import axios from 'axios';
 import Location from './Location';
 import React, { useState, useEffect } from 'react';
 import SearchDropdown from './SearchDropdown';
+import Axios from 'axios';
 
-export default function CreateUser({ auth, setAuth, allGames }) {
+export default function CreateUser({
+  auth,
+  setAuth,
+  allGames,
+  favoriteGames,
+  setFavoriteGames,
+}) {
   const [location, setLocation] = useState([]);
-
   const [filtered, setFiltered] = useState([]);
+
+  const [selectedGameTypes, setSelectedGameTypes] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +23,7 @@ export default function CreateUser({ auth, setAuth, allGames }) {
     let lastname = e.target[1].value;
     let password = e.target[3].value;
     let email = e.target[4].value;
-    let bio = e.target[5].value;
+    let bio = e.target[7].value;
     let newUser = {
       username: name,
       firstname: firstname,
@@ -25,11 +33,35 @@ export default function CreateUser({ auth, setAuth, allGames }) {
       bio: bio,
       latitude: location[0],
       longitude: location[1],
+      gameTypes: selectedGameTypes,
     };
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
     });
+
+    const favoriteGamesCopy = [...favoriteGames];
+    const newFavoriteGame = await Axios.post('/api/favoritegames', {
+      userId: newUser.id,
+      gameId: filtered[0].id,
+    }).data;
+
+    setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+
     alert('Hi submitted user created');
+  };
+
+  const handleTypeSelection = (e) => {
+    if (e.target.checked === true) {
+      console.log('true');
+      setSelectedGameTypes([...selectedGameTypes, e.target.value]);
+    } else if (e.target.checked === false) {
+      console.log('false');
+      setSelectedGameTypes(
+        selectedGameTypes.filter(
+          (gameType) => gameType.value !== e.target.value
+        )
+      );
+    }
   };
 
   return (
@@ -87,6 +119,7 @@ export default function CreateUser({ auth, setAuth, allGames }) {
               id="boardgamesCheckbox"
               name="gameTypes"
               value="Board Games"
+              onChange={handleTypeSelection}
             />
             <h6>Board Games</h6>
           </label>
@@ -97,6 +130,7 @@ export default function CreateUser({ auth, setAuth, allGames }) {
               id="tabletopCheckbox"
               name="gameTypes"
               value="Tabletop Games & RPGs"
+              onChange={handleTypeSelection}
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
@@ -107,6 +141,7 @@ export default function CreateUser({ auth, setAuth, allGames }) {
               id="videogamesCheckbox"
               name="gameTypes"
               value="Video Games"
+              onChange={handleTypeSelection}
             />
             <h6>Video Games</h6>
           </label>
@@ -117,6 +152,7 @@ export default function CreateUser({ auth, setAuth, allGames }) {
               id="sportsCheckbox"
               name="gameTypes"
               value="Sports & Field Games"
+              onChange={handleTypeSelection}
             />
             <h6>Sports & Field Games</h6>
           </label>

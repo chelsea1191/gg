@@ -74,6 +74,7 @@ button {
   font-size: 1.5rem;
   background-color: rgb(38, 41, 38);
   padding: 0 16px;
+  border-radius: 15px;
 }
 
 .searchButton {
@@ -87,10 +88,6 @@ h2 {
 li {
   display: flex;
   align-items: center;
-}
-
-li > * {
-  margin: 1rem;
 }
 
 h1 {
@@ -253,7 +250,6 @@ input[type='password'] {
 
 #logButton {
   border-radius: 15px;
-  padding: 0 8px 0 8px;
   border: 1px solid rgba(255, 255, 255, 0.482);
 }
 
@@ -477,6 +473,9 @@ select {
 
 #chatButton {
   opacity: 0.5;
+}
+.navbar-expand-lg {
+  justify-content: space-between;
 }
 
 .userResults {

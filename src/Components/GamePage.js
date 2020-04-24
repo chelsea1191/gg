@@ -1,10 +1,20 @@
 import React from 'react';
 import Rating from './Rating';
+import Axios from 'axios';
 
-const GamePage = ({ game }) => {
+const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
   console.log('path: ', window.location.pathname);
 
   let rating = game.average_user_rating;
+
+  const addFavorite = async () => {
+    const favoriteGamesCopy = [...favoriteGames];
+    const newFavoriteGame = await Axios.post('/api/favoritegames', {
+      userId: auth.id,
+      gameId: game.id,
+    }).data;
+    setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+  };
 
   return (
     <div id='gamePage'>
@@ -23,14 +33,16 @@ const GamePage = ({ game }) => {
         <i> ages {game.min_age} +</i> <br />
         <i>
           {game.min_playtime} - {game.max_playtime} minutes playtime
-        </i>{' '}
+        </i>
         <br />
         <i>
           Published by: {game.primary_publisher} in {game.year_published}
         </i>
       </h6>
 
-      <button type='button'>Add to Favorites</button>
+      <button type='button' onClick={addFavorite}>
+        <h5>Add to Favorites</h5>
+      </button>
       <hr className='hr' />
       <h6>
         <i>{game.description}</i>

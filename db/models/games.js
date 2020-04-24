@@ -5,11 +5,16 @@ const games = {
     return (await client.query('SELECT * from games')).rows;
   },
   create: async (each) => {
-    const SQL = `INSERT INTO game(id, name, description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime, average_user_rating) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
+    if (each.id.length === 10) {
+      //came from boardgameatlas API
+      each.gameTypeID = 1;
+    }
+    const SQL = `INSERT INTO game(id, name, "gameTypeID", description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime, average_user_rating) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *`;
     return (
       await client.query(SQL, [
         each.id,
         each.name,
+        each.gameTypeID,
         each.description_preview,
         each.image_url,
         each.min_players,

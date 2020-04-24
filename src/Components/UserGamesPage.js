@@ -1,7 +1,24 @@
 import React from 'react';
+import Axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-const UserGamesPage = ({ user, allGames, favoriteGames }) => {
+const UserGamesPage = ({
+  user,
+  allGames,
+  favoriteGames,
+  setFavoriteGames,
+  auth,
+  setGameView,
+}) => {
+  const addFavorite = async () => {
+    const favoriteGamesCopy = [...favoriteGames];
+    const newFavoriteGame = await Axios.post('/api/favoritegames', {
+      userId: auth.id,
+      gameId: game.id,
+    }).data;
+
+    setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+  };
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -29,7 +46,7 @@ const UserGamesPage = ({ user, allGames, favoriteGames }) => {
         <h5>{userFavorite.name}</h5>
 
         <button type="button" onClick={addFavorite}>
-          Favorite
+          <h5>Favorite</h5>
         </button>
         <hr className="hr" />
       </li>
