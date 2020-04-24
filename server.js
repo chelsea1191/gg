@@ -7,6 +7,7 @@ const fs = require('fs')
 const db = require('./db/db')
 const models = db.models
 const bodyParser = require('body-parser')
+const multer = require('multer')
 
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
@@ -19,6 +20,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json())
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 app.use('/dist', express.static(path.join(__dirname, 'dist')))
+app.use(express.static('./public'))
 
 var myLogger = function (req, res, next) {
   next()
@@ -32,11 +34,51 @@ app.use(myLogger)
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
-    console.log(msg, 'server msg')
     io.emit('chat message', msg)
     //socket.broadcast.emit('is typing', msg.typing);
   })
 })
+
+///////////// MULTER ////////////
+
+//set storage engine//
+
+const storage = multer.diskStorage({
+  destination: './public/uploads',
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+    )
+  },
+})
+
+// initilize upload//
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10000000 },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb)
+  },
+}).single('avatar')
+
+// check file type //
+
+const checkFileType = (file, cb) => {
+  // allowed extensions
+  const fileTypes = /jpeg|jpg|png|gif/
+  //check ext
+  const extName = fileTypes.test(path.extname(file.originalname).toLowerCase())
+  //check mime
+  const mimetype = fileTypes.test(file.mimetype)
+
+  if (mimetype && extName) {
+    return cb(null, true)
+  } else {
+    cb('Error: Images only')
+  }
+}
 
 //////////////////auth//////////////////
 const isLoggedIn = (req, res, next) => {
@@ -81,11 +123,20 @@ app.post('/api/auth', (req, res, next) => {
     })
 })
 app.get('/api/auth', isLoggedIn, (req, res, next) => {
-  res.send(req.user)
+  db.markOnline(req.user.id).then((response) => {
+    console.log(response)
+    res.send(response)
+  })
 })
 app.put('/api/auth/:id', (req, res, next) => {
   db.models.users
     .update(req.body)
+    .then((response) => res.send(response))
+    .catch(next)
+})
+app.put('/api/auth/logout/:id', (req, res, next) => {
+  db.models.users
+    .logout(req.params.id)
     .then((response) => res.send(response))
     .catch(next)
 })
@@ -136,8 +187,8 @@ app.get('/api/friendships', (req, res, next) => {
   db.models.friendships
     .read()
     .then((response) => res.send(response))
-    .catch(next);
-});
+    .catch(next)
+})
 
 app.get('/api/chat/:authId', (req, res, next) => {
   db.getChats(req.params.authId)
@@ -154,6 +205,29 @@ app.get('/api/chat/:userId/:authId', (req, res, next) => {
 })
 
 //////////////////post////////////////////
+
+app.post('/upload', (req, res, next) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(err.status || 500)
+      res.json({
+        message: err.message,
+        error: err,
+      })
+    } else {
+      if (req.file === undefined) {
+        res.status(err.status || 500)
+        res.json({
+          message: 'Error: No file selected',
+          error: err,
+        })
+      } else {
+        res.send({ msg: 'File uploaded!' })
+        res.sendFile(`uploads/${req.file.filename}`)
+      }
+    }
+  })
+})
 
 app.post('/api/createUser', (req, res, next) => {
   db.models.users
@@ -187,8 +261,8 @@ app.post('/api/friendships', (req, res, next) => {
   db.models.friendships
     .create(req.body)
     .then((user) => res.send(user))
-    .catch(next);
-});
+    .catch(next)
+})
 
 app.post('/api/sendMessages', (req, res, next) => {
   db.putMessage(

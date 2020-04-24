@@ -29,7 +29,7 @@ const headers = () => {
 const App = () => {
   const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)));
   const [auth, setAuth] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false); //***********remove?
+  const [isAdmin, setIsAdmin] = useState(false);
   const [allGames, setAllGames] = useState([]);
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
@@ -73,6 +73,7 @@ const App = () => {
 
   const exchangeTokenForAuth = async () => {
     const response = await axios.get('/api/auth', headers());
+    console.log(response, 'this is the exchange for token');
     setAuth(response.data);
     if (response.data.role === 'admin') {
       console.log('logged in! user is an admin');
@@ -88,6 +89,7 @@ const App = () => {
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('filtered');
     window.localStorage.removeItem('results');
+    axios.put(`/api/auth/logout/${auth.id}`);
     setAuth({});
     setIsAdmin(false);
     console.log('user has been logged out');
@@ -339,14 +341,12 @@ const App = () => {
                       />
                     );
                   }}></Route>
-
                 <Route
                   exact
                   path='/chat/:id'
                   component={(props) => {
                     return <UserChat {...props} auth={auth} users={users} />;
                   }}></Route>
-
                 <Route path='/'>
                   <FindPlayers
                     allGames={allGames}

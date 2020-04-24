@@ -3,7 +3,13 @@ const uuid = require('uuid/v4')
 const client = require('./client')
 const faker = require('faker')
 const axios = require('axios')
-const { authenticate, compare, findUserFromToken, hash } = require('./auth')
+const {
+  authenticate,
+  compare,
+  findUserFromToken,
+  hash,
+  markOnline,
+} = require('./auth')
 const models = ({
   users,
   games,
@@ -68,6 +74,7 @@ const sync = async () => {
     role VARCHAR(20) DEFAULT 'player',
     email VARCHAR(100) NOT NULL UNIQUE,
     "isBlocked" BOOLEAN DEFAULT false,
+    "isOnline" BOOLEAN DEFAULT false,
     CHECK (char_length(username) > 0),
     photo VARCHAR,
     bio VARCHAR(300),
@@ -117,6 +124,8 @@ const sync = async () => {
     creator_id UUID REFERENCES users(id) NOT NULL,
     user_id UUID REFERENCES users(id) NOT NULL,
     date_create TIMESTAMP default CURRENT_TIMESTAMP,
+    render_creator_messages BOOLEAN DEFAULT true,
+    render_user_messages BOOLEAN DEFAULT true,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
   CREATE TABLE message (
@@ -199,6 +208,7 @@ module.exports = {
   sync,
   models,
   authenticate,
+  markOnline,
   findUserFromToken,
   getAllGames,
   createChat,
