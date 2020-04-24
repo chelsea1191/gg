@@ -24,35 +24,9 @@ const UserProfile = ({
       userId: auth.id,
       friendId: user.id,
     }).data;
-    const friendRequests = friendships.filter((friendship) => {
-      if (friendship) {
-        friendship.userId === user.id && friendship.friendId === auth.id;
-      }
-    });
-    if (friendRequests.length === 1) {
-      const friendRequestCopy = { ...friendRequests[0] };
-      const friendRequestIndex = friendships.indexOf(friendRequestCopy);
-      friendRequestCopy.status === 'confirmed';
-      await Axios.put(
-        `/api/friendships/${friendRequestCopy.id}`,
-        friendRequestCopy
-      );
-      friendshipsCopy.splice(friendRequestIndex, 1, friendRequestCopy);
-      newFriendship.status = 'confirmed';
-    }
 
     setFriendships([...friendshipsCopy, newFriendship]);
   };
-
-  const confirmedFriendships = friendships.filter((friendship) => {
-    if (friendship) {
-      friendship.userId === user.Id && friendship.status === 'confirmed';
-    }
-  });
-  const userFriends = confirmedFriendships.map((friendship) => {
-    const friend = users.find((user) => user.id === friendship.friendId);
-    return friend;
-  });
 
   return (
     <div id="userProfile">
