@@ -34,9 +34,21 @@ app.use(myLogger)
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
+    const req = JSON.parse(msg)
     io.emit('chat message', msg)
+    db.putMessage(
+      req.chat_id,
+      req.sender_id,
+      req.message,
+      req.time
+    ).then((response) => io.emit('response', response))
+
     //socket.broadcast.emit('is typing', msg.typing);
   })
+  // socket.on('typing', (dots) => {
+  //   console.log(dots)
+  //   socket.broadcast.emit('hi')
+  // })
 })
 
 ///////////// MULTER ////////////
@@ -124,7 +136,6 @@ app.post('/api/auth', (req, res, next) => {
 })
 app.get('/api/auth', isLoggedIn, (req, res, next) => {
   db.markOnline(req.user.id).then((response) => {
-    console.log(response)
     res.send(response)
   })
 })
