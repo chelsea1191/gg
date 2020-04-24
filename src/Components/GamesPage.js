@@ -14,20 +14,22 @@ const GamesPage = ({
   const greentext = { color: 'rgb(0, 200, 0)' };
   const link = 'gamesPage';
   const [filtered, setFiltered] = useState([]);
+
   useEffect(() => {
     let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
     if (filteredItemIfPresent) {
       setFiltered(filteredItemIfPresent);
     }
   }, [setFiltered]);
-  useEffect(() => {
-    if (filtered.length === 0) {
-      setFiltered(allGames);
-    }
-  });
+  // useEffect(() => {
+  //   if (filtered.length === 0) {
+  //     setFiltered(allGames);
+  //   }
+  // });
+
   return (
-    <div id='gamesPage'>
-      <form id='searchGamesForm'>
+    <div id="gamesPage">
+      <form id="searchGamesForm">
         <h3>Games</h3>
         <div>
           <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
@@ -47,14 +49,15 @@ const GamesPage = ({
         <h6>
           <i>Can't find your favorite game? </i>
           <a
-            href='mailto:support@gg-connect.com?Subject=Game%20Support'
-            target='_top'>
+            href="mailto:support@gg-connect.com?Subject=Game%20Support"
+            target="_top"
+          >
             Let Us Know!
           </a>
         </h6>
       </form>
       <p>displaying {filtered.length} games</p>
-      <ul id='gamesList'>
+      <ul id="gamesList">
         {filtered.length > 0 &&
           filtered.map((game) => {
             const addFavorite = async () => {
@@ -67,18 +70,19 @@ const GamesPage = ({
               setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
             };
             return (
-              <li key={game.id} className='gamesListItem'>
+              <li key={game.id} className="gamesListItem">
                 <Link
                   to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
+                  onClick={(ev) => setGameView(game)}
+                >
+                  <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
 
-                <button type='button' onClick={addFavorite}>
-                  Favorite
+                <button type="button" onClick={addFavorite}>
+                  <h5>Favorite</h5>
                 </button>
-                <hr className='hr' />
+                <hr className="hr" />
               </li>
             );
           })}
