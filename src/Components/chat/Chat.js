@@ -24,7 +24,6 @@ const Chat = ({ auth, users }) => {
       <div>
         Find some users to have a chat with!
         {users.map((eachUser) => {
-          console.log(eachUser.isOnline)
           if (eachUser.id != auth.id) {
             return (
               <div key={eachUser.id}>
