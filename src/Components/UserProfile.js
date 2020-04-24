@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const UserProfile = ({ user, setFriendsView, favoriteGames, allGames }) => {
+  const [file, setFile] = useState('');
+  const [fileName, setFileName] = useState('Choose File');
+
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -10,7 +13,21 @@ const UserProfile = ({ user, setFriendsView, favoriteGames, allGames }) => {
 
   return (
     <div id="userProfile">
-      <img className="userProfileImage" />
+      <img src={`avatar`} className="userProfileImage" />
+
+      <form
+        id="imageUploadForm"
+        action="/upload"
+        method="POST"
+        encType="multipart/form-data"
+      >
+        <h5>
+          <b>Add a Profile Picture</b>
+        </h5>
+        <input type="file" name="avatar" id="imageToUpload" />
+        <input type="submit" value="upload" name="submitImage" />
+      </form>
+
       <h4>
         <b>{user.username}</b>
       </h4>
