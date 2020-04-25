@@ -41,7 +41,11 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = [];
+  const confirmedFriendships = friendships.filter((friendship) => {
+    return (
+      friendship.userId === user.id && friendship.sendStatus === 'confirmed'
+    );
+  });
 
   return (
     <div id="userProfile">
