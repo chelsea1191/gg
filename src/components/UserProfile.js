@@ -49,17 +49,18 @@ const UserProfile = ({
   const confirmedFriendships = [];
 
   const addFriendButton = document.querySelectorAll('.addFriendButton');
-  if (
-    friendships.length > 0 &&
-    friendships.find((friendship) => {
-      return (
-        friendship.userId === auth.id &&
-        friendship.friendId === user.id &&
-        friendship.sendStatus === 'confirmed'
-      );
-    })
-  ) {
-    addFriendButton.setAttribute('hidden', true);
+  if (friendships.length) {
+    if (
+      friendships.find((friendship) => {
+        return (
+          friendship.userId === auth.id &&
+          friendship.friendId === user.id &&
+          friendship.sendStatus === 'confirmed'
+        );
+      })
+    ) {
+      addFriendButton.setAttribute('hidden', true);
+    }
   }
 
   return (
