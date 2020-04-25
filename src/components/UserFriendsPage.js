@@ -55,13 +55,20 @@ const UserFriendsPage = ({
   });
 
   const userFriendsList = userFriends.map((friend) => {
-    return <li className="userFriendsListItem">{friend.username}</li>;
+    return (
+      <li className="userFriendsListItem">
+        <h5>{friend.username}</h5>
+        <button className="addFriendButton">
+          <h5>Add Friend</h5>
+        </button>
+      </li>
+    );
   });
 
   return (
     <div id="userFriendsPage">
       <h3>{user.username}'s Friends</h3>
-      {userFriendsList}
+      <ul>{userFriendsList}</ul>
     </div>
   );
 };
