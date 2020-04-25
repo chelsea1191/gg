@@ -199,7 +199,7 @@ const App = () => {
                   <FindPlayers
                     allGames={allGames}
                     users={users}
-                    user={user}
+                    user={userView}
                     setUsers={setUser}
                     auth={auth}
                     allGames={allGames}
@@ -294,9 +294,7 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route exact path={`/users/${userView.id}/friends`}>
-                  <UserFriendsPage user={userView} />
-                </Route>
+
                 <Route exact path={`/users/${userView.id}/favoriteGames`}>
                   <UserGamesPage
                     user={userView}
@@ -305,6 +303,16 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                     auth={auth}
                     setGameView={setGameView}
+                  />
+                </Route>
+                <Route exact path={`/users/${userView.id}/friends`}>
+                  <UserFriendsPage
+                    users={users}
+                    user={userView}
+                    friendships={friendships}
+                    setFriendships={setFriendships}
+                    setUserView={setUserView}
+                    auth={auth}
                   />
                 </Route>
                 <Route exact path={`/users/${userView.id}`}>
