@@ -48,21 +48,6 @@ const UserProfile = ({
 
   const confirmedFriendships = [];
 
-  const addFriendButton = document.querySelectorAll('.addFriendButton');
-  if (friendships.length > 0) {
-    if (
-      friendships.find((friendship) => {
-        return (
-          friendship.userId === auth.id &&
-          friendship.friendId === user.id &&
-          friendship.sendStatus === 'confirmed'
-        );
-      })
-    ) {
-      addFriendButton.style.display = 'none';
-    }
-  }
-
   return (
     <div id="userProfile">
       <img src={`avatar`} className="userProfileImage" />
