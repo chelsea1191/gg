@@ -140,6 +140,7 @@ const sync = async () => {
   INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30');
   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
   INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed');
+  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'confirmed');
   `;
 
   await client.query(SQL);

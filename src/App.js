@@ -40,6 +40,8 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
 
+  console.log(friendships);
+
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       //console.log('all games: ', response.data);
