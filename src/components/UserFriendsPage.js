@@ -9,7 +9,51 @@ const UserFriendsPage = ({
   auth,
   setUserView,
 }) => {
-  let userFriendsList = [];
+  const addFriend = async () => {
+    const friendshipsCopy = [...friendships];
+    let newFriendshipObject = {
+      userId: auth.id,
+      friendId: user.id,
+      sendStatus: 'sent',
+    };
+
+    const receivedRequest = friendships.find((friendship) => {
+      return friendship.userId === user.id && friendship.friendId === auth.id;
+    });
+    if (receivedRequest !== undefined) {
+      newFriendshipObject.sendStatus = 'confirmed';
+
+      const receivedRequestCopy = { ...receivedRequest };
+      const receivedRequestIndex = friendships.indexOf(receivedRequest);
+      receivedRequestCopy.sendStatus = 'confirmed';
+      const updatedFriendship = (
+        await Axios.put(
+          `/api/friendships/${receivedRequest.id}`,
+          receivedRequestCopy
+        )
+      ).data;
+      friendshipsCopy.splice(receivedRequestIndex, 1, receivedRequestCopy);
+    }
+
+    const newFriendship = (
+      await Axios.post('/api/friendships', newFriendshipObject)
+    ).data;
+
+    setFriendships([...friendshipsCopy, newFriendship]);
+  };
+
+  const confirmedFriendships = friendships.filter((friendship) => {
+    return (
+      friendship.userId === user.id && friendship.sendStatus === 'confirmed'
+    );
+  });
+  const userFriends = confirmedFriendships.map((friendship) => {
+    const friend = friendships.find((fs) => fs.userId === user.id);
+    return friend;
+  });
+  const userFriendsList = userFriends.map((friend) => {
+    return <li classname="userFriendsListItem">{user.username}</li>;
+  });
 
   return (
     <div id="userFriendsPage">
