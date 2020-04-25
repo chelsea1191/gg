@@ -57,9 +57,7 @@ const UserFriendsPage = ({
     return friend;
   });
 */
-  const userFriendsList = friendships.map((friendship) => (
-    <div>{friendship.id}</div>
-  ));
+  const userFriendsList = [];
 
   return (
     <div id="userFriendsPage">
