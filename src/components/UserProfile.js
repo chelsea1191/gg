@@ -29,6 +29,15 @@ const UserProfile = ({
       sendStatus: 'sent',
     };
 
+    if (friendships.length > 0) {
+      const receivedRequest = friendships.find((friendship) => {
+        return friendship.userId === user.id && friendship.friendId === auth.id;
+      });
+      if (receivedRequest !== undefined) {
+        newFriendshipObject.sendStatus = 'confirmed';
+      }
+    }
+
     const newFriendship = await Axios.post(
       '/api/friendships',
       newFriendshipObject
