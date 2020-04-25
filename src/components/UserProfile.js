@@ -22,7 +22,6 @@ const UserProfile = ({
   });
 
   const addFriend = async () => {
-    e.preventDefault();
     const friendshipsCopy = [...friendships];
     let newFriendshipObject = {
       userId: auth.id,
@@ -47,13 +46,16 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  let confirmedFriendships = [];
+  const [confirmedFriendships, setConfirmedFriendships] = useState([]);
   if (friendships.length > 0) {
-    confirmedFriendships = friendships.filter((friendship) => {
-      return (
-        friendship.friendId === user.id && friendship.sendStatus === 'confirmed'
-      );
-    });
+    setConfirmedFriendships(
+      friendships.filter((friendship) => {
+        return (
+          friendship.friendId === auth.id &&
+          friendship.sendStatus === 'confirmed'
+        );
+      })
+    );
   }
 
   return (
