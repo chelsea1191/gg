@@ -16,13 +16,10 @@ const UserProfile = ({
   const [fileName, setFileName] = useState('Choose File');
 
   const userFavorites = favoriteGames.filter((game) => {
-    if (game) {
-      return game.userId === user.id;
-    }
+    return game.userId === user.id;
   });
 
   const addFriend = async () => {
-    debugger;
     const friendshipsCopy = [...friendships];
     let newFriendshipObject = {
       userId: auth.id,
@@ -30,13 +27,11 @@ const UserProfile = ({
       sendStatus: 'sent',
     };
 
-    if (friendships.length > 0) {
-      const receivedRequest = friendships.find((friendship) => {
-        return friendship.userId === user.id && friendship.friendId === auth.id;
-      });
-      if (receivedRequest !== undefined) {
-        newFriendshipObject.sendStatus = 'confirmed';
-      }
+    const receivedRequest = friendships.find((friendship) => {
+      return friendship.userId === user.id && friendship.friendId === auth.id;
+    });
+    if (receivedRequest !== undefined) {
+      newFriendshipObject.sendStatus = 'confirmed';
     }
 
     const newFriendship = await Axios.post(
