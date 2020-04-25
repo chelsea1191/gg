@@ -42,11 +42,15 @@ const UserFriendsPage = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
+  /*
+
   const confirmedFriendships = friendships.filter((friendship) => {
     return (
       friendship.userId === user.id && friendship.sendStatus === 'confirmed'
     );
   });
+
+  */
 
   /*  const userFriends = confirmedFriendships.map((friendship) => {
     const friend = users.find((u) => u.id === friendship.userId);
