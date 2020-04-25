@@ -54,13 +54,7 @@ const UserFriendsPage = ({
     })
   }
 
-  const userFriendsList = userFriends.map(friend => {
-    return (
-      <li className = "userFriendsListItem">
-       {friend.username}
-      </li>
-    )
-  })
+  const userFriendsList = []
 
   return (
     <div id="userFriendsPage">
