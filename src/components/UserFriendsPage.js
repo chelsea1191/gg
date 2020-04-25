@@ -58,7 +58,7 @@ const UserFriendsPage = ({
     return (
       <li className="userFriendsListItem">
         <h5>{friend.username}</h5>
-        <button className="addFriendButton">
+        <button className="addFriendButton" onClick={addFriend}>
           <h5>Add Friend</h5>
         </button>
       </li>
