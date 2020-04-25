@@ -32,8 +32,7 @@ const UserProfile = ({
 
     if (friendships.length > 0) {
       const receivedRequest = friendships.find((friendship) => {
-        const
-        return (friendship.userId === user.id && friendship.friendId === auth.id);
+        return friendship.userId === user.id && friendship.friendId === auth.id;
       });
       if (receivedRequest !== undefined) {
         newFriendshipObject.sendStatus = 'confirmed';
