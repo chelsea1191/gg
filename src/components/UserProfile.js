@@ -61,7 +61,7 @@ const UserProfile = ({
         onClick={(ev) => setFriendsView(user)}
       >
         <h5>
-          <b>Friends ({userFriends.length})</b>
+          <b>Friends (#)</b>
         </h5>
       </Link>
       <h6>
