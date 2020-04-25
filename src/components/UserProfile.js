@@ -22,6 +22,7 @@ const UserProfile = ({
   });
 
   const addFriend = async () => {
+    debugger;
     const friendshipsCopy = [...friendships];
     let newFriendshipObject = {
       userId: auth.id,

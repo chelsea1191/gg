@@ -136,9 +136,12 @@ const sync = async () => {
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
   INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540');
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540');
   INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30');
   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
+  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed');
   `;
+
   await client.query(SQL);
 
   await Promise.all(
