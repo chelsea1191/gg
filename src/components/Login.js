@@ -16,27 +16,27 @@ const Login = ({ login }) => {
     );
   };
   return (
-    <div id="loginPage">
-      <img id="loginLogo" src="../../assets/logo.png" />
-      <form id="loginForm" onSubmit={onSubmit}>
-        <div className="error">{error}</div>
+    <div id='loginPage'>
+      <img id='loginLogo' src='../../assets/logo.png' />
+      <form id='loginForm' onSubmit={onSubmit}>
+        <div className='error'>{error}</div>
         <input
-          type="text"
+          type='text'
           value={username}
           onChange={(ev) => setUsername(ev.target.value)}
-          placeholder="Username"
+          placeholder='Username'
         />
         <input
-          type="password"
+          type='password'
           value={password}
           onChange={(ev) => setPassword(ev.target.value)}
-          placeholder="Password"
+          placeholder='Password'
         />
-        <button id="loginButton">
-          <h5>Login</h5>
+        <button id='loginButton'>
+          <span>Login</span>
         </button>
         <h6>
-          <Link className="link" to="/register">
+          <Link className='link' to='/register'>
             <h6>Create Profile</h6>
           </Link>
         </h6>

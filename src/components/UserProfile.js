@@ -12,9 +12,6 @@ const UserProfile = ({
   users,
   auth,
 }) => {
-  const [file, setFile] = useState('');
-  const [fileName, setFileName] = useState('Choose File');
-
   const userFavorites = favoriteGames.filter((game) => {
     return game.userId === user.id;
   });
@@ -62,20 +59,7 @@ const UserProfile = ({
   
   return (
     <div id="userProfile">
-      <img src={`avatar`} className="userProfileImage" />
-
-      <form
-        id="imageUploadForm"
-        action="/upload"
-        method="POST"
-        encType="multipart/form-data"
-      >
-        <h5>
-          <b>Add a Profile Picture</b>
-        </h5>
-        <input type="file" name="avatar" id="imageToUpload" />
-        <input type="submit" value="upload" name="submitImage" />
-      </form>
+      <img src="" className="userProfileImage" />
 
       <h4>
         <b>{user.username}</b>
