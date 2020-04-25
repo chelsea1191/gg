@@ -22,7 +22,7 @@ const UserProfile = ({
   });
 
   const addFriend = async () => {
-    const friendshipsCopy = await Axios.get('api/friendships').data;
+    const friendshipsCopy = [...friendships];
     let newFriendshipObject = {
       userId: auth.id,
       friendId: user.id,
@@ -48,6 +48,20 @@ const UserProfile = ({
 
   const confirmedFriendships = [];
 
+  const addFriendButton = document.querySelectorAll('.addFriendButton');
+  if (
+    friendships.length > 0 &&
+    friendships.find((friendship) => {
+      return (
+        friendship.userId === auth.id &&
+        friendship.friendId === user.id &&
+        friendship.sendStatus === 'confirmed'
+      );
+    })
+  ) {
+    addFriendButton.setAttribute('hidden', true);
+  }
+
   return (
     <div id="userProfile">
       <img src={`avatar`} className="userProfileImage" />
@@ -69,7 +83,7 @@ const UserProfile = ({
         <b>{user.username}</b>
       </h4>
 
-      <button type="button" onClick={addFriend}>
+      <button type="button" className="addFriendButton" onClick={addFriend}>
         <h5>Add to Friends</h5>
       </button>
 
