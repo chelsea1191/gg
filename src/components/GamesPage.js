@@ -77,9 +77,11 @@ const GamesPage = ({
                 </Link>
                 <h5>{game.name}</h5>
 
-                <button type='button' onClick={addFavorite}>
-                  <h5>Favorite</h5>
-                </button>
+                {auth && (
+                  <button type='button' onClick={addFavorite}>
+                    <h5>Favorite</h5>
+                  </button>
+                )}
                 <hr className='hr' />
               </li>
             );

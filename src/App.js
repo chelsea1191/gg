@@ -115,38 +115,44 @@ const App = () => {
           <div>
             <div id='nav'>
               <nav className='navbar navbar-expand-lg navbar-light'>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/'>
                     <img
                       id='navLogo'
                       src='/assets/logo.png'
                       alt=''
-                      title='Bootstrap'></img>
+                      title='Home'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/games'>
                     <img
                       src='/assets/search.png'
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>
+                      title='Browse Games'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/about'>
                     <img
                       src='/assets/about.png'
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>
+                      title='About'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/login'>
                     <button id='logButton'>
+                      <img
+                        alt=''
+                        src='/assets/power.png'
+                        width='13'
+                        height='15'
+                      />
                       <h6>Login</h6>
                     </button>
                   </Link>
@@ -213,7 +219,7 @@ const App = () => {
           <div>
             <div id='nav'>
               <nav className='navbar navbar-expand-lg navbar-light'>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/'>
                     <img
                       id='navLogo'
@@ -222,7 +228,7 @@ const App = () => {
                       title='Bootstrap'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/games'>
                     <img
                       src='/assets/search.png'
@@ -232,7 +238,7 @@ const App = () => {
                       title='Bootstrap'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/chat'>
                     <img
                       id='chatButton'
@@ -243,7 +249,7 @@ const App = () => {
                       title='Bootstrap'></img>{' '}
                   </Link>{' '}
                 </li>{' '}
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/usersettings'>
                     <img
                       src='/assets/settings.png'
@@ -253,7 +259,7 @@ const App = () => {
                       title='Bootstrap'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/about'>
                     <img
                       src='/assets/about.png'
@@ -263,9 +269,15 @@ const App = () => {
                       title='Bootstrap'></img>
                   </Link>
                 </li>
-                <li>
+                <li className='nav-icon'>
                   <Link className='link' to='/login'>
                     <button type='button' id='logButton' onClick={logout}>
+                      <img
+                        alt=''
+                        src='/assets/power.png'
+                        width='13'
+                        height='15'
+                      />
                       <h6>Log Out</h6>
                     </button>
                   </Link>
