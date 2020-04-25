@@ -123,7 +123,7 @@ const FindPlayers = ({
           <h3>Find Players</h3>
           <hr className='hr' />
           <h5>
-            <b>What do you want to play?</b>
+            <b>What do yoou want to play?</b>
           </h5>
           <div>
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
