@@ -50,7 +50,7 @@ const UserFriendsPage = ({
   });
 
   const userFriends = confirmedFriendships.map((friendship) => {
-    const friend = users.find((u) => u.id === friendship.userId);
+    const friend = users.find((u) => u.id === friendship.friendId);
     return friend;
   });
 
