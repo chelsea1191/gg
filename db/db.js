@@ -55,15 +55,6 @@ const allDataFromAPI = axios
 
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-  DROP TABLE IF EXISTS message;
-  DROP TABLE IF EXISTS chat;
-  DROP TABLE IF EXISTS favoritegames;
-  DROP TABLE IF EXISTS friendships;
-  DROP TABLE IF EXISTS user_game;
-  DROP TABLE IF EXISTS user_group;
-  DROP TABLE IF EXISTS game;
-  DROP TABLE IF EXISTS game_type;
-  DROP TABLE IF EXISTS users;
 
   CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -228,4 +219,12 @@ module.exports = {
   putMessage,
 };
 
-// INSERT INTO game(id, name, "gameTypeID", description, image_url, min_players, max_players, url, primary_publisher, min_age, year_published, min_playtime, max_playtime, average_user_rating) VALUES ('2', 'Dungeons & Dragons (5th edition)', '3', 'Dungeons & Dragons (abbreviated as D&D or DnD) is a fantasy tabletop role-playing game (RPG) originally designed by Gary Gygax and Dave Arneson, and first published in 1974 by Tactical Studies Rules, Inc.. The game has been published by Wizards of the Coast (now a subsidiary of Hasbro) since 1997. It was derived from miniature wargames with a variation of the Chainmail game serving as the initial rule system. D&D‍‍s publication is widely regarded as the beginning of modern role-playing games and the role-playing game industry.', 'https://static0.srcdn.com/wordpress/wp-content/uploads/2019/09/Dungeons-and-Dragons-Alignments.jpg', '3', '5', 'https://dnd.wizards.com/', 'TSR, Inc., Wizards of the Coast', '8', '2014', '120', '600', '4.5');
+//   DROP TABLE IF EXISTS message;
+//   DROP TABLE IF EXISTS chat;
+//   DROP TABLE IF EXISTS favoritegames;
+//   DROP TABLE IF EXISTS friendships;
+//   DROP TABLE IF EXISTS user_game;
+//   DROP TABLE IF EXISTS user_group;
+//   DROP TABLE IF EXISTS game;
+//   DROP TABLE IF EXISTS game_type;
+//   DROP TABLE IF EXISTS users;
