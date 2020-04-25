@@ -50,7 +50,6 @@ const UserProfile = ({
 
   return (
     <div id="userProfile">
-      {friendships}
       <img src={`avatar`} className="userProfileImage" />
 
       <form
