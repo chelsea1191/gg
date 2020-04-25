@@ -46,6 +46,12 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
+  const confirmedFriendships = friendships.filter((friendship) => {
+    return (
+      friendship.friendId === user.id && friendship.sendStatus === 'confirmed'
+    );
+  });
+
   return (
     <div id="userProfile">
       <img src={`avatar`} className="userProfileImage" />
@@ -76,7 +82,7 @@ const UserProfile = ({
         onClick={(ev) => setFriendsView(user)}
       >
         <h5>
-          <b>Friends (#)</b>
+          <b>Friends ({confirmedFriendships.length})</b>
         </h5>
       </Link>
       <h6>
