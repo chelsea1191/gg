@@ -34,9 +34,8 @@ const UserProfile = ({
       newFriendshipObject.sendStatus = 'confirmed';
     }
 
-    const newFriendship = await Axios.post(
-      '/api/friendships',
-      newFriendshipObject
+    const newFriendship = (
+      await Axios.post('/api/friendships', newFriendshipObject)
     ).data;
 
     setFriendships([...friendshipsCopy, newFriendship]);
