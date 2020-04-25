@@ -7,9 +7,14 @@ const friendships = {
   },
 
   create: async (friendship) => {
-    const SQL = `INSERT INTO friendships ("userId", "friendId") values($1, $2) returning *`;
-    return (await client.query(SQL, [friendship.userId, friendship.friendId]))
-      .rows[0];
+    const SQL = `INSERT INTO friendships ("userId", "friendId", "sendStatus") values($1, $2, $3) returning *`;
+    return (
+      await client.query(SQL, [
+        friendship.userId,
+        friendship.friendId,
+        friendship.sendStatus,
+      ])
+    ).rows[0];
   },
 };
 
