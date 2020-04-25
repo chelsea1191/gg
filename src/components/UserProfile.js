@@ -46,7 +46,7 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = [];
+  let confirmedFriendships = [];
   if (friendships.length > 0) {
     confirmedFriendships = friendships.filter((friendship) => {
       return (
