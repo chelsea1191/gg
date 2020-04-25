@@ -56,7 +56,7 @@ const allDataFromAPI = axios
 const sync = async () => {
   const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-  CREATE TABLE users (
+  CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(100) NOT NULL UNIQUE,
     firstname VARCHAR(100) NOT NULL,
@@ -74,11 +74,11 @@ const sync = async () => {
     "gameTypes" TEXT [],
     date_created TIMESTAMP default CURRENT_TIMESTAMP
   );
-  CREATE TABLE game_type (
+  CREATE TABLE IF NOT EXISTS game_type (
     id SERIAL PRIMARY KEY,
     gametype VARCHAR
   );
-  CREATE TABLE game (
+  CREATE TABLE IF NOT EXISTS game (
     id VARCHAR PRIMARY KEY UNIQUE,
     name VARCHAR,
     "gameTypeID" INT,
@@ -94,25 +94,25 @@ const sync = async () => {
     max_playtime INT,
     average_user_rating DECIMAL
   );
-  CREATE TABLE favoritegames (
+  CREATE TABLE IF NOT EXISTS favoritegames (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "gameId" VARCHAR REFERENCES game(id),
     UNIQUE ("userId", "gameId")
   );
-  CREATE TABLE friendships (
+  CREATE TABLE IF NOT EXISTS friendships (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "friendId" UUID REFERENCES users(id),
     "sendStatus" VARCHAR NOT NULL,
     UNIQUE ("userId", "friendId")
   );
-  CREATE TABLE user_group (
+  CREATE TABLE IF NOT EXISTS user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id) NOT NULL,
     "gameTypeID" INT REFERENCES game_type(id) NOT NULL
   );
-  CREATE TABLE chat (
+  CREATE TABLE IF NOT EXISTS chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     creator_id UUID REFERENCES users(id) NOT NULL,
     user_id UUID REFERENCES users(id) NOT NULL,
@@ -121,19 +121,19 @@ const sync = async () => {
     render_user_messages BOOLEAN DEFAULT true,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  CREATE TABLE message (
+  CREATE TABLE IF NOT EXISTS message (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     chat_id UUID REFERENCES chat(id) NOT NULL,
     sender_id UUID REFERENCES users(id) NOT NULL,
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540');
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540');
-  INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30');
-  INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1');
-  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed');
-  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'confirmed');
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
+  INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30') ON CONFLICT DO NOTHING;
+  INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1') ON CONFLICT DO NOTHING;
+  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed') ON CONFLICT DO NOTHING;
+  INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'confirmed') ON CONFLICT DO NOTHING;
   `;
 
   await client.query(SQL);
