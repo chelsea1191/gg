@@ -22,7 +22,7 @@ const UserProfile = ({
   });
 
   const addFriend = async () => {
-    const friendshipsCopy = [...friendships];
+    const friendshipsCopy = await Axios.get('api/friendships').data;
     let newFriendshipObject = {
       userId: auth.id,
       friendId: user.id,
