@@ -50,13 +50,14 @@ const UserFriendsPage = ({
   });
 
   const userFriends = confirmedFriendships.map((friendship) => {
-    const friend = users.find((u) => u.id === friendship.userId);
+    const friend = users.find((u) => u.id === friendship.friendId);
     return friend;
   });
 
-  const userFriendsList = userFriends.map((friend) => {
+  const userFriendsList = userFriends.map((friend, i) => {
     return (
-      <li className="userFriendsListItem">
+      <li key={i} className="userFriendsListItem">
+        <img src={`avatar`} className="userProfileImage" />
         <h5>{friend.username}</h5>
         <button className="addFriendButton" onClick={addFriend}>
           <h5>Add</h5>

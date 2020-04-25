@@ -192,7 +192,7 @@ const App = () => {
                   <FindPlayers
                     allGames={allGames}
                     users={users}
-                    user={user}
+                    user={userView}
                     setUsers={setUser}
                     auth={auth}
                     allGames={allGames}
