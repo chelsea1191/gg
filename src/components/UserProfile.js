@@ -59,7 +59,7 @@ const UserProfile = ({
   
   return (
     <div id="userProfile">
-      <img src="" className="userProfileImage" />
+      <img src={`${user.avatar}`} className="userProfileImage" />
 
       <h4>
         <b>{user.username}</b>

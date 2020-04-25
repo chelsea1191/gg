@@ -81,7 +81,8 @@ const sync = async () => {
     latitude VARCHAR,
     longitude VARCHAR,
     "gameTypes" TEXT [],
-    date_created TIMESTAMP default CURRENT_TIMESTAMP
+    date_created TIMESTAMP default CURRENT_TIMESTAMP,
+    avatar VARCHAR
   );
   CREATE TABLE game_type (
     id SERIAL PRIMARY KEY,
@@ -184,6 +185,7 @@ const sync = async () => {
       bio: 'friend here',
       latitude: '30.280240',
       longitude: '-81.724630',
+      avatar: '/assets/heart.png',
     },
     buddy: {
       username: 'buddy',
@@ -195,6 +197,7 @@ const sync = async () => {
       bio: 'buddy here',
       latitude: '30.303406',
       longitude: '-81.469178',
+      avatar: '/assets/heart.png',
     },
   };
 

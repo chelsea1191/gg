@@ -34,6 +34,7 @@ export default function CreateUser({
       latitude: location[0],
       longitude: location[1],
       gameTypes: selectedGameTypes,
+      avatar: '/assets/heart.png',
     };
     await axios.post('/api/createUser', newUser).then((response) => {
       newUser.id = response.data.id;
