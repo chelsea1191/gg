@@ -77,7 +77,8 @@ const sync = async () => {
     latitude VARCHAR,
     longitude VARCHAR,
     "gameTypes" TEXT [],
-    date_created TIMESTAMP default CURRENT_TIMESTAMP
+    date_created TIMESTAMP default CURRENT_TIMESTAMP,
+    avatar VARCHAR
   );
   CREATE TABLE IF NOT EXISTS game_type (
     id SERIAL PRIMARY KEY,
@@ -145,6 +146,7 @@ const sync = async () => {
     console.log('environment is development');
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+<<<<<<< HEAD
     DROP TABLE IF EXISTS message;
     DROP TABLE IF EXISTS chat;
     DROP TABLE IF EXISTS favoritegames;
