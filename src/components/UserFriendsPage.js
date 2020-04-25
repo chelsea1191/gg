@@ -9,6 +9,7 @@ const UserFriendsPage = ({
   auth,
   setUserView,
 }) => {
+  debugger;
   const addFriend = async () => {
     const friendshipsCopy = [...friendships];
     let newFriendshipObject = {
