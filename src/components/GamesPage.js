@@ -61,12 +61,12 @@ const GamesPage = ({
           filtered.map((game) => {
             const addFavorite = async () => {
               const favoriteGamesCopy = [...favoriteGames];
-              const newFavoriteGame = await Axios.post('/api/favoritegames', {
+              await Axios.post('/api/favoritegames', {
                 userId: auth.id,
                 gameId: game.id,
-              }).data;
-
-              setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+              }).then((res) =>
+                setFavoriteGames([...favoriteGamesCopy, res.data])
+              );
             };
             return (
               <li key={game.id} className='gamesListItem'>

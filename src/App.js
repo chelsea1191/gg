@@ -42,7 +42,6 @@ const App = () => {
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
-      //console.log('all games: ', response.data);
       setAllGames(response.data);
     });
   }, [auth]);
@@ -57,7 +56,7 @@ const App = () => {
     axios.get('/api/favoritegames').then((response) => {
       setFavoriteGames(response.data);
     });
-  }, []);
+  }, [setFavoriteGames]);
 
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {

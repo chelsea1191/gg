@@ -223,20 +223,6 @@ const FindPlayers = ({
                 );
               }
             })}
-
-          {/*
-          {users.map((mapUser) => {
-            if (mapUser.id != auth.id) {
-              return (
-                <li key={mapUser.id}>
-                  <Link to="/chat" onClick={() => setUser(mapUser)}>
-                    {mapUser.firstname + mapUser.lastname}
-                  </Link>
-                  is {findDistance(mapUser)} miles away
-                </li>
-              );
-            }
-          })} */}
         </ul>
       </div>
     );
