@@ -16,6 +16,12 @@ const friendships = {
       ])
     ).rows[0];
   },
+
+  update: async (friendship) => {
+    const SQL = `UPDATE friendships SET (sendStatus) = ($1) WHERE id = ($2)`;
+    return (await client.query(SQL, [friendship.sendStatus, friendship.id]))
+      .rows[0];
+  },
 };
 
 module.exports = friendships;
