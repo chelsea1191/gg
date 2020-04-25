@@ -49,7 +49,7 @@ const UserProfile = ({
   const confirmedFriendships = [];
 
   const addFriendButton = document.querySelectorAll('.addFriendButton');
-  if (friendships.length) {
+  if (friendships.length > 0) {
     if (
       friendships.find((friendship) => {
         return (
