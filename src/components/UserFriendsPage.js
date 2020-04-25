@@ -48,13 +48,12 @@ const UserFriendsPage = ({
     );
   });
 
-  const userFriends = confirmedFriendships.map( friendship => {
-    const friend = users.find(u => u.id === friendship.friendId)
-    return friend
-    })
-  }
+  const userFriends = confirmedFriendships.map((friendship) => {
+    const friend = users.find((u) => u.id === friendship.friendId);
+    return friend;
+  });
 
-  const userFriendsList = []
+  const userFriendsList = [];
 
   return (
     <div id="userFriendsPage">
