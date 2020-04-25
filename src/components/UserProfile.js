@@ -26,6 +26,7 @@ const UserProfile = ({
     let newFriendshipObject = {
       userId: auth.id,
       friendId: user.id,
+      sendStatus: 'sent',
     };
 
     const newFriendship = await Axios.post(
