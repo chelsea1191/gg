@@ -76,6 +76,12 @@ button {
   border-radius: 15px;
 }
 
+.userFriendsListItem {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
 .searchButton {
   border-radius: 15px;
 }

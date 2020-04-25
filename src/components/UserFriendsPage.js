@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const UserFriendsPage = ({
+  users,
   user,
   friendships,
   setFriendships,
@@ -11,47 +12,56 @@ const UserFriendsPage = ({
 }) => {
   const addFriend = async () => {
     const friendshipsCopy = [...friendships];
-    const newFriendship = await Axios.post('/api/friendships', {
+    let newFriendshipObject = {
       userId: auth.id,
       friendId: user.id,
-    }).data;
-    const friendRequests = friendships.filter(
-      (friendship) =>
-        friendship.userId === user.id && friendship.friendId === auth.id
-    );
-    if (friendRequests.length === 1) {
-      const friendRequestCopy = { ...friendRequests[0] };
-      const friendRequestIndex = friendships.indexOf(friendRequestCopy);
-      friendRequestCopy.status === 'confirmed';
-      await Axios.put(
-        `/api/friendships/${friendRequestCopy.id}`,
-        friendRequestCopy
-      );
-      friendshipsCopy.splice(friendRequestIndex, 1, friendRequestCopy);
-      newFriendship.status = 'confirmed';
+      sendStatus: 'sent',
+    };
+
+    const receivedRequest = friendships.find((friendship) => {
+      return friendship.userId === user.id && friendship.friendId === auth.id;
+    });
+    if (receivedRequest !== undefined) {
+      newFriendshipObject.sendStatus = 'confirmed';
+
+      const receivedRequestCopy = { ...receivedRequest };
+      const receivedRequestIndex = friendships.indexOf(receivedRequest);
+      receivedRequestCopy.sendStatus = 'confirmed';
+      const updatedFriendship = (
+        await Axios.put(
+          `/api/friendships/${receivedRequest.id}`,
+          receivedRequestCopy
+        )
+      ).data;
+      friendshipsCopy.splice(receivedRequestIndex, 1, receivedRequestCopy);
     }
+
+    const newFriendship = (
+      await Axios.post('/api/friendships', newFriendshipObject)
+    ).data;
 
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = friendships.filter(
-    (friendship) =>
-      friendship.userId === user.Id && friendship.status === 'confirmed'
-  );
-
-  const userFriendsList = confirmedFriendships.map((friendship) => {
-    const friend = users.find((user) => user.id === friendship.userId);
-
+  const confirmedFriendships = friendships.filter((friendship) => {
     return (
-      <li key={friend.id} className="friendsListItem">
-        <Link to={`/users/${friend.id}`} onClick={(ev) => setUserView(friend)}>
-          <h5>{friend.username}</h5>
-        </Link>
+      friendship.userId === user.id && friendship.sendStatus === 'confirmed'
+    );
+  });
 
-        <button type="button" onClick={addFriend}>
-          <h5>Add Friend</h5>
+  const userFriends = confirmedFriendships.map((friendship) => {
+    const friend = users.find((u) => u.id === friendship.friendId);
+    return friend;
+  });
+
+  const userFriendsList = userFriends.map((friend, i) => {
+    return (
+      <li key={i} className="userFriendsListItem">
+        <img src={`avatar`} className="userProfileImage" />
+        <h5>{friend.username}</h5>
+        <button className="addFriendButton" onClick={addFriend}>
+          <h5>Add</h5>
         </button>
-        <hr className="hr" />
       </li>
     );
   });
@@ -59,7 +69,7 @@ const UserFriendsPage = ({
   return (
     <div id="userFriendsPage">
       <h3>{user.username}'s Friends</h3>
-      {userFriendsList}
+      <ul>{userFriendsList}</ul>
     </div>
   );
 };
