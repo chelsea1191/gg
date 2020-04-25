@@ -52,7 +52,9 @@ const UserFriendsPage = ({
     return friend;
   });
   const userFriendsList = userFriends.map((friend) => {
-    return <li classname="userFriendsListItem">{user.username}</li>;
+    if (friend) {
+      return <li classname="userFriendsListItem">{user.username}</li>;
+    }
   });
 
   return (
