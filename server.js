@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const router = express.Router();
 const path = require('path');
 const morgan = require('morgan');
@@ -12,7 +13,8 @@ const fileUpload = require('express-fileupload');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-//to change git remote: git remote set-url origin (new.git.url/here)
+const env = process.env.NODE_ENV;
+console.log('environment from server: ', env);
 
 //////////////////use///////////////////
 app.use(express.json());
