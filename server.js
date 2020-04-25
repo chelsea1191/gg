@@ -303,6 +303,14 @@ app.post('/api/sendMessages', (req, res, next) => {
 //     .catch(next);
 // });
 
+app.put('/api/friendships/:id', (req, res, next) => {
+  const id = req.params.id;
+  db.models.friendships
+    .update(req.body)
+    .then((friendship) => res.send(friendship))
+    .catch(next);
+});
+
 //////////////////delete////////////////////
 // app.delete("/api/users/:id", (req, res, next) => {
 //   db.deleteUser(req.params.id)
