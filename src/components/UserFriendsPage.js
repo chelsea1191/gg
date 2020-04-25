@@ -59,7 +59,7 @@ const UserFriendsPage = ({
       <li className="userFriendsListItem">
         <h5>{friend.username}</h5>
         <button className="addFriendButton" onClick={addFriend}>
-          <h5>Add Friend</h5>
+          <h5>Add</h5>
         </button>
       </li>
     );
