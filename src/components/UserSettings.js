@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import FileUpload from './FileUpload';
 
 const UserProfile = ({ auth, changePassword, setUserView }) => {
   const [firstpass, setfirstpass] = useState('');
@@ -38,10 +39,13 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
           {auth.username}
         </h6>
       </div>
+      <div className="container mt-4">
+        <h5 className="text-center mb-4">
+          <b>Upload a photo for your profile!</b>
+        </h5>
+      </div>
 
-      <form action="/profileImage" method="post" encType="multipart/form-data">
-        <input type="file" name="profileImage" />
-      </form>
+      <FileUpload />
 
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
         <h5>
