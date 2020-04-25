@@ -63,7 +63,6 @@ const App = () => {
     axios.get('/api/friendships').then((response) => {
       setFriendships(response.data);
     });
-    console.log(friendships);
   }, []);
 
   const login = async (credentials) => {
