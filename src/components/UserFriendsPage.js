@@ -48,7 +48,19 @@ const UserFriendsPage = ({
     );
   });
 
-  const userFriendsList = [];
+  const userFriends = confirmedFriendships.map( friendship => {
+    const friend = users.find(u => u.id === friendship.friendId)
+    return friend
+    })
+  }
+
+  const userFriendsList = userFriends.map(friend => {
+    return (
+      <li className = "userFriendsListItem">
+       {friend.username}
+      </li>
+    )
+  })
 
   return (
     <div id="userFriendsPage">
