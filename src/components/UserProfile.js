@@ -59,7 +59,7 @@ const UserProfile = ({
         );
       })
     ) {
-      addFriendButton.setAttribute('hidden', true);
+      addFriendButton.style.display = 'none';
     }
   }
 
