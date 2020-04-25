@@ -42,20 +42,7 @@ const UserFriendsPage = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = friendships.filter((friendship) => {
-    return (
-      friendship.userId === user.id && friendship.sendStatus === 'confirmed'
-    );
-  });
-  const userFriends = confirmedFriendships.map((friendship) => {
-    const friend = friendships.find((fs) => fs.userId === user.id);
-    return friend;
-  });
-  const userFriendsList = userFriends.map((friend) => {
-    if (friend) {
-      return <li classname="userFriendsListItem">{user.username}</li>;
-    }
-  });
+  const userFriendsList = [];
 
   return (
     <div id="userFriendsPage">
