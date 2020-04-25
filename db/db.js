@@ -106,13 +106,15 @@ const sync = async () => {
   CREATE TABLE favoritegames (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
-    "gameId" VARCHAR REFERENCES game(id)
+    "gameId" VARCHAR REFERENCES game(id),
+    UNIQUE ("userId", "gameId")
   );
   CREATE TABLE friendships (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     "userId" UUID REFERENCES users(id),
     "friendId" UUID REFERENCES users(id),
-    "sendStatus" VARCHAR NOT NULL
+    "sendStatus" VARCHAR NOT NULL,
+    UNIQUE ("userId", "friendId")
   );
   CREATE TABLE user_group (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
