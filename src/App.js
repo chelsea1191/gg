@@ -182,13 +182,7 @@ const App = () => {
                   />
                 </Route>
                 <Route exact path={`/users/${userView.id}/friends`}>
-                  <UserFriendsPage
-                    user={userView}
-                    friendships={friendships}
-                    setFriendships={setFriendships}
-                    setUserView={setUserView}
-                    auth={auth}
-                  />
+                  <UserFriendsPage auth={auth} user={userView} />
                 </Route>
                 <Route path="/games">
                   <GamesPage allGames={allGames} setGameView={setGameView} />
