@@ -46,17 +46,7 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const [confirmedFriendships, setConfirmedFriendships] = useState([]);
-  if (friendships.length > 0) {
-    setConfirmedFriendships(
-      friendships.filter((friendship) => {
-        return (
-          friendship.friendId === auth.id &&
-          friendship.sendStatus === 'confirmed'
-        );
-      })
-    );
-  }
+  const confirmedFriendships = [];
 
   return (
     <div id="userProfile">
