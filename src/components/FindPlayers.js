@@ -34,14 +34,22 @@ const FindPlayers = ({
   const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loadFavGames, setLoadFavGames] = useState(false);
   const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
+  const [usersFavGames, setUsersFavGames] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/favoritegames').then((response) => {
+      setFavoriteGames(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     const results = JSON.parse(window.localStorage.getItem('results'));
     if (results) {
       setResults(results);
     }
-  }, []); //userId
+  }, []);
 
   const findDistance = (player) => {
     return (
@@ -137,7 +145,7 @@ const FindPlayers = ({
               setFiltered={setFiltered}
             />
           </div>
-          <h6>-- or --</h6>
+          {favoriteGames.length > 0 && <h6>-- or --</h6>}
           <select
             className='select'
             id='fav-game-options'
@@ -146,6 +154,7 @@ const FindPlayers = ({
             <option value='default'>Pick a Favorite Game</option>
             {/* the below function is slower than the page loading.... so it creates an error sometimes that reads Cannot read property 'userId' of undefined*/}
             {favoriteGames.map((eachFavGame) => {
+              console.log('each: ', eachFavGame);
               if (eachFavGame.userId === auth.id) {
                 return (
                   <option key={eachFavGame.id} value={eachFavGame.gameId}>
