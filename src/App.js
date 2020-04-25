@@ -299,6 +299,7 @@ const App = () => {
                 </Route>
                 <Route exact path={`/users/${userView.id}/friends`}>
                   <UserFriendsPage
+                    users={users}
                     user={userView}
                     friendships={friendships}
                     setFriendships={setFriendships}
