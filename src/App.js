@@ -58,7 +58,6 @@ const App = () => {
     });
   }, [setFavoriteGames]);
 
-
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
       setFriendships(response.data);
@@ -191,7 +190,6 @@ const App = () => {
                   />
                 </Route>
                 <Route path='/games'>
-
                   <GamesPage allGames={allGames} setGameView={setGameView} />
                 </Route>
                 <Route path='/about'>
@@ -361,16 +359,14 @@ const App = () => {
                         setUser={setUser}
                       />
                     );
-                  }}
-                ></Route>
+                  }}></Route>
                 <Route
                   exact
                   path='/chat/:id'
                   component={(props) => {
                     return <UserChat {...props} auth={auth} users={users} />;
-                  }}
-                ></Route>
-                <Route path="/">
+                  }}></Route>
+                <Route path='/'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
