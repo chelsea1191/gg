@@ -34,7 +34,6 @@ const {
 
 const client_id = 'u7xbcBEfgP';
 
-//we can also use axios.all to get data from multiple endpoints
 const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
   .then((response) => {
@@ -42,15 +41,12 @@ const allDataFromAPI = axios
   })
   .catch((error) => {
     if (error.response) {
-      // server responded with status code outside of 2xx
       console.log('error.response.data: ', error.response.data);
       console.log('error.response.status: ', error.response.status);
       console.log('error.response.headers: ', error.response.headers);
     } else if (error.request) {
-      // no response received
       console.log('error.request: ', error.request);
     } else {
-      // something happened in setting up the request and triggered an Error
       console.log('Error', error.message);
     }
     console.log('error.config: ', error.config);
@@ -58,6 +54,7 @@ const allDataFromAPI = axios
 
 const sync = async () => {
   if (process.env.NODE_ENV == 'production') {
+    //**********************************  PRODUCTION ******************************* */
     console.log('environment is production');
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -143,10 +140,10 @@ const sync = async () => {
   `;
     await client.query(SQL);
   } else {
+    //**********************************  DEVELOPMENT ******************************* */
     console.log('environment is development');
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-<<<<<<< HEAD
     DROP TABLE IF EXISTS message;
     DROP TABLE IF EXISTS chat;
     DROP TABLE IF EXISTS favoritegames;
@@ -320,20 +317,3 @@ module.exports = {
   getMessage,
   putMessage,
 };
-
-//   DROP TABLE IF EXISTS message;
-//   DROP TABLE IF EXISTS chat;
-//   DROP TABLE IF EXISTS favoritegames;
-//   DROP TABLE IF EXISTS friendships;
-//   DROP TABLE IF EXISTS user_game;
-//   DROP TABLE IF EXISTS user_group;
-//   DROP TABLE IF EXISTS game;
-//   DROP TABLE IF EXISTS game_type;
-//   DROP TABLE IF EXISTS users;
-
-// INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
-// INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
-// INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30') ON CONFLICT DO NOTHING;
-// INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1') ON CONFLICT DO NOTHING;
-// INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed') ON CONFLICT DO NOTHING;
-// INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'confirmed') ON CONFLICT DO NOTHING;

@@ -12,9 +12,6 @@ const fileUpload = require('express-fileupload');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const env = process.env.NODE_ENV;
-console.log('environment from server: ', env);
-
 //////////////////use///////////////////
 app.use(express.json());
 app.use(
