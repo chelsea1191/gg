@@ -46,11 +46,14 @@ const UserProfile = ({
     setFriendships([...friendshipsCopy, newFriendship]);
   };
 
-  const confirmedFriendships = friendships.filter((friendship) => {
-    return (
-      friendship.friendId === user.id && friendship.sendStatus === 'confirmed'
-    );
-  });
+  const confirmedFriendships = [];
+  if (friendships.length > 0) {
+    confirmedFriendships = friendships.filter((friendship) => {
+      return (
+        friendship.friendId === user.id && friendship.sendStatus === 'confirmed'
+      );
+    });
+  }
 
   return (
     <div id="userProfile">
