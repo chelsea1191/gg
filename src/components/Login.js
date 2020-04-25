@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 // LANDING PAGE WHEN APP OPENS.
 // WHEN USER LOGS IN OR BROWSES AS GUEST, LINKS TO FIND PLAYERS PAGE
 
 const Login = ({ login }) => {
-  const greentext = { color: 'rgb(0, 200, 0)' }
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const greentext = { color: 'rgb(0, 200, 0)' };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const onSubmit = (ev) => {
-    ev.preventDefault()
+    ev.preventDefault();
     login({ username, password }).catch((ex) =>
       setError(ex.response.data.message)
-    )
-  }
+    );
+  };
   return (
     <div id="loginPage">
       <img id="loginLogo" src="../../assets/logo.png" />
@@ -46,7 +46,7 @@ const Login = ({ login }) => {
       </form>
       <h6>© Team Awesome</h6>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

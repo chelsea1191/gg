@@ -57,7 +57,9 @@ const UserProfile = ({
       friendship.userId === user.id && friendship.sendStatus === 'confirmed'
     );
   });
+  
 
+  
   return (
     <div id="userProfile">
       <img src={`avatar`} className="userProfileImage" />
