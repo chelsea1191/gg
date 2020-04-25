@@ -32,6 +32,17 @@ const UserProfile = ({
     });
     if (receivedRequest !== undefined) {
       newFriendshipObject.sendStatus = 'confirmed';
+
+      const receivedRequestCopy = { ...receivedRequest };
+      const receivedRequestIndex = friendships.indexOf(receivedRequest);
+      receivedRequestCopy.sendStatus = 'confirmed';
+      const updatedFriendship = (
+        await Axios.put(
+          `/api/friendships/${receivedRequest.id}`,
+          receivedRequestCopy
+        )
+      ).data;
+      friendshipsCopy.splice(receivedRequestIndex, 1, receivedRequestCopy);
     }
 
     const newFriendship = (
