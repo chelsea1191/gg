@@ -170,7 +170,8 @@ const sync = async () => {
     latitude VARCHAR,
     longitude VARCHAR,
     "gameTypes" TEXT [],
-    date_created TIMESTAMP default CURRENT_TIMESTAMP
+    date_created TIMESTAMP default CURRENT_TIMESTAMP,
+    avatar VARCHAR
   );
   CREATE TABLE IF NOT EXISTS game_type (
     id SERIAL PRIMARY KEY,
