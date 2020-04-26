@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const router = express.Router();
 const path = require('path');
 const morgan = require('morgan');
@@ -7,12 +8,9 @@ const fs = require('fs');
 const db = require('./db/db');
 const models = db.models;
 const bodyParser = require('body-parser');
-const multer = require('multer');
 const fileUpload = require('express-fileupload');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-
-//to change git remote: git remote set-url origin (new.git.url/here)
 
 //////////////////use///////////////////
 app.use(express.json());
@@ -53,47 +51,6 @@ io.on('connection', (socket) => {
   //   socket.broadcast.emit('hi')
   // })
 });
-
-///////////// MULTER ////////////
-
-//set storage engine//
-
-// const storage = multer.diskStorage({
-//   destination: './public/uploads',
-//   filename: function (req, file, cb) {
-//     cb(
-//       null,
-//       file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-//     )
-//   },
-// })
-
-// initilize upload//
-
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: 10000000 },
-//   fileFilter: (req, file, cb) => {
-//     checkFileType(file, cb)
-//   },
-// }).single('avatar')
-
-// check file type //
-
-// const checkFileType = (file, cb) => {
-//   // allowed extensions
-//   const fileTypes = /jpeg|jpg|png|gif/
-//   //check ext
-//   const extName = fileTypes.test(path.extname(file.originalname).toLowerCase())
-//   //check mime
-//   const mimetype = fileTypes.test(file.mimetype)
-
-//   if (mimetype && extName) {
-//     return cb(null, true)
-//   } else {
-//     cb('Error: Images only')
-//   }
-// }
 
 //////////////////auth//////////////////
 const isLoggedIn = (req, res, next) => {
@@ -220,29 +177,11 @@ app.get('/api/chat/:userId/:authId', (req, res, next) => {
 
 //////////////////post////////////////////
 
-// app.post('/upload', (req, res, next) => {
-//   upload(req, res, (err) => {
-//     if (err) {
-//       res.status(err.status || 500);
-//       res.json({
-//         message: err.message,
-//         error: err,
-//       });
-//     } else {
-//         res.send({ msg: 'File uploaded!' });
-//         res.sendFile(`uploads/${req.file.filename}`);
-//       }
-//     }
-//   });
-// });
-
 app.post('/upload', (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: 'No file uploaded' });
   }
-
   const file = req.files.file;
-
   file.mv(`${__dirname}/public/uploads/${file.name}`, (err) => {
     if (err) {
       console.error(err);
@@ -308,6 +247,15 @@ app.put('/api/friendships/:id', (req, res, next) => {
   db.models.friendships
     .update(req.body)
     .then((friendship) => res.send(friendship))
+    .catch(next);
+});
+
+app.put('/api/users/:id', (req, res, next) => {
+  console.log('params are', req.params);
+  console.log('body is', req.body);
+  db.models.users
+    .avatar(req.body)
+    .then((users) => res.send(users))
     .catch(next);
 });
 

@@ -5,7 +5,8 @@
 ## Deployed:
 
 http://gg-connect.herokuapp.com/
-http://goodgameapp.herokuapp.com/
+----------
+https://evening-retreat-02067.herokuapp.com/
 
 ## To run:
 

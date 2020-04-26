@@ -45,7 +45,7 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
         </h5>
       </div>
 
-      <FileUpload />
+      <FileUpload auth={auth} />
 
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
         <h5>
