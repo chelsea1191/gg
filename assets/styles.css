@@ -568,3 +568,21 @@ select {
 .nav-icon:hover {
   transform: scale(1.5);
 }
+.each-icon {
+  margin: 10px;
+  margin-top: 0px;
+  margin-bottom: 7px;
+}
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.icon-container-dashboard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.each-icon-dashboard {
+  margin: 5px;
+}

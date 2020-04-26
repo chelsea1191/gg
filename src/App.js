@@ -12,8 +12,10 @@ import CreateUser from './components/CreateUser';
 import UserFriendsPage from './components/UserFriendsPage';
 import UserGamesPage from './components/UserGamesPage';
 import UserSettings from './components/UserSettings';
+import LandingPage from './components/LandingPage';
 import Chat from './components/chat/Chat';
 import UserChat from './components/chat/UserChat';
+import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
@@ -27,18 +29,18 @@ const headers = () => {
 };
 
 const App = () => {
-  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1)));
+  const [params, setParams] = useState(qs.parse(window.location.hash.slice(1))); //remove?
   const [auth, setAuth] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false); //remove?
   const [allGames, setAllGames] = useState([]);
   const [gameView, setGameView] = useState([]);
   const [userView, setUserView] = useState([]);
-  const [friendsView, setFriendsView] = useState([]);
+  const [friendsView, setFriendsView] = useState([]); //remove?
   const [favoriteGames, setFavoriteGames] = useState([]);
   const [friendships, setFriendships] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState([]);
-  const [userFriends, setUserFriends] = useState([]);
+  const [userFriends, setUserFriends] = useState([]); //remove?
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
@@ -152,6 +154,7 @@ const App = () => {
                         src='/assets/power.png'
                         width='13'
                         height='15'
+                        title='Login'
                       />
                       <h6>Login</h6>
                     </button>
@@ -181,14 +184,14 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route exact path={`/users/${userView.id}/friends`}>
+                {/* <Route exact path={`/users/${userView.id}/friends`}>
                   <UserFriendsPage
                     user={userView}
                     friendships={friendships}
                     setFriendships={setFriendships}
                     setUserView={setUserView}
                   />
-                </Route>
+                </Route> */}
                 <Route path='/games'>
                   <GamesPage allGames={allGames} setGameView={setGameView} />
                 </Route>
@@ -196,15 +199,7 @@ const App = () => {
                   <About />
                 </Route>
                 <Route path='/'>
-                  <FindPlayers
-                    allGames={allGames}
-                    users={users}
-                    user={userView}
-                    setUsers={setUser}
-                    auth={auth}
-                    allGames={allGames}
-                    setGameView={setGameView}
-                  />
+                  <LandingPage />
                 </Route>
               </Switch>
             </div>
@@ -225,7 +220,7 @@ const App = () => {
                       id='navLogo'
                       src='/assets/logo.png'
                       alt=''
-                      title='Bootstrap'></img>
+                      title='Home'></img>
                   </Link>
                 </li>
                 <li className='nav-icon'>
@@ -235,9 +230,19 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>
+                      title='Browse Games'></img>
                   </Link>
                 </li>
+                <li className='nav-icon'>
+                  <Link className='link' to='/findplayers'>
+                    <img
+                      src='/assets/find.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Find Players'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
                 <li className='nav-icon'>
                   <Link className='link' to='/chat'>
                     <img
@@ -246,7 +251,7 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>{' '}
+                      title='Chat'></img>{' '}
                   </Link>{' '}
                 </li>{' '}
                 <li className='nav-icon'>
@@ -256,7 +261,7 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>
+                      title='Settings'></img>
                   </Link>
                 </li>
                 <li className='nav-icon'>
@@ -266,7 +271,7 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Bootstrap'></img>
+                      title='About'></img>
                   </Link>
                 </li>
                 <li className='nav-icon'>
@@ -277,6 +282,7 @@ const App = () => {
                         src='/assets/power.png'
                         width='13'
                         height='15'
+                        title='Logout'
                       />
                       <h6>Log Out</h6>
                     </button>
@@ -294,7 +300,6 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-
                 <Route exact path={`/users/${userView.id}/favoriteGames`}>
                   <UserGamesPage
                     user={userView}
@@ -346,7 +351,6 @@ const App = () => {
                 <Route path='/about'>
                   <About />
                 </Route>
-
                 <Route
                   exact
                   path='/chat'
@@ -366,7 +370,7 @@ const App = () => {
                   component={(props) => {
                     return <UserChat {...props} auth={auth} users={users} />;
                   }}></Route>
-                <Route path='/'>
+                <Route path='/findplayers'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
@@ -376,6 +380,14 @@ const App = () => {
                     allGames={allGames}
                     setUserView={setUserView}
                     setGameView={setGameView}
+                    favoriteGames={favoriteGames}
+                  />
+                </Route>
+                <Route path='/'>
+                  <Dashboard
+                    auth={auth}
+                    friendships={friendships}
+                    users={users}
                     favoriteGames={favoriteGames}
                   />
                 </Route>

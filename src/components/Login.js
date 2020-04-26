@@ -11,6 +11,7 @@ const Login = ({ login }) => {
   const [error, setError] = useState('');
   const onSubmit = (ev) => {
     ev.preventDefault();
+    setUsername(username.toLowerCase());
     login({ username, password }).catch((ex) =>
       setError(ex.response.data.message)
     );
@@ -23,7 +24,10 @@ const Login = ({ login }) => {
         <input
           type='text'
           value={username}
-          onChange={(ev) => setUsername(ev.target.value)}
+          onChange={(ev) => {
+            let username = ev.target.value;
+            setUsername(username.toLowerCase());
+          }}
           placeholder='Username'
         />
         <input
@@ -41,7 +45,12 @@ const Login = ({ login }) => {
           </Link>
         </h6>
         <h6>
-          <i>or Browse as a Guest</i>
+          <i>
+            or{' '}
+            <Link className='link' to='/games'>
+              Browse our games as a guest
+            </Link>
+          </i>
         </h6>
       </form>
       <h6>© Team Awesome</h6>
