@@ -32,7 +32,7 @@ const {
   putMessage,
 } = require('./userMethods');
 
-const client_id = 'u7xbcBEfgP';
+const client_id = process.env.CLIENT_ID;
 
 const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
