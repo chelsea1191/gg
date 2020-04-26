@@ -17,37 +17,37 @@ const Login = ({ login }) => {
     );
   };
   return (
-    <div id='loginPage'>
-      <img id='loginLogo' src='../../assets/logo.png' />
-      <form id='loginForm' onSubmit={onSubmit}>
-        <div className='error'>{error}</div>
+    <div id="loginPage">
+      <img id="loginLogo" src="../../assets/logo.png" />
+      <form id="loginForm" onSubmit={onSubmit}>
+        <div className="error">{error}</div>
         <input
-          type='text'
+          type="text"
           value={username}
           onChange={(ev) => {
             let username = ev.target.value;
             setUsername(username.toLowerCase());
           }}
-          placeholder='Username'
+          placeholder="Username"
         />
         <input
-          type='password'
+          type="password"
           value={password}
           onChange={(ev) => setPassword(ev.target.value)}
-          placeholder='Password'
+          placeholder="Password"
         />
-        <button id='loginButton'>
-          <span>Login</span>
+        <button id="loginButton">
+          <h5>Login</h5>
         </button>
         <h6>
-          <Link className='link' to='/register'>
+          <Link className="link" to="/register">
             <h6>Create Profile</h6>
           </Link>
         </h6>
         <h6>
           <i>
             or{' '}
-            <Link className='link' to='/games'>
+            <Link className="link" to="/games">
               Browse our games as a guest
             </Link>
           </i>

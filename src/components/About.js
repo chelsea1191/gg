@@ -5,20 +5,23 @@ const About = () => {
   const iconStyle = { width: 16, height: 16 };
 
   const greentext = { color: 'rgb(0, 200, 0)' };
+
+  const icon = { fontSize: 24, color: 'rgba(150,150,150,1)' };
+
   return (
     <div>
-      <div id='aboutPage'>
+      <div id="aboutPage">
         <h3>
           Developed by <span style={greentext}>Team Awesome</span>
         </h3>
-        <hr className='hr' />
+        <hr className="hr" />
         <p>
           <b style={greentext}>gg</b> allows users to connect with people near
           them to play games.
         </p>
         <p>
           Add your Favorite Games to your profile from the Games page{' '}
-          <img src='../../assets/search.png' style={iconStyle} />.
+          <i className="fas fa-dice-d20 each-icon-dashboard" style={icon}></i>.
         </p>
         <p>
           Use the Home page to search for other users in your area based on
