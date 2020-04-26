@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import FileUpload from './FileUpload';
 
 const UserProfile = ({ auth, changePassword, setUserView }) => {
+  const greentext = { color: 'rgb(0, 200, 0)' };
   const [firstpass, setfirstpass] = useState('');
   const [secondpass, setsecondpass] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -22,7 +23,7 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
       <h3>User Settings</h3>
       <Link to={`/users/${auth.id}`} onClick={(ev) => setUserView(auth)}>
         <h5>
-          <b>View Profile</b>
+          <b style={greentext}>View Profile</b>
         </h5>
       </Link>
       <div id="userSettingsInfo">
@@ -39,14 +40,17 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
           {auth.username}
         </h6>
       </div>
-      <div className="container mt-4">
+
+      <hr className="hr" />
+
+      <div>
         <h5 className="text-center mb-4">
           <b>Upload a photo for your profile!</b>
         </h5>
       </div>
 
       <FileUpload auth={auth} />
-
+      <hr className="hr" />
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
         <h5>
           <b>Change Password</b>

@@ -97,7 +97,7 @@ const FileUpload = ({ auth }) => {
       </form>
 
       {uploadedFile ? (
-        <div>
+        <div id="uploadedFile">
           <h3 className="text-center">{uploadedFile.fileName}</h3>
           <img src={uploadedFile.filePath} className="userProfileImage" />
         </div>
