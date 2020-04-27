@@ -50,10 +50,8 @@ const users = {
     await client.query(SQL, [id]);
   },
   avatar: async ({ id, avatar }) => {
-    console.log('avatar db function is called', id, avatar);
     const SQL = `UPDATE users SET avatar=$2 WHERE id=$1 returning *`;
     const response = await client.query(SQL, [id, avatar]);
-    console.log(response.rows[0]);
     return response.rows[0];
   },
 };

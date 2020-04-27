@@ -131,8 +131,8 @@ const sync = async () => {
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude, avatar) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540', '/assets/avatar.png') ON CONFLICT DO NOTHING;
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude, avatar) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540', '/assets/avatar.png') ON CONFLICT DO NOTHING;
   INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30') ON CONFLICT DO NOTHING;
   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1') ON CONFLICT DO NOTHING;
   INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed') ON CONFLICT DO NOTHING;
@@ -227,8 +227,8 @@ const sync = async () => {
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
-  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540') ON CONFLICT DO NOTHING;
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude, avatar) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'marco', 'marco', 'polo', 'marco', 'marcopolo@gmail.com', '30.305340', '-81.594540', '/assets/avatar.png') ON CONFLICT DO NOTHING;
+  INSERT INTO users (id, username, firstname, lastname, password, email, latitude, longitude, avatar) VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'marco2', 'marco2', 'polo2', 'marco2', 'marcopolo2@gmail.com', '30.305340', '-81.594540', '/assets/avatar.png') ON CONFLICT DO NOTHING;
   INSERT INTO game (id, name, min_players, max_players) VALUES ('1', 'TEST GAME', '1', '30') ON CONFLICT DO NOTHING;
   INSERT INTO favoritegames (id, "userId", "gameId") VALUES ('edb68390-fdd2-4b80-9921-398d2d554ad4', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', '1') ON CONFLICT DO NOTHING;
   INSERT INTO friendships ("userId", "friendId", "sendStatus") VALUES ('b8e0d399-cc1b-4c08-9ef3-2da124ac481a', 'b8e0d399-cc1b-4c08-9ef3-2da124ac481b', 'confirmed') ON CONFLICT DO NOTHING;
@@ -263,6 +263,7 @@ const sync = async () => {
         bio: 'admin here',
         latitude: '30.055760',
         longitude: '-81.500880',
+        avatar: '/assets/avatar.png',
       },
       friend: {
         username: 'friend',
@@ -274,6 +275,7 @@ const sync = async () => {
         bio: 'friend here',
         latitude: '30.280240',
         longitude: '-81.724630',
+        avatar: '/assets/avatar.png',
       },
       buddy: {
         username: 'buddy',
@@ -285,6 +287,7 @@ const sync = async () => {
         bio: 'buddy here',
         latitude: '30.303406',
         longitude: '-81.469178',
+        avatar: '/assets/avatar.png',
       },
     };
 

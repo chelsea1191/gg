@@ -60,7 +60,7 @@ const App = () => {
     axios.get('/api/favoritegames').then((response) => {
       setFavoriteGames(response.data);
     });
-  }, [setFavoriteGames]);
+  }, []);
 
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
@@ -111,8 +111,6 @@ const App = () => {
   useEffect(() => {
     exchangeTokenForAuth();
   }, []);
-
-  const icon = { fontSize: 24, color: 'rgba(255,255,255,0.5)', margin: 0 };
 
   if (!auth.id) {
     return (
@@ -185,16 +183,22 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                {/* <Route exact path={`/users/${userView.id}/friends`}>
+                <Route exact path={`/users/${userView.id}/friends`}>
                   <UserFriendsPage
                     user={userView}
                     friendships={friendships}
                     setFriendships={setFriendships}
                     setUserView={setUserView}
                   />
-                </Route> */}
+                </Route>
                 <Route path='/games'>
-                  <GamesPage allGames={allGames} setGameView={setGameView} />
+                  <GamesPage
+                    auth={auth}
+                    allGames={allGames}
+                    setGameView={setGameView}
+                    favoriteGames={favoriteGames}
+                    setFavoriteGames={setFavoriteGames}
+                  />
                 </Route>
                 <Route path='/about'>
                   <About />
@@ -299,6 +303,9 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
+                <Route exact path={`/users/${userView.id}/friends`}>
+                  <UserFriendsPage user={userView} />
+                </Route>
                 <Route exact path={`/users/${userView.id}/favoriteGames`}>
                   <UserGamesPage
                     user={userView}
@@ -307,16 +314,6 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                     auth={auth}
                     setGameView={setGameView}
-                  />
-                </Route>
-                <Route exact path={`/users/${userView.id}/friends`}>
-                  <UserFriendsPage
-                    users={users}
-                    user={userView}
-                    friendships={friendships}
-                    setFriendships={setFriendships}
-                    setUserView={setUserView}
-                    auth={auth}
                   />
                 </Route>
                 <Route exact path={`/users/${userView.id}`}>
@@ -350,6 +347,7 @@ const App = () => {
                 <Route path='/about'>
                   <About />
                 </Route>
+
                 <Route
                   exact
                   path='/chat'
@@ -360,6 +358,7 @@ const App = () => {
                         users={users}
                         user={user}
                         setUser={setUser}
+                        friendships={friendships}
                       />
                     );
                   }}></Route>
@@ -367,7 +366,14 @@ const App = () => {
                   exact
                   path='/chat/:id'
                   component={(props) => {
-                    return <UserChat {...props} auth={auth} users={users} />;
+                    return (
+                      <UserChat
+                        {...props}
+                        auth={auth}
+                        users={users}
+                        friendships={friendships}
+                      />
+                    );
                   }}></Route>
                 <Route path='/findplayers'>
                   <FindPlayers
