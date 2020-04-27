@@ -160,6 +160,7 @@ const FindPlayers = ({
               }
             })}
           </select>
+          <hr className="hr" />
           <select
             className="select"
             id="distance-options"

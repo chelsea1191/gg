@@ -97,11 +97,9 @@ const FileUpload = ({ auth }) => {
       </form>
 
       {uploadedFile ? (
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <h3 className="text-center">{uploadedFile.original_filename}</h3>
-            <img style={{ width: '100%' }} src={uploadedFile.url} />
-          </div>
+        <div id="uploadedFile">
+          <h3 className="text-center">{uploadedFile.original_filename}</h3>
+          <img src={uploadedFile.url} className="userProfileImage" />
         </div>
       ) : null}
     </Fragment>

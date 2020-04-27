@@ -3,6 +3,8 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+const greentext = { color: 'rgb(0, 200, 0)' };
+
 const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
   const [playerSelections, setPlayerSelections] = useState([]); //array of checkbox selections
   const [gameTypeSelections, setGameTypeSelections] = useState([]); //array of game type selections
@@ -70,95 +72,96 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
   };
 
   return (
-    <Accordion id='advSearchForm'>
-      <Card id='advSearchCard'>
-        <Card.Header id='advSearchHeader'>
-          <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-            Advanced Search
+    <Accordion id="advSearchForm">
+      <Card id="advSearchCard">
+        <Card.Header id="advSearchHeader">
+          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            <b style={greentext}>Advanced Search</b>
           </Accordion.Toggle>
         </Card.Header>
-        <Accordion.Collapse eventKey='0'>
+        <Accordion.Collapse eventKey="0">
           <Card.Body>
-            <div className='advGameType'>
+            <div className="advGameType">
               <h5>Game Type</h5>
-              <label className='checkbox' htmlFor='advBoardgamesCheckbox'>
+              <label className="checkbox" htmlFor="advBoardgamesCheckbox">
                 <input
-                  type='checkbox'
-                  id='advBoardgamesCheckbox'
-                  name='advGameTypes'
-                  value='1'
+                  type="checkbox"
+                  id="advBoardgamesCheckbox"
+                  name="advGameTypes"
+                  value="1"
                   onClick={(ev) => updateGameTypeState(ev)}
                 />
                 <h6>Board Games</h6>
               </label>
-              <label className='checkbox' htmlFor='advTabletopCheckbox'>
+              <label className="checkbox" htmlFor="advTabletopCheckbox">
                 <input
-                  type='checkbox'
-                  id='advTabletopCheckbox'
-                  name='advGameTypes'
-                  value='3'
+                  type="checkbox"
+                  id="advTabletopCheckbox"
+                  name="advGameTypes"
+                  value="3"
                   onClick={(ev) => updateGameTypeState(ev)}
                 />
                 <h6>Tabletop Games & RPGs</h6>
               </label>
-              <label className='checkbox' htmlFor='advCardCheckbox'>
+              <label className="checkbox" htmlFor="advCardCheckbox">
                 <input
-                  type='checkbox'
-                  id='advCardCheckbox'
-                  name='advGameTypes'
-                  value='2'
+                  type="checkbox"
+                  id="advCardCheckbox"
+                  name="advGameTypes"
+                  value="2"
                   onClick={(ev) => updateGameTypeState(ev)}
                 />
                 <h6>Card Games</h6>
               </label>
             </div>
             <hr />
-            <div className='advPlayesrNumber'>
+            <div className="advPlayesrNumber">
               <h5>Players</h5>
-              <label className='checkbox' htmlFor='advPlayers2checkbox'>
+              <label className="checkbox" htmlFor="advPlayers2checkbox">
                 <input
-                  type='checkbox'
-                  id='advPlayers2checkbox'
-                  name='advPlayersNumber'
-                  value='2'
+                  type="checkbox"
+                  id="advPlayers2checkbox"
+                  name="advPlayersNumber"
+                  value="2"
                   onClick={(ev) => updatePlayerState(ev)}
                 />
                 <h6>2</h6>
               </label>
-              <label className='checkbox' htmlFor='advPlayers3checkbox'>
+              <label className="checkbox" htmlFor="advPlayers3checkbox">
                 <input
-                  type='checkbox'
-                  id='advPlayers3checkbox'
-                  name='advPlayersNumber'
-                  value='3'
+                  type="checkbox"
+                  id="advPlayers3checkbox"
+                  name="advPlayersNumber"
+                  value="3"
                   onClick={(ev) => updatePlayerState(ev)}
                 />
                 <h6>3</h6>
               </label>
-              <label className='checkbox' htmlFor='advPlayers4checkbox'>
+              <label className="checkbox" htmlFor="advPlayers4checkbox">
                 <input
-                  type='checkbox'
-                  id='advPlayers4checkbox'
-                  name='advPlayersNumber'
-                  value='4'
+                  type="checkbox"
+                  id="advPlayers4checkbox"
+                  name="advPlayersNumber"
+                  value="4"
                   onClick={(ev) => updatePlayerState(ev)}
                 />
                 <h6>4</h6>
               </label>
-              <label className='checkbox' htmlFor='advPlayers4checkbox'>
+              <label className="checkbox" htmlFor="advPlayers4checkbox">
                 <input
-                  type='checkbox'
-                  id='advPlayers4checkbox'
-                  name='advPlayersNumber'
-                  value='5'
+                  type="checkbox"
+                  id="advPlayers4checkbox"
+                  name="advPlayersNumber"
+                  value="5"
                   onClick={(ev) => updatePlayerState(ev)}
                 />
                 <h6>5+</h6>
               </label>
               <button
-                className='searchButton'
-                type='submit'
-                onClick={(ev) => handleSubmit(ev)}>
+                className="searchButton"
+                type="submit"
+                onClick={(ev) => handleSubmit(ev)}
+              >
                 <h5>Apply</h5>
               </button>
               {link === 'findPlayers' && <p>{filtered.length} results</p>}

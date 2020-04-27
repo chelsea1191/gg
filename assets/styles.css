@@ -96,6 +96,11 @@ li {
   align-items: center;
 }
 
+.vl {
+  border-left: 1px solid rgb(140, 140, 140);
+  height: 30px;
+}
+
 h1 {
   padding: 1rem;
 
@@ -117,6 +122,7 @@ h1 {
 }
 
 #loginPage {
+  text-align: center;
   margin: 32px;
   display: flex;
   flex-direction: column;
@@ -147,6 +153,7 @@ h1 {
 }
 
 #chatPage {
+  text-align: center;
   background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
   border-radius: 15px;
@@ -234,6 +241,10 @@ h1 {
   border-radius: 15px;
 }
 
+p {
+  margin: 0;
+}
+
 input[type='text'] {
   border-radius: 15px;
   border: 1px solid grey;
@@ -263,6 +274,14 @@ input[type='password'] {
   margin: 0;
 
   font-size: 12px;
+}
+
+#uploadedFile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 button > h5 {
@@ -310,12 +329,17 @@ h6 {
 }
 
 select {
+  width: 100%;
   border-radius: 15px;
   background-color: white;
-
+  text-overflow: ellipsis;
   border: 1px solid grey;
   outline: 0px;
   padding: 1px 0px 1px 16px;
+}
+
+option {
+  text-overflow: ellipsis;
 }
 
 .select {
@@ -573,6 +597,7 @@ select {
   margin-top: 0px;
   margin-bottom: 7px;
 }
+
 .icon-container {
   display: flex;
   flex-direction: row;

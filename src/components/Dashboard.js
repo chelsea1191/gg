@@ -23,22 +23,23 @@ const Dashboard = ({ auth, friendships, users, favoriteGames }) => {
     });
     setFavGamesCount(filteredArray.length);
   }, []);
+
   return (
-    <div id='guestRestricted'>
+    <div id="guestRestricted">
       <div>
         <h3>Welcome back, {auth.firstname}!</h3>
       </div>
-      <div className='icon-container-dashboard'>
-        <i className='fas fa-user-friends each-icon-dashboard'></i>
+      <div className="icon-container-dashboard">
+        <i className="fas fa-user-friends each-icon-dashboard"></i>
         <p>number of friends: {friendsCount}</p>
       </div>
-      <div className='icon-container-dashboard'>
-        <i className='fas fa-dice-d20 each-icon-dashboard'></i>
+      <div className="icon-container-dashboard">
+        <i className="fas fa-dice-d20 each-icon-dashboard"></i>
         <p>favorited games: {favGamesCount} </p>
       </div>
       <h5>
-        <Link className='link' to='/findplayers'>
-          Find Players Near You
+        <Link className="link" to="/findplayers">
+          <b style={greentext}>Find Players Near You</b>
         </Link>
       </h5>
     </div>
