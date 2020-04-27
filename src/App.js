@@ -42,10 +42,17 @@ const App = () => {
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
+<<<<<<< HEAD
       //console.log('all games: ', response.data);
       setAllGames(response.data)
     })
   }, [auth])
+=======
+      setAllGames(response.data);
+      console.log('allGames: ', response.data);
+    });
+  }, [auth]);
+>>>>>>> 67e49fe4878856446920286df054e8291fef61b0
 
   useEffect(() => {
     axios.get('/api/users').then((response) => {
