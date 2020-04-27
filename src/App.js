@@ -46,7 +46,6 @@ const App = () => {
       console.log('allGames: ', response.data);
     });
   }, [auth]);
->>>>>>> 67e49fe4878856446920286df054e8291fef61b0
 
   useEffect(() => {
     axios.get('/api/users').then((response) => {
