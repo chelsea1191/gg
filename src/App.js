@@ -42,12 +42,6 @@ const App = () => {
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
-<<<<<<< HEAD
-      //console.log('all games: ', response.data);
-      setAllGames(response.data)
-    })
-  }, [auth])
-=======
       setAllGames(response.data);
       console.log('allGames: ', response.data);
     });
