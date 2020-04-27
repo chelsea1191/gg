@@ -4,6 +4,8 @@ import axios from 'axios';
 const Location = ({ location, setLocation }) => {
   const [showButton, setShowButton] = useState(true);
   const [prettyLocation, setPrettyLocation] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const lat = location[0];
@@ -20,10 +22,13 @@ const Location = ({ location, setLocation }) => {
         let zip = results.data.results[0].address_components[7].short_name;
         let locationString = `${city}, ${state} ${zip}`;
         setPrettyLocation(locationString);
+        setIsSubmitted(true);
+        setIsLoading(false);
       });
   }, [location]);
 
   const handleClick = () => {
+    setIsLoading(true);
     getLocation();
     setShowButton(!showButton);
     // need some kind of preloader here while it waits
@@ -51,13 +56,23 @@ const Location = ({ location, setLocation }) => {
         <b>Where are you located?</b>
       </h5>
       <button
-        type="button"
+        type='button'
         onClick={handleClick}
-        style={{ display: showButton ? 'inline-block' : 'none' }}
-      >
+        style={{ display: showButton ? 'inline-block' : 'none' }}>
         <h5>Locate me!</h5>
       </button>
-      <div id="location">{prettyLocation}</div>
+      {isLoading && (
+        <div className='lds-facebook'>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      )}
+      {isSubmitted && (
+        <div id='location'>
+          {prettyLocation} <img id='small-check' src='./assets/check.png' />
+        </div>
+      )}
     </div>
   );
 };
