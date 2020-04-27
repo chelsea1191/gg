@@ -28,8 +28,8 @@ const GamesPage = ({
   });
 
   return (
-    <div id="gamesPage">
-      <form id="searchGamesForm">
+    <div id='gamesPage'>
+      <form id='searchGamesForm'>
         <h3>Games</h3>
         <div>
           <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
@@ -42,23 +42,18 @@ const GamesPage = ({
             allGames={allGames}
           />
         </h6>
-        {/*
-          ADVANCED SEARCH FORM DISPLAYS WHEN PROMPT IS CLICKED
-          FORM CONTAINS VARIOUS SELECTORS, CHECKBOXES, RADIOS, ETC TO ALLOW THE USER TO ADJUST SEARCH PARAMETERS BASED ON GAME TYPE, GENRE, PLAYER NUMBERS, ETC
-          */}
         <h6>
           <i>Can't find your favorite game? </i>
           <a
-            href="mailto:support@gg-connect.com?Subject=Game%20Support"
-            target="_top"
-            style={greentext}
-          >
+            href='mailto:support@gg-connect.com?Subject=Game%20Support'
+            target='_top'
+            style={greentext}>
             Let Us Know!
           </a>
         </h6>
       </form>
       <p>displaying {filtered.length} games</p>
-      <ul id="gamesList">
+      <ul id='gamesList'>
         {filtered.length > 0 &&
           filtered.map((game) => {
             const addFavorite = async () => {
@@ -71,29 +66,23 @@ const GamesPage = ({
               );
             };
             return (
-              <li key={game.id} className="gamesListItem">
+              <li key={game.id} className='gamesListItem'>
                 <Link
                   to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}
-                >
-                  <img className="gameListItemImage" src={game.image_url} />{' '}
+                  onClick={(ev) => setGameView(game)}>
+                  <img className='gameListItemImage' src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
 
                 {auth && (
-                  <button type="button" onClick={addFavorite}>
+                  <button type='button' onClick={addFavorite}>
                     <h5>Favorite</h5>
                   </button>
                 )}
-                <hr className="hr" />
+                <hr className='hr' />
               </li>
             );
           })}
-        {/*
-          LIST OF GAMES THAT MATCH SEARCH PARAMETERS
-           INCLUDES COVER IMAGE, TITLE, NUMBER OF USERS, FRIENDS THAT PLAY, AVERAGE RATING, AND 'ADD FAVORITE GAME' BUTTON
-           LIST ITEMS LINK TO GAME PAGES
-          */}
       </ul>
     </div>
   );
