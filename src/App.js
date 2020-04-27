@@ -18,7 +18,7 @@ import UserChat from './components/chat/UserChat';
 import Loading from './components/Loading';
 import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead.css'; //icon
 
 const headers = () => {
   const token = window.localStorage.getItem('token');
@@ -112,6 +112,8 @@ const App = () => {
     exchangeTokenForAuth();
   }, []);
 
+  const icon = { fontSize: 24, color: 'rgba(255,255,255,0.5)', margin: 0 };
+
   if (!auth.id) {
     return (
       <div className='App'>
@@ -193,11 +195,11 @@ const App = () => {
                 </Route>
                 <Route path='/games'>
                   <GamesPage
-                    auth={auth}
+                    //auth={auth}
                     allGames={allGames}
                     setGameView={setGameView}
-                    favoriteGames={favoriteGames}
-                    setFavoriteGames={setFavoriteGames}
+                    //favoriteGames={favoriteGames}
+                    //setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
                 <Route path='/about'>
