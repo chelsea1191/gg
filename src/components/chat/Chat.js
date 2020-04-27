@@ -1,29 +1,46 @@
-import { ChatFeed, Message } from 'react-chat-ui';
-import React, { useState, useEffect } from 'react';
+import { ChatFeed, Message } from 'react-chat-ui'
+import React, { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom';
-import axios from 'axios';
+} from 'react-router-dom'
+import axios from 'axios'
 
-const Chat = ({ auth, users }) => {
-  const [chats, setChats] = useState([]);
+const Chat = ({ auth, users, friendships }) => {
+  const [chats, setChats] = useState([])
+  const [friends, setFriends] = useState([])
+  var friendArray = []
 
   //search for existing chats if theres are none create one!
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
-      setChats(response.data);
-    });
-  }, []);
+      setChats(response.data)
+    })
+  }, [])
+
+  // useEffect(() => {
+  //   axios.get(`/api/friendships/${auth.id}`).then((response) => {
+  //     console.log(response.data)
+  //     setFriends(response.data)
+  //   })
+  // })
+  // useEffect(() => {
+  //   friendships.map((friendship) => {
+  //     axios.get(`/api/chat/${friendship.friend_id}`).then((response) => {
+  //       friendArray.push(response.data)
+  //     })
+  //     setFriends(friendArray)
+  //   })
+  // })
 
   if (!chats || chats.length === 0) {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
-        Find some users to have a chat with!
+        Chat with your friends!
         {users.map((eachUser) => {
           if (eachUser.id != auth.id) {
             return (
@@ -33,16 +50,16 @@ const Chat = ({ auth, users }) => {
                   {eachUser.isOnline ? 'is Online' : 'is Offline'}
                 </Link>
               </div>
-            );
+            )
           }
         })}
       </div>
-    );
+    )
   } else {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
-        Chat with someone new or continue a chat chat already in progress:
+        Chat with another friend or continue a chat chat already in progress:
         {chats.map((eachChat) => {
           return (
             <div key={eachChat.id}>
@@ -54,7 +71,7 @@ const Chat = ({ auth, users }) => {
                         {eachUser.firstname + eachUser.lastname} in progress
                       </Link>
                     </div>
-                  );
+                  )
                 } else {
                   if (eachUser.id != auth.id) {
                     return (
@@ -65,19 +82,19 @@ const Chat = ({ auth, users }) => {
                           </Link>
                         </span>
                       </div>
-                    );
+                    )
                   }
                 }
               })}
             </div>
-          );
+          )
         })}
       </div>
-    );
+    )
   }
-};
+}
 
-export default Chat;
+export default Chat
 
 //add delete feature - add two tables in db and have it be renderuser default false
 //then upon useeffect if render user is false dont get the old messages
