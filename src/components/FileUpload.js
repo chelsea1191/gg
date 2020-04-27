@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const FileUpload = ({ auth }) => {
@@ -22,19 +22,19 @@ const FileUpload = ({ auth }) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        onUploadProgress: (progressEvent) => {
-          setUploadPercentage(
-            parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            )
-          );
-          setTimeout(() => setUploadPercentage(''), 3000);
-        },
+        // onUploadProgress: (progressEvent) => {
+        //   setUploadPercentage(
+        //     parseInt(
+        //       Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        //     )
+        //   );
+        //   setTimeout(() => setUploadPercentage(''), 3000);
+        // },
       });
-      const { fileName, filePath } = res.data;
-      setUploadedFile({ fileName, filePath });
+      const { url, original_filename } = res.data.result;
+      setUploadedFile({ url, original_filename });
       setMessage('File Uploaded');
-      const updatedAuth = { ...auth, avatar: filePath };
+      const updatedAuth = { ...auth, avatar: url };
       console.log(updatedAuth);
       axios.put(`/api/users/${auth.id}`, updatedAuth);
     } catch (err) {
@@ -98,8 +98,8 @@ const FileUpload = ({ auth }) => {
 
       {uploadedFile ? (
         <div id="uploadedFile">
-          <h3 className="text-center">{uploadedFile.fileName}</h3>
-          <img src={uploadedFile.filePath} className="userProfileImage" />
+          <h3 className="text-center">{uploadedFile.original_filename}</h3>
+          <img src={uploadedFile.url} className="userProfileImage" />
         </div>
       ) : null}
     </Fragment>
