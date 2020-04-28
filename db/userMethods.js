@@ -35,7 +35,7 @@ const getChat = async (userId1, userId2) => {
 
 const getChats = async (authId) => {
   const response = await client.query(
-    `SELECT * FROM chat WHERE creator_id = $1  ORDER BY date_updated DESC`,
+    `SELECT * FROM chat WHERE creator_id = $1 OR user_id =$1 ORDER BY date_updated DESC`,
     [authId]
   )
   console.log(response.rows, 'this is my db reponse')
