@@ -50,10 +50,10 @@ const updateChat = async (chatId, updatedTime) => {
   return response.rows[0]
 }
 
-const createMessage = async (chatId, userId) => {
+const createMessage = async (chatId, userId, message) => {
   const response = await client.query(
-    `INSERT INTO message (chat_id, sender_id) VALUES ($1, $2) returning *`,
-    [chatId, userId]
+    `INSERT INTO message (chat_id, sender_id, message) VALUES ($1, $2, $3) returning *`,
+    [chatId, userId, message]
   )
   console.log(response.rows[0], 'my db response for createMessage')
   return response.rows[0]

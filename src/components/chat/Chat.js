@@ -1,13 +1,7 @@
-import { ChatFeed, Message } from 'react-chat-ui'
 import React, { useState, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import axios from 'axios'
+import FindPlayers from '../FindPlayers'
 
 const Chat = ({ auth, users, friendships }) => {
   const [chats, setChats] = useState([])
@@ -21,12 +15,12 @@ const Chat = ({ auth, users, friendships }) => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   axios.get(`/api/friendships/${auth.id}`).then((response) => {
-  //     console.log(response.data)
-  //     setFriends(response.data)
-  //   })
-  // })
+  useEffect(() => {
+    axios.get(`/api/friendships/${auth.id}`).then((response) => {
+      console.log(response.data)
+      setFriends(response.data)
+    })
+  }, [])
   // useEffect(() => {
   //   friendships.map((friendship) => {
   //     axios.get(`/api/chat/${friendship.friend_id}`).then((response) => {
@@ -36,30 +30,19 @@ const Chat = ({ auth, users, friendships }) => {
   //   })
   // })
 
-  if (!chats || chats.length === 0) {
+  if ((!chats || chats.length === 0) && friends.length === 0) {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
-        Chat with your friends!
-        {users.map((eachUser) => {
-          if (eachUser.id != auth.id) {
-            return (
-              <div key={eachUser.id}>
-                <Link to={`/chat/${eachUser.id}`}>
-                  {eachUser.firstname + eachUser.lastname}:{' '}
-                  {eachUser.isOnline ? 'is Online' : 'is Offline'}
-                </Link>
-              </div>
-            )
-          }
-        })}
+
+        <Link to="/findplayers">Find some new players to chat with!</Link>
       </div>
     )
   } else {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
-        Chat with another friend or continue a chat chat already in progress:
+        Continue a chat already in progress:
         {chats.map((eachChat) => {
           return (
             <div key={eachChat.id}>
@@ -68,22 +51,30 @@ const Chat = ({ auth, users, friendships }) => {
                   return (
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
-                        {eachUser.firstname + eachUser.lastname} in progress
+                        {eachUser.firstname + eachUser.lastname}
                       </Link>
+                      <hr></hr>
                     </div>
                   )
-                } else {
-                  if (eachUser.id != auth.id) {
-                    return (
-                      <div key={eachUser.id}>
-                        <span>
-                          <Link to={`/chat/${eachUser.id}`}>
-                            {eachUser.firstname + eachUser.lastname}
-                          </Link>
-                        </span>
-                      </div>
-                    )
-                  }
+                }
+              })}
+              Chat with Friends
+              <hr></hr>
+              <Link to="/findplayers">
+                {' '}
+                Find some new players to chat with!
+              </Link>
+              {friends.map((friend) => {
+                if (friend.id != auth.id) {
+                  return (
+                    <div key={friend.id}>
+                      <span>
+                        <Link to={`/chat/${friend.id}`}>
+                          {friend.firstname + friend.lastname}
+                        </Link>
+                      </span>
+                    </div>
+                  )
                 }
               })}
             </div>
