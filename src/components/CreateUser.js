@@ -36,7 +36,7 @@ export default function CreateUser({
         latitude: location[0],
         longitude: location[1],
         gameTypes: selectedGameTypes,
-        avatar: '/assets/heart.png',
+        avatar: '/assets/avatar.png',
       };
       await axios
         .post('/api/createUser', newUser)
@@ -76,24 +76,25 @@ export default function CreateUser({
   };
 
   return (
-    <div id='createUserPage'>
+    <div id="createUserPage">
       <form
-        id='createUserForm'
-        action='/upload'
-        method='POST'
-        encType='multipart/form-data'
+        id="createUserForm"
+        action="/upload"
+        method="POST"
+        encType="multipart/form-data"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}>
+        }}
+      >
         <h3>Create New User</h3>
-        <input type='text' placeholder='First Name' />
-        <input type='text' placeholder='Last Name' />
-        <input type='text' style={toLowercase} placeholder='Username' />
-        <input placeholder='Password' type='password' />
-        <input placeholder='Confirm Password' type='password' />
-        <input type='text' placeholder='Email Address' />
+        <input type="text" placeholder="First Name" />
+        <input type="text" placeholder="Last Name" />
+        <input type="text" style={toLowercase} placeholder="Username" />
+        <input placeholder="Password" type="password" />
+        <input placeholder="Confirm Password" type="password" />
+        <input type="text" placeholder="Email Address" />
         <div
-          id='imageUploadForm'
+          id="imageUploadForm"
           // action="/upload"
           // method="POST"
           // encType="multipart/form-data"
@@ -101,19 +102,19 @@ export default function CreateUser({
           <h5>
             <b>Add a Profile Picture</b>
           </h5>
-          <input type='file' name='imageToUpload' id='imageToUpload' />
+          <input type="file" name="imageToUpload" id="imageToUpload" />
           <input
-            type='submit'
-            value='upload'
-            name='submitImage'
+            type="submit"
+            value="upload"
+            name="submitImage"
             onClick={console.log('file submit clicked')}
           />
         </div>
 
         <textarea
-          id='bioInput'
-          placeholder='Say something about yourself!'
-          maxLength='300'
+          id="bioInput"
+          placeholder="Say something about yourself!"
+          maxLength="300"
         />
 
         <Location location={location} setLocation={setLocation} />
@@ -121,35 +122,35 @@ export default function CreateUser({
         <h5>
           <b>What types of games do you play?</b>
         </h5>
-        <div className='checkBoxes'>
-          <label className='checkbox' htmlFor='boardgamesCheckbox'>
+        <div className="checkBoxes">
+          <label className="checkbox" htmlFor="boardgamesCheckbox">
             <input
-              type='checkbox'
-              id='boardgamesCheckbox'
-              name='gameTypes'
-              value='Board Games'
+              type="checkbox"
+              id="boardgamesCheckbox"
+              name="gameTypes"
+              value="Board Games"
               onChange={handleTypeSelection}
             />
             <h6>Board Games</h6>
           </label>
 
-          <label className='checkbox' htmlFor='tabletopCheckbox'>
+          <label className="checkbox" htmlFor="tabletopCheckbox">
             <input
-              type='checkbox'
-              id='tabletopCheckbox'
-              name='gameTypes'
-              value='Tabletop Games & RPGs'
+              type="checkbox"
+              id="tabletopCheckbox"
+              name="gameTypes"
+              value="Tabletop Games & RPGs"
               onChange={handleTypeSelection}
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label className='checkbox' htmlFor='cardgamesCheckbox'>
+          <label className="checkbox" htmlFor="cardgamesCheckbox">
             <input
-              type='checkbox'
-              id='cardgamesCheckbox'
-              name='gameTypes'
-              value='Trading Card Games'
+              type="checkbox"
+              id="cardgamesCheckbox"
+              name="gameTypes"
+              value="Trading Card Games"
               onChange={handleTypeSelection}
             />
             <h6>Trading Card Games</h6>
@@ -172,7 +173,7 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <button type='submit'>
+        <button type="submit">
           <h5>Create User</h5>
         </button>
       </form>
