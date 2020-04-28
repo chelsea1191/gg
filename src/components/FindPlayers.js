@@ -22,7 +22,7 @@ const FindPlayers = ({
   setGameView,
   chat,
   setChat,
-  favoriteGames,
+  //favoriteGames,
 }) => {
   // REQUIRED VARIABLES: USERS, GAMES...
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
@@ -34,6 +34,8 @@ const FindPlayers = ({
   const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [favoriteGames, setFavoriteGames] = useState([]);
+
   const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
 
   useEffect(() => {
@@ -41,6 +43,11 @@ const FindPlayers = ({
     if (results) {
       setResults(results);
     }
+  }, []);
+  useEffect(() => {
+    axios.get('/api/favoritegames').then((response) => {
+      setFavoriteGames(response.data);
+    });
   }, []);
 
   const findDistance = (player) => {
@@ -125,10 +132,14 @@ const FindPlayers = ({
           <h5>
             <b>What do you want to play?</b>
           </h5>
-          <div>
+          <div id="dropdownDiv">
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
-          {filtered.length === 1 && <p>game selected: {filtered[0].name}</p>}
+          {filtered.length === 1 && (
+            <p>
+              <i>Selected: {filtered[0].name}</i>
+            </p>
+          )}
           <div>
             <AdvancedSearch
               link={link}
@@ -182,43 +193,66 @@ const FindPlayers = ({
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
         </form>
-        <ul id="playersList">
-          {isSubmitted === true && results.length === 0 && (
-            <p>no results found- please widen your search area</p>
+
+        <div id="resultsHeader">
+          {isSubmitted === true && results.length === 1 && (
+            <h4>
+              <b>{results.length} Player in the Area</b>
+            </h4>
           )}
-          {isSubmitted === true &&
-            results.map((user) => {
-              if (user.id !== auth.id) {
-                //console.log(user);
-                return (
-                  <li key={user.id} className="userResults">
-                    <h4>
-                      {user.username} - {user.distanceFromAuth} miles away
-                    </h4>
-                    <span>
-                      {' '}
-                      <Link
-                        to={`/chat/${user.id}`}
-                        onClick={() => {
-                          setUser(user);
-                          handleChatClick(user);
-                        }}
-                      >
-                        Send a Chat
-                      </Link>
-                      {' - '}
-                      <Link
-                        to={`/users/${user.id}`}
-                        onClick={(ev) => setUserView(user)}
-                      >
-                        View Profile
-                      </Link>
-                    </span>
-                  </li>
-                );
-              }
-            })}
-        </ul>
+
+          {isSubmitted === true && results.length > 1 && (
+            <h4>
+              <b>{results.length} Players in the Area</b>
+            </h4>
+          )}
+        </div>
+        {isSubmitted === true && (
+          <ul id="playersList">
+            {isSubmitted === true && results.length === 0 && (
+              <p>no results found- please widen your search area</p>
+            )}
+            {isSubmitted === true &&
+              results.map((user) => {
+                if (user.id !== auth.id) {
+                  //console.log(user);
+                  return (
+                    <li key={user.id} className="userResults">
+                      <img src={`${user.avatar}`} className="userListImage" />
+                      <div className="userListInfo">
+                        <h5>
+                          <b>{user.username}</b>{' '}
+                        </h5>
+                        <h6>
+                          <i>{user.distanceFromAuth} miles away</i>
+                        </h6>
+
+                        <span>
+                          {' '}
+                          <Link
+                            to={`/chat/${user.id}`}
+                            onClick={() => {
+                              setUser(user);
+                              handleChatClick(user);
+                            }}
+                          >
+                            <b style={greentext}>Send Chat</b>
+                          </Link>
+                          <br />
+                          <Link
+                            to={`/users/${user.id}`}
+                            onClick={(ev) => setUserView(user)}
+                          >
+                            <b style={greentext}>View Profile</b>
+                          </Link>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                }
+              })}
+          </ul>
+        )}
       </div>
     );
   } else {

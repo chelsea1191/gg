@@ -39,6 +39,12 @@ const FileUpload = ({ auth }) => {
   };
   return (
     <Fragment>
+      {uploadedFile ? (
+        <div id="uploadedFile">
+          <h3 className="text-center">{uploadedFile.original_filename}</h3>
+          <img src={uploadedFile.url} className="userProfileImage" />
+        </div>
+      ) : null}
       {message ? (
         <div
           className="alert alert-secondary alert-dismissible fade show"
@@ -74,12 +80,6 @@ const FileUpload = ({ auth }) => {
           id="submitImageButton"
         />
       </form>
-      {uploadedFile ? (
-        <div id="uploadedFile">
-          <h3 className="text-center">{uploadedFile.original_filename}</h3>
-          <img src={uploadedFile.url} className="userProfileImage" />
-        </div>
-      ) : null}
     </Fragment>
   );
 };
