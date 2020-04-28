@@ -43,7 +43,10 @@ cloudinary.config({
  *
  */
 
+<<<<<<< HEAD
+=======
 var room = '';
+>>>>>>> dfe6ae7f19a98cf51a12355f366abfbd39ae10f9
 io.sockets.on('connection', (socket) => {
   socket.on('create', (room) => {
     socket.join(room);

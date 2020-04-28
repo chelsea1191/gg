@@ -10,10 +10,12 @@ import {
 import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
-import { getRoughCompassDirection } from 'geolib'
 
 export default function UserChat({ auth, match }) {
   var socket = io.connect()
+  // const socket = io({
+  //   transports: ['websocket'],
+  // })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)
@@ -126,7 +128,7 @@ export default function UserChat({ auth, match }) {
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.firstname + user.lastname}
+        Chatting with: {user.username}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
