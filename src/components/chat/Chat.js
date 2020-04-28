@@ -11,6 +11,10 @@ const Chat = ({ auth, users, friendships }) => {
   //search for existing chats if theres are none create one!
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
+      console.log(
+        response.data,
+        'this is my response finding chats for this user'
+      )
       setChats(response.data)
     })
   }, [])
@@ -39,7 +43,7 @@ const Chat = ({ auth, users, friendships }) => {
         <Link to="/findplayers">Find some new players to chat with!</Link>
       </div>
     )
-  } else {
+  } else if (!chats || chats.length === 0) {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
@@ -65,29 +69,30 @@ const Chat = ({ auth, users, friendships }) => {
                   )
                 }
               })}
-              <hr></hr>
-              Chat with Friends:
-              {friends.map((friend) => {
-                if (friend.id != auth.id) {
-                  return (
-                    <div key={friend.friendId}>
-                      <span>
-                        <Link to={`/chat/${friend.friendId}`}>
-                          {friend.username} is Online:
-                          {friend.isOnline ? (
-                            <span class="dot-green"></span>
-                          ) : (
-                            <span class="dot-red"></span>
-                          )}
-                        </Link>
-                      </span>
-                    </div>
-                  )
-                }
-              })}
             </div>
           )
         })}
+        <hr></hr>
+        Chat with Friends:
+        {friends.map((friend) => {
+          if (friend.id != auth.id) {
+            return (
+              <div key={friend.friendId}>
+                <span>
+                  <Link to={`/chat/${friend.friendId}`}>
+                    {friend.username}
+                    {friend.isOnline ? (
+                      <span class="dot-green"></span>
+                    ) : (
+                      <span class="dot-red"></span>
+                    )}
+                  </Link>
+                </span>
+              </div>
+            )
+          }
+        })}
+        ) })}
       </div>
     )
   }
