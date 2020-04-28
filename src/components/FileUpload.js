@@ -6,7 +6,6 @@ const FileUpload = ({ auth }) => {
   const [fileName, setFileName] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
-  const [uploadPercentage, setUploadPercentage] = useState('');
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
@@ -22,18 +21,11 @@ const FileUpload = ({ auth }) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        // onUploadProgress: (progressEvent) => {
-        //   setUploadPercentage(
-        //     parseInt(
-        //       Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        //     )
-        //   );
-        //   setTimeout(() => setUploadPercentage(''), 3000);
-        // },
       });
       const { url, original_filename } = res.data.result;
       setUploadedFile({ url, original_filename });
       setMessage('File Uploaded');
+      setFileName('Choose file');
       const updatedAuth = { ...auth, avatar: url };
       console.log(updatedAuth);
       axios.put(`/api/users/${auth.id}`, updatedAuth);
@@ -75,19 +67,6 @@ const FileUpload = ({ auth }) => {
             {fileName}
           </label>
         </div>
-
-        {/* {uploadPercentage !== '' ? (
-          <div className="progress">
-            <div
-              className="progress-bar progress-bar-striped bg-secondary"
-              role="progressbar"
-              style={{ width: `${uploadPercentage}%` }}
-            >
-              {uploadPercentage}%
-            </div>
-          </div>
-        ) : null} */}
-
         <input
           type="submit"
           value="Upload"
@@ -95,7 +74,6 @@ const FileUpload = ({ auth }) => {
           id="submitImageButton"
         />
       </form>
-
       {uploadedFile ? (
         <div id="uploadedFile">
           <h3 className="text-center">{uploadedFile.original_filename}</h3>
