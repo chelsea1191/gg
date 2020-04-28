@@ -43,7 +43,7 @@ const Chat = ({ auth, users, friendships }) => {
         <Link to="/findplayers">Find some new players to chat with!</Link>
       </div>
     )
-  } else if (!chats || chats.length === 0) {
+  } else if (chats.length > 0) {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
@@ -72,6 +72,11 @@ const Chat = ({ auth, users, friendships }) => {
             </div>
           )
         })}
+      </div>
+    )
+  } else {
+    return (
+      <div>
         <hr></hr>
         Chat with Friends:
         {friends.map((friend) => {
@@ -92,7 +97,6 @@ const Chat = ({ auth, users, friendships }) => {
             )
           }
         })}
-        ) })}
       </div>
     )
   }
