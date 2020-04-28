@@ -1,16 +1,9 @@
 import { ChatFeed, Message } from 'react-chat-ui'
 import React, { useState, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom'
+
 import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
-import { getRoughCompassDirection } from 'geolib'
 
 export default function UserChat({ auth, match }) {
   var socket = io.connect()
@@ -80,24 +73,23 @@ export default function UserChat({ auth, match }) {
     socket.emit('create', auth.id)
   })
 
-    socket.on('chat message', (msg) => {
-      const socketMessage = JSON.parse(msg)
-      if (socketMessage.sender_id === auth.id) {
-        setMessages([
-          ...messages,
-          new Message({ id: 0, message: socketMessage.message }),
-        ])
-      } else {
-        setMessages([
-          ...messages,
-          new Message({
-            id: 1,
-            message: socketMessage.message,
-          }),
-        ])
-      }
-    })
-  }
+  socket.on('chat message', (msg) => {
+    const socketMessage = JSON.parse(msg)
+    if (socketMessage.sender_id === auth.id) {
+      setMessages([
+        ...messages,
+        new Message({ id: 0, message: socketMessage.message }),
+      ])
+    } else {
+      setMessages([
+        ...messages,
+        new Message({
+          id: 1,
+          message: socketMessage.message,
+        }),
+      ])
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -114,10 +106,6 @@ export default function UserChat({ auth, match }) {
     setMessage('')
     setIsTyping(false)
   }
-
-  // socket.emit('typing', (res) => {
-  //   console.log(res)
-  // })
 
   return (
     <div id="chatPage">

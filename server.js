@@ -43,8 +43,6 @@ cloudinary.config({
  *
  */
 
-var room = ''
-
 io.sockets.on('connection', (socket) => {
   socket.on('create', (room) => {
     socket.join(room)
