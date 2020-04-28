@@ -13,44 +13,48 @@ export default function CreateUser({
 }) {
   const [location, setLocation] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const link = 'createUser';
 
   const [selectedGameTypes, setSelectedGameTypes] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (e.target[3].value === e.target[4].value) {
+      let name = e.target[2].value.toLowerCase();
+      let firstname = e.target[0].value;
+      let lastname = e.target[1].value;
+      let password = e.target[3].value;
+      let email = e.target[5].value;
+      let bio = e.target[8].value;
+      let newUser = {
+        username: name,
+        firstname: firstname,
+        lastname: lastname,
+        password: password,
+        email: email,
+        bio: bio,
+        latitude: location[0],
+        longitude: location[1],
+        gameTypes: selectedGameTypes,
+        avatar: '/assets/avatar.png',
+      };
+      await axios
+        .post('/api/createUser', newUser)
+        .then((response) => {
+          newUser.id = response.data.id;
+        })
+        .catch((err) => console.log(err));
 
-    let name = e.target[2].value.toLowerCase();
-    console.log('name: ', name);
-    let firstname = e.target[0].value;
-    let lastname = e.target[1].value;
-    let password = e.target[3].value;
-    let email = e.target[4].value;
-    let bio = e.target[7].value;
-    let newUser = {
-      username: name,
-      firstname: firstname,
-      lastname: lastname,
-      password: password,
-      email: email,
-      bio: bio,
-      latitude: location[0],
-      longitude: location[1],
-      gameTypes: selectedGameTypes,
-      avatar: '/assets/avatar.png',
-    };
-    await axios.post('/api/createUser', newUser).then((response) => {
-      newUser.id = response.data.id;
-    });
-
-    const favoriteGamesCopy = [...favoriteGames];
-    const newFavoriteGame = await Axios.post('/api/favoritegames', {
-      userId: newUser.id,
-      gameId: filtered[0].id,
-    }).data;
-
-    setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
-
-    alert('Hi submitted user created');
+      const favoriteGamesCopy = [...favoriteGames];
+      const newFavoriteGame = await Axios.post('/api/favoritegames', {
+        userId: newUser.id,
+        gameId: filtered[0].id,
+      }).data;
+      setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
+      alert('Hi submitted user created');
+    } else {
+      alert('password does not match');
+    }
   };
 
   const handleTypeSelection = (e) => {
@@ -79,7 +83,6 @@ export default function CreateUser({
         method="POST"
         encType="multipart/form-data"
         onSubmit={(e) => {
-          console.log('form submitted');
           handleSubmit(e);
         }}
       >
@@ -88,7 +91,25 @@ export default function CreateUser({
         <input type="text" placeholder="Last Name" />
         <input type="text" style={toLowercase} placeholder="Username" />
         <input placeholder="Password" type="password" />
+        <input placeholder="Confirm Password" type="password" />
         <input type="text" placeholder="Email Address" />
+        <div
+          id="imageUploadForm"
+          // action="/upload"
+          // method="POST"
+          // encType="multipart/form-data"
+        >
+          <h5>
+            <b>Add a Profile Picture</b>
+          </h5>
+          <input type="file" name="imageToUpload" id="imageToUpload" />
+          <input
+            type="submit"
+            value="upload"
+            name="submitImage"
+            onClick={console.log('file submit clicked')}
+          />
+        </div>
 
         <textarea
           id="bioInput"
@@ -124,26 +145,15 @@ export default function CreateUser({
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label className="checkbox" htmlFor="videogamesCheckbox">
+          <label className="checkbox" htmlFor="cardgamesCheckbox">
             <input
               type="checkbox"
-              id="videogamesCheckbox"
+              id="cardgamesCheckbox"
               name="gameTypes"
-              value="Video Games"
+              value="Trading Card Games"
               onChange={handleTypeSelection}
             />
-            <h6>Video Games</h6>
-          </label>
-
-          <label className="checkbox" htmlFor="sportsCheckbox">
-            <input
-              type="checkbox"
-              id="sportsCheckbox"
-              name="gameTypes"
-              value="Sports & Field Games"
-              onChange={handleTypeSelection}
-            />
-            <h6>Sports & Field Games</h6>
+            <h6>Trading Card Games</h6>
           </label>
         </div>
 
@@ -151,10 +161,15 @@ export default function CreateUser({
           <b>What's your favorite game?</b>
         </h5>
         <div>
-          <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+          <SearchDropdown
+            link={link}
+            allGames={allGames}
+            setFiltered={setFiltered}
+          />
         </div>
-        {filtered.length > 0 && <p>game selected: {filtered[0].name}</p>}
-
+        {filtered.length > 0 && (
+          <p>great choice! you have selected: {filtered[0].name}</p>
+        )}
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
@@ -167,4 +182,4 @@ export default function CreateUser({
 }
 
 //notes: how do we verify an email address doesnt already HAVE an account, and its a valid address? -ck
-//notes: also, how do we capture a picture that a user uploads? right now the pics are not required -ck
+//there is an email validation npm package that validates it's an actual email- for now we don't use emails for anything so it's not necessary
