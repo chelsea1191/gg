@@ -24,7 +24,7 @@ const friendships = {
   },
 
   verify: async (id) => {
-    const SQL = `SELECT * from friendships WHERE userId = $1 OR friendId = $1`
+    const SQL = `SELECT * from friendships WHERE "userId" = $1 OR "friendId" = $1`
     return (await client.query(SQL, [id])).rows
   },
 }
