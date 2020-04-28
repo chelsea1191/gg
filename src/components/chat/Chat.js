@@ -53,15 +53,20 @@ const Chat = ({ auth, users, friendships }) => {
           return (
             <div key={eachChat.id}>
               {users.map((eachUser) => {
-                if (eachChat.user_id === eachUser.id) {
+                if (
+                  (eachChat.user_id === eachUser.id &&
+                    eachUser.user_id != auth.id) ||
+                  (eachChat.creator_id === eachUser.id &&
+                    eachUser.creator_id != auth.id)
+                ) {
                   return (
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
                         {eachUser.username}
                         {eachUser.isOnline ? (
-                          <span class="dot-green"></span>
+                          <span className="dot-green"></span>
                         ) : (
-                          <span class="dot-red"></span>
+                          <span className="dot-red"></span>
                         )}
                       </Link>
                       <hr></hr>
@@ -76,7 +81,7 @@ const Chat = ({ auth, users, friendships }) => {
     )
   } else {
     return (
-      <div>
+      <div id="chatPage">
         <hr></hr>
         Chat with Friends:
         {friends.map((friend) => {
@@ -87,9 +92,9 @@ const Chat = ({ auth, users, friendships }) => {
                   <Link to={`/chat/${friend.friendId}`}>
                     {friend.username}
                     {friend.isOnline ? (
-                      <span class="dot-green"></span>
+                      <span className="dot-green"></span>
                     ) : (
-                      <span class="dot-red"></span>
+                      <span className="dot-red"></span>
                     )}
                   </Link>
                 </span>

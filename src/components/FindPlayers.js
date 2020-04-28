@@ -223,9 +223,9 @@ const FindPlayers = ({
                         <h5>
                           <b>{user.username}</b>{' '}
                           {user.isOnline ? (
-                            <span class="dot-green"></span>
+                            <span className="dot-green"></span>
                           ) : (
-                            <span class="dot-red"></span>
+                            <span className="dot-red"></span>
                           )}
                         </h5>
                         <h6>
