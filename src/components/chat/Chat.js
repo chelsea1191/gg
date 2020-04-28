@@ -54,7 +54,11 @@ const Chat = ({ auth, users, friendships }) => {
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
                         {eachUser.username} is Online:
-                        {eachUser.isOnline ? 'yes' : 'no'}
+                        {eachUser.isOnline ? (
+                          <button id="green"></button>
+                        ) : (
+                          <button id="red"></button>
+                        )}
                       </Link>
                       <hr></hr>
                     </div>
