@@ -60,12 +60,8 @@ const Chat = ({ auth, users, friendships }) => {
                   )
                 }
               })}
-              Chat with Friends
+              Chat with Friends:
               <hr></hr>
-              <Link to="/findplayers">
-                {' '}
-                Find some new players to chat with!
-              </Link>
               {friends.map((friend) => {
                 if (friend.id != auth.id) {
                   return (
