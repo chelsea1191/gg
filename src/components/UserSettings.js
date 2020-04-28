@@ -3,7 +3,13 @@ import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import FileUpload from './FileUpload';
 
-const UserProfile = ({ auth, changePassword, setUserView }) => {
+const UserProfile = ({
+  auth,
+  changePassword,
+  setUserView,
+  users,
+  setUsers,
+}) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [firstpass, setfirstpass] = useState('');
   const [secondpass, setsecondpass] = useState('');
@@ -16,6 +22,18 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
     }
     setfirstpass('');
     setsecondpass('');
+  };
+  const [userBio, setUserBio] = useState('');
+  const updateBio = async () => {
+    let user = { ...auth };
+    user.bio = userBio;
+    const usersCopy = [...users];
+    const userIndex = users.indexOf(auth);
+    const updatedUser = (
+      await axios.put(`/api/users/${auth.id}/updatebio`, user)
+    ).data;
+    usersCopy.splice(userIndex, 1, updatedUser);
+    setUsers(usersCopy);
   };
 
   return (
@@ -43,14 +61,27 @@ const UserProfile = ({ auth, changePassword, setUserView }) => {
 
       <hr className="hr" />
 
-      <div>
-        <h5 className="text-center mb-4">
-          <b>Upload a photo for your profile!</b>
-        </h5>
-      </div>
+      <h5 className="text-center mb-4">
+        <b>Upload Profile Photo!</b>
+      </h5>
 
       <FileUpload auth={auth} />
       <hr className="hr" />
+      <textarea
+        id="updateBio"
+        placeholder="Update Bio"
+        maxLength="300"
+        value={userBio}
+        onChange={(e) => setUserBio(e.target.value)}
+      />
+      <button id="changeButton" onClick={updateBio}>
+        <h5>
+          <b>Submit Change</b>
+        </h5>
+      </button>
+
+      <hr className="hr" />
+
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
         <h5>
           <b>Change Password</b>

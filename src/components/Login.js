@@ -41,16 +41,10 @@ const Login = ({ login }) => {
         </button>
         <h6>
           <Link className="link" to="/register">
-            <h6>Create Profile</h6>
+            <h6>
+              <b style={greentext}>Create Profile</b>
+            </h6>
           </Link>
-        </h6>
-        <h6>
-          <i>
-            or{' '}
-            <Link className="link" to="/games">
-              Browse our games as a guest
-            </Link>
-          </i>
         </h6>
       </form>
       <h6>© Team Awesome</h6>

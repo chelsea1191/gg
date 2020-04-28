@@ -58,20 +58,21 @@ const UserProfile = ({
   });
 
   return (
-    <div id='userProfile'>
-      <img src={`${user.avatar}`} className='userProfileImage' />
+    <div id="userProfile">
+      <img src={`${user.avatar}`} className="userProfileImage" />
 
       <h4>
         <b>{user.username}</b>
       </h4>
 
-      <button type='button' className='addFriendButton' onClick={addFriend}>
+      <button type="button" className="addFriendButton" onClick={addFriend}>
         <h5>Add to Friends</h5>
       </button>
-
+      <hr className="hr" />
       <Link
         to={`/users/${user.id}/friends`}
-        onClick={(ev) => setFriendsView(user)}>
+        onClick={(ev) => setFriendsView(user)}
+      >
         <h5>
           <b>Friends ({confirmedFriendships.length})</b>
         </h5>
@@ -82,7 +83,8 @@ const UserProfile = ({
 
       <Link
         to={`/users/${user.id}/favoriteGames`}
-        onClick={(ev) => setFriendsView(user)}>
+        onClick={(ev) => setFriendsView(user)}
+      >
         <h5>
           <b>Favorite Games ({userFavorites.length})</b>
         </h5>
@@ -91,6 +93,7 @@ const UserProfile = ({
       <h6>
         <i># Mutual</i>
       </h6>
+      <hr className="hr" />
 
       <p>{user.bio}</p>
     </div>

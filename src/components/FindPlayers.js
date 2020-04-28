@@ -125,17 +125,21 @@ const FindPlayers = ({
 
   if (auth.id) {
     return (
-      <div className='findPlayersPage'>
-        <form id='findPlayersForm'>
+      <div className="findPlayersPage">
+        <form id="findPlayersForm">
           <h3>Find Players</h3>
-          <hr className='hr' />
+          <hr className="hr" />
           <h5>
             <b>What do you want to play?</b>
           </h5>
-          <div>
+          <div id="dropdownDiv">
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
-          {filtered.length === 1 && <p>game selected: {filtered[0].name}</p>}
+          {filtered.length === 1 && (
+            <p>
+              <i>Selected: {filtered[0].name}</i>
+            </p>
+          )}
           <div>
             <AdvancedSearch
               link={link}
@@ -146,11 +150,12 @@ const FindPlayers = ({
           </div>
           {favoriteGames.length > 0 && <h6>-- or --</h6>}
           <select
-            className='select'
-            id='fav-game-options'
-            name='Favorited Game'
-            onChange={(e) => handleSelectFavorite(e)}>
-            <option value='default'>Pick a Favorite Game</option>
+            className="select"
+            id="fav-game-options"
+            name="Favorited Game"
+            onChange={(e) => handleSelectFavorite(e)}
+          >
+            <option value="default">Pick a Favorite Game</option>
             {/* the below function is slower than the page loading.... so it creates an error sometimes that reads Cannot read property 'userId' of undefined*/}
             {favoriteGames.map((eachFavGame) => {
               if (eachFavGame.userId === auth.id) {
@@ -166,66 +171,92 @@ const FindPlayers = ({
               }
             })}
           </select>
-          <hr className='hr' />
+          <hr className="hr" />
           <select
-            className='select'
-            id='distance-options'
-            name='Distance'
+            className="select"
+            id="distance-options"
+            name="Distance"
             onChange={(e) => {
               handleDistance(e);
-            }}>
-            <option value='default'>Select a Distance</option>
-            <option value='any'>Any</option>
-            <option value='5'>5 miles</option>
-            <option value='10'>10 miles</option>
-            <option value='25'>25 miles</option>
-            <option value='50'>50 miles</option>
-            <option value='100'>100 miles</option>
+            }}
+          >
+            <option value="default">Select a Distance</option>
+            <option value="any">Any</option>
+            <option value="5">5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+            <option value="50">50 miles</option>
+            <option value="100">100 miles</option>
           </select>
-          <button className='searchButton' onClick={(e) => searchForUsers(e)}>
+          <button className="searchButton" onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
         </form>
-        <ul id='playersList'>
-          {isSubmitted === true && results.length === 0 && (
-            <p>no results found- please widen your search area</p>
+
+        <div id="resultsHeader">
+          {isSubmitted === true && results.length === 1 && (
+            <h4>
+              <b>{results.length} Player in the Area</b>
+            </h4>
           )}
-          {isSubmitted === true &&
-            results.map((user) => {
-              if (user.id !== auth.id) {
-                //console.log(user);
-                return (
-                  <li key={user.id} className='userResults'>
-                    <h4>
-                      {user.username} - {user.distanceFromAuth} miles away
-                    </h4>
-                    <span>
-                      {' '}
-                      <Link
-                        to={`/chat/${user.id}`}
-                        onClick={() => {
-                          setUser(user);
-                          handleChatClick(user);
-                        }}>
-                        Send a Chat
-                      </Link>
-                      {' - '}
-                      <Link
-                        to={`/users/${user.id}`}
-                        onClick={(ev) => setUserView(user)}>
-                        View Profile
-                      </Link>
-                    </span>
-                  </li>
-                );
-              }
-            })}
-        </ul>
+
+          {isSubmitted === true && results.length > 1 && (
+            <h4>
+              <b>{results.length} Players in the Area</b>
+            </h4>
+          )}
+        </div>
+        {isSubmitted === true && (
+          <ul id="playersList">
+            {isSubmitted === true && results.length === 0 && (
+              <p>no results found- please widen your search area</p>
+            )}
+            {isSubmitted === true &&
+              results.map((user) => {
+                if (user.id !== auth.id) {
+                  //console.log(user);
+                  return (
+                    <li key={user.id} className="userResults">
+                      <img src={`${user.avatar}`} className="userListImage" />
+                      <div className="userListInfo">
+                        <h5>
+                          <b>{user.username}</b>{' '}
+                        </h5>
+                        <h6>
+                          <i>{user.distanceFromAuth} miles away</i>
+                        </h6>
+
+                        <span>
+                          {' '}
+                          <Link
+                            to={`/chat/${user.id}`}
+                            onClick={() => {
+                              setUser(user);
+                              handleChatClick(user);
+                            }}
+                          >
+                            <b style={greentext}>Send Chat</b>
+                          </Link>
+                          <br />
+                          <Link
+                            to={`/users/${user.id}`}
+                            onClick={(ev) => setUserView(user)}
+                          >
+                            <b style={greentext}>View Profile</b>
+                          </Link>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                }
+              })}
+          </ul>
+        )}
       </div>
     );
   } else {
-    return <div id='guestRestricted'>waiting</div>;
+    return <div id="guestRestricted">waiting</div>;
   }
 };
 

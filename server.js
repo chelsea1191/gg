@@ -45,10 +45,7 @@ cloudinary.config({
  *
  */
 
-<<<<<<< HEAD
-=======
 var room = '';
->>>>>>> dfe6ae7f19a98cf51a12355f366abfbd39ae10f9
 io.sockets.on('connection', (socket) => {
   socket.on('create', (room) => {
     socket.join(room);
@@ -272,6 +269,14 @@ app.put('/api/users/:id', (req, res, next) => {
     .avatar(req.body)
     .then((users) => res.send(users))
     .catch(next);
+});
+
+app.put('api/users/:id/updatebio', (req, res, next) => {
+  const id = req.params.id;
+  db.models.users
+    .updatebio(req.body)
+    .then((updated) => res.send(updated))
+    .catch(nect);
 });
 
 //////////////////delete////////////////////
