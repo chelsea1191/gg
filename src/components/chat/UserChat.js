@@ -10,10 +10,12 @@ import {
 import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
-import { getRoughCompassDirection } from 'geolib'
 
 export default function UserChat({ auth, match }) {
   var socket = io.connect()
+  // const socket = io({
+  //   transports: ['websocket'],
+  // })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)
