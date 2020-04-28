@@ -52,6 +52,9 @@ const allDataFromAPI = axios
     console.log('error.config: ', error.config);
   });
 
+const ipsum =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, lacus at blandit rutrum, enim sapien pulvinar quam, vel euismod neque lectus eu ante. Ut vel congue justo, eget pharetra orci. Proin sagittis tortor elementum nunc tristique mattis.';
+
 const sync = async () => {
   if (process.env.NODE_ENV == 'production') {
     //**********************************  PRODUCTION ******************************* */
@@ -248,7 +251,7 @@ const sync = async () => {
         password: 'admin',
         role: 'ADMIN',
         email: 'admin@gmail.com',
-        bio: 'admin here',
+        bio: ipsum,
         latitude: '30.055760',
         longitude: '-81.500880',
         avatar: '/assets/avatar.png',

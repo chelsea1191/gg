@@ -87,39 +87,22 @@ export default function CreateUser({
           handleSubmit(e);
         }}
       >
-        <h3>Create New User</h3>
+        <h3>Create Account</h3>
         <input type="text" placeholder="First Name" />
         <input type="text" placeholder="Last Name" />
         <input type="text" style={toLowercase} placeholder="Username" />
         <input placeholder="Password" type="password" />
         <input placeholder="Confirm Password" type="password" />
         <input type="text" placeholder="Email Address" />
-        <div
-          id="imageUploadForm"
-          // action="/upload"
-          // method="POST"
-          // encType="multipart/form-data"
-        >
-          <h5>
-            <b>Add a Profile Picture</b>
-          </h5>
-          <input type="file" name="imageToUpload" id="imageToUpload" />
-          <input
-            type="submit"
-            value="upload"
-            name="submitImage"
-            onClick={console.log('file submit clicked')}
-          />
-        </div>
 
         <textarea
           id="bioInput"
           placeholder="Say something about yourself!"
           maxLength="300"
         />
-
+        <hr className="hr" />
         <Location location={location} setLocation={setLocation} />
-
+        <hr className="hr" />
         <h5>
           <b>What types of games do you play?</b>
         </h5>
@@ -157,7 +140,7 @@ export default function CreateUser({
             <h6>Trading Card Games</h6>
           </label>
         </div>
-
+        <hr className="hr" />
         <h5>
           <b>What's your favorite game?</b>
         </h5>
@@ -174,9 +157,20 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <button type="submit">
+        <hr className="hr" />
+        <button type="submit" id="createUserButton">
           <h5>Create User</h5>
         </button>
+        <i>
+          Remember to Upload a Photo on the User Settings Page!{' '}
+          <img
+            src="/assets/settings.png"
+            alt=""
+            width="16"
+            height="16"
+            title="Settings"
+          ></img>
+        </i>
       </form>
     </div>
   );

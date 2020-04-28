@@ -17,12 +17,12 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
   };
 
   return (
-    <div id='gamePage'>
-      <img className='gameImage' src={game.image_url} />
+    <div id="gamePage">
+      <img className="gameImage" src={game.image_url} />
       <h4>
         <b>{game.name}</b>
       </h4>
-      <hr className='hr' />
+      <hr className="hr" />
       <h6>
         <Rating rating={rating} />
         <span>average rating: {rating}</span> <br />
@@ -40,16 +40,16 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
         </i>
       </h6>
 
-      <button type='button' onClick={addFavorite}>
-        <h5>Add to Favorites</h5>
+      <button type="button" onClick={addFavorite}>
+        <h5>Favorite</h5>
       </button>
-      <hr className='hr' />
+      <hr className="hr" />
       <h6>
         <i>{game.description}</i>
       </h6>
       <h6>
         Learn more about this game
-        <a href={game.url} target='_blank'>
+        <a href={game.url} target="_blank">
           {' '}
           here
         </a>

@@ -271,6 +271,14 @@ app.put('/api/users/:id', (req, res, next) => {
     .catch(next);
 });
 
+app.put('api/users/:id/updatebio', (req, res, next) => {
+  const id = req.params.id;
+  db.models.users
+    .updatebio(req.body)
+    .then((updated) => res.send(updated))
+    .catch(nect);
+});
+
 //////////////////delete////////////////////
 // app.delete("/api/users/:id", (req, res, next) => {
 //   db.deleteUser(req.params.id)

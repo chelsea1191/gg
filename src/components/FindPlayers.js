@@ -135,7 +135,11 @@ const FindPlayers = ({
           <div id="dropdownDiv">
             <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
           </div>
-          {filtered.length === 1 && <p>game selected: {filtered[0].name}</p>}
+          {filtered.length === 1 && (
+            <p>
+              <i>Selected: {filtered[0].name}</i>
+            </p>
+          )}
           <div>
             <AdvancedSearch
               link={link}
@@ -189,44 +193,66 @@ const FindPlayers = ({
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
         </form>
-        <ul id="playersList">
-          {isSubmitted === true && results.length === 0 && (
-            <p>no results found- please widen your search area</p>
+
+        <div id="resultsHeader">
+          {isSubmitted === true && results.length === 1 && (
+            <h4>
+              <b>{results.length} Player in the Area</b>
+            </h4>
           )}
-          {isSubmitted === true &&
-            results.map((user) => {
-              if (user.id !== auth.id) {
-                //console.log(user);
-                return (
-                  <li key={user.id} className="userResults">
-                    <img src={`${user.avatar}`} className="userListImage" />
-                    <h4>
-                      {user.username} - {user.distanceFromAuth} miles away
-                    </h4>
-                    <span>
-                      {' '}
-                      <Link
-                        to={`/chat/${user.id}`}
-                        onClick={() => {
-                          setUser(user);
-                          handleChatClick(user);
-                        }}
-                      >
-                        Send a Chat
-                      </Link>
-                      {' - '}
-                      <Link
-                        to={`/users/${user.id}`}
-                        onClick={(ev) => setUserView(user)}
-                      >
-                        View Profile
-                      </Link>
-                    </span>
-                  </li>
-                );
-              }
-            })}
-        </ul>
+
+          {isSubmitted === true && results.length > 1 && (
+            <h4>
+              <b>{results.length} Players in the Area</b>
+            </h4>
+          )}
+        </div>
+        {isSubmitted === true && (
+          <ul id="playersList">
+            {isSubmitted === true && results.length === 0 && (
+              <p>no results found- please widen your search area</p>
+            )}
+            {isSubmitted === true &&
+              results.map((user) => {
+                if (user.id !== auth.id) {
+                  //console.log(user);
+                  return (
+                    <li key={user.id} className="userResults">
+                      <img src={`${user.avatar}`} className="userListImage" />
+                      <div className="userListInfo">
+                        <h5>
+                          <b>{user.username}</b>{' '}
+                        </h5>
+                        <h6>
+                          <i>{user.distanceFromAuth} miles away</i>
+                        </h6>
+
+                        <span>
+                          {' '}
+                          <Link
+                            to={`/chat/${user.id}`}
+                            onClick={() => {
+                              setUser(user);
+                              handleChatClick(user);
+                            }}
+                          >
+                            <b style={greentext}>Send Chat</b>
+                          </Link>
+                          <br />
+                          <Link
+                            to={`/users/${user.id}`}
+                            onClick={(ev) => setUserView(user)}
+                          >
+                            <b style={greentext}>View Profile</b>
+                          </Link>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                }
+              })}
+          </ul>
+        )}
       </div>
     );
   } else {

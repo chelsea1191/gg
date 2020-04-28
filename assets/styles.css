@@ -15,6 +15,10 @@ main > * {
   margin: 1rem;
 }
 
+.userListImage {
+  width: 50px;
+}
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -117,6 +121,10 @@ h1 {
 
 #navLogo {
   width: 24px;
+}
+
+#changeButton {
+  margin-bottom: 16px;
 }
 
 #loginLogo {
@@ -227,15 +235,28 @@ label h6 {
   text-align: center;
 }
 
+#locationButton {
+  margin: 16px;
+}
+
 #searchGames {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+#resultsHeader {
+  text-align: center;
+}
+
+#createUserButton {
+  margin: 16px;
+}
+
 #findPlayersPage {
   margin: 32px 32px;
   width: 100%;
+  text-align: center;
 }
 
 #findPlayersForm {
@@ -245,7 +266,7 @@ label h6 {
   text-align: center;
 
   background-color: rgba(239, 239, 239, 0.715);
-  margin: 32px 32px;
+  margin: 32px 32px 16px 32px;
   padding: 16px;
   border: 1px solid grey;
   border-radius: 15px;
@@ -323,13 +344,19 @@ button:active {
   user-select: none;
 }
 
+#small-check {
+  margin-bottom: 16px;
+}
+
 #bioInput {
+  position: relative;
   height: 100px;
   border-radius: 15px;
-  padding: 8px;
-  margin: 8px;
-  border: none;
+  padding: 8px 16px;
+  margin: 16px;
+  border: 1px solid grey;
   resize: none;
+  width: 100%;
 }
 
 #submitImageButton {
@@ -384,7 +411,7 @@ option {
   margin: 32px 32px 32px 32px;
   text-align: center;
   background-color: rgba(239, 239, 239, 0.715);
-  padding: 16px;
+  padding: 16px 16px 32px 16px;
   border: 1px solid grey;
   border-radius: 15px;
 }
@@ -403,6 +430,10 @@ option {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin: 0px 32px 16px 32px;
+  background-color: rgba(239, 239, 239, 0.715);
+  border: 1px solid grey;
+  border-radius: 15px;
 }
 
 #gamesPage {
@@ -494,8 +525,25 @@ option {
   padding: 16px;
 }
 
+.addFriendButton {
+  margin-bottom: 16px;
+}
+
 #createUserForm > h5 {
   margin: 16px 0;
+}
+
+.mb-4,
+.my-4 {
+  margin-bottom: 0 !important;
+}
+
+#updateBio {
+  margin: 0 32px 16px 32px;
+  width: 100%;
+  border-radius: 15px;
+  border: 1px solid grey;
+  padding: 8px 16px;
 }
 
 #advGameType {
@@ -545,22 +593,20 @@ input[type='checkbox'] {
   border: 1px solid grey;
 }
 
-#chatButton {
-  opacity: 0.5;
-}
 .navbar-expand-lg {
   justify-content: space-between;
 }
 
 .userResults {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   padding: 16px;
   background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
   border-radius: 15px;
-  margin: 8px 0 16px 0;
+  margin: 16px 16px 16px 16px;
   max-height: 85vh;
+  width: 90%;
 }
 
 .fa {
