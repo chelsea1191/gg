@@ -13,7 +13,9 @@ const UserProfile = ({
   auth,
 }) => {
   const userFavorites = favoriteGames.filter((game) => {
-    return game.userId === user.id;
+    if (game) {
+      return game.userId === user.id;
+    }
   });
 
   const addFriend = async () => {
@@ -54,25 +56,22 @@ const UserProfile = ({
       friendship.userId === user.id && friendship.sendStatus === 'confirmed'
     );
   });
-  
 
-  
   return (
-    <div id="userProfile">
-      <img src={`${user.avatar}`} className="userProfileImage" />
+    <div id='userProfile'>
+      <img src={`${user.avatar}`} className='userProfileImage' />
 
       <h4>
         <b>{user.username}</b>
       </h4>
 
-      <button type="button" className="addFriendButton" onClick={addFriend}>
+      <button type='button' className='addFriendButton' onClick={addFriend}>
         <h5>Add to Friends</h5>
       </button>
 
       <Link
         to={`/users/${user.id}/friends`}
-        onClick={(ev) => setFriendsView(user)}
-      >
+        onClick={(ev) => setFriendsView(user)}>
         <h5>
           <b>Friends ({confirmedFriendships.length})</b>
         </h5>
@@ -83,8 +82,7 @@ const UserProfile = ({
 
       <Link
         to={`/users/${user.id}/favoriteGames`}
-        onClick={(ev) => setFriendsView(user)}
-      >
+        onClick={(ev) => setFriendsView(user)}>
         <h5>
           <b>Favorite Games ({userFavorites.length})</b>
         </h5>

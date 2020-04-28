@@ -56,10 +56,10 @@ const UserFriendsPage = ({
 
   const userFriendsList = userFriends.map((friend, i) => {
     return (
-      <li key={i} className="userFriendsListItem">
-        <img src={`avatar`} className="userProfileImage" />
+      <li key={i} className='userFriendsListItem'>
+        <img src={`avatar`} className='userProfileImage' />
         <h5>{friend.username}</h5>
-        <button className="addFriendButton" onClick={addFriend}>
+        <button className='addFriendButton' onClick={addFriend}>
           <h5>Add</h5>
         </button>
       </li>
@@ -67,7 +67,7 @@ const UserFriendsPage = ({
   });
 
   return (
-    <div id="userFriendsPage">
+    <div id='userFriendsPage'>
       <h3>{user.username}'s Friends</h3>
       <ul>{userFriendsList}</ul>
     </div>
