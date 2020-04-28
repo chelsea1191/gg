@@ -126,7 +126,7 @@ export default function UserChat({ auth, match }) {
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.firstname + user.lastname}
+        Chatting with: {user.username}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
