@@ -46,7 +46,6 @@ cloudinary.config({
  */
 
 var room = '';
-
 io.sockets.on('connection', (socket) => {
   socket.on('create', (room) => {
     socket.join(room);
@@ -54,7 +53,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('chat message', (msg) => {
     const req = JSON.parse(msg);
-    io.sockets.in(req.chat_id).emit('chat message', msg);
+    io.sockets.in(req.sender_id).emit('chat message', msg);
     db.putMessage(
       req.chat_id,
       req.sender_id,
@@ -270,6 +269,14 @@ app.put('/api/users/:id', (req, res, next) => {
     .avatar(req.body)
     .then((users) => res.send(users))
     .catch(next);
+});
+
+app.put('api/users/:id/updatebio', (req, res, next) => {
+  const id = req.params.id;
+  db.models.users
+    .updatebio(req.body)
+    .then((updated) => res.send(updated))
+    .catch(nect);
 });
 
 //////////////////delete////////////////////

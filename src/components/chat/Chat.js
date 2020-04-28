@@ -30,7 +30,7 @@ const Chat = ({ auth, users, friendships }) => {
       })
       setFriends(friendArray)
     })
-  })
+  }, [])
 
   if ((!chats || chats.length === 0) && friends.length === 0) {
     return (

@@ -80,7 +80,7 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
           </Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
-          <Card.Body>
+          <Card.Body id="advSearchBody">
             <div className="advGameType">
               <h5>Game Type</h5>
               <label className="checkbox" htmlFor="advBoardgamesCheckbox">
@@ -115,48 +115,50 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
               </label>
             </div>
             <hr />
-            <div className="advPlayesrNumber">
+            <div className="advPlayersNumber">
               <h5>Players</h5>
-              <label className="checkbox" htmlFor="advPlayers2checkbox">
-                <input
-                  type="checkbox"
-                  id="advPlayers2checkbox"
-                  name="advPlayersNumber"
-                  value="2"
-                  onClick={(ev) => updatePlayerState(ev)}
-                />
-                <h6>2</h6>
-              </label>
-              <label className="checkbox" htmlFor="advPlayers3checkbox">
-                <input
-                  type="checkbox"
-                  id="advPlayers3checkbox"
-                  name="advPlayersNumber"
-                  value="3"
-                  onClick={(ev) => updatePlayerState(ev)}
-                />
-                <h6>3</h6>
-              </label>
-              <label className="checkbox" htmlFor="advPlayers4checkbox">
-                <input
-                  type="checkbox"
-                  id="advPlayers4checkbox"
-                  name="advPlayersNumber"
-                  value="4"
-                  onClick={(ev) => updatePlayerState(ev)}
-                />
-                <h6>4</h6>
-              </label>
-              <label className="checkbox" htmlFor="advPlayers4checkbox">
-                <input
-                  type="checkbox"
-                  id="advPlayers4checkbox"
-                  name="advPlayersNumber"
-                  value="5"
-                  onClick={(ev) => updatePlayerState(ev)}
-                />
-                <h6>5+</h6>
-              </label>
+              <div id="advSearchNumBoxes">
+                <label className="checkbox" htmlFor="advPlayers2checkbox">
+                  <input
+                    type="checkbox"
+                    id="advPlayers2checkbox"
+                    name="advPlayersNumber"
+                    value="2"
+                    onClick={(ev) => updatePlayerState(ev)}
+                  />
+                  <h6>2</h6>
+                </label>
+                <label className="checkbox" htmlFor="advPlayers3checkbox">
+                  <input
+                    type="checkbox"
+                    id="advPlayers3checkbox"
+                    name="advPlayersNumber"
+                    value="3"
+                    onClick={(ev) => updatePlayerState(ev)}
+                  />
+                  <h6>3</h6>
+                </label>
+                <label className="checkbox" htmlFor="advPlayers4checkbox">
+                  <input
+                    type="checkbox"
+                    id="advPlayers4checkbox"
+                    name="advPlayersNumber"
+                    value="4"
+                    onClick={(ev) => updatePlayerState(ev)}
+                  />
+                  <h6>4</h6>
+                </label>
+                <label className="checkbox" htmlFor="advPlayers4checkbox">
+                  <input
+                    type="checkbox"
+                    id="advPlayers4checkbox"
+                    name="advPlayersNumber"
+                    value="5"
+                    onClick={(ev) => updatePlayerState(ev)}
+                  />
+                  <h6>5+</h6>
+                </label>
+              </div>
               <button
                 className="searchButton"
                 type="submit"

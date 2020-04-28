@@ -10,12 +10,10 @@ import {
 import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
+import { getRoughCompassDirection } from 'geolib'
 
 export default function UserChat({ auth, match }) {
   var socket = io.connect()
-  // const socket = io({
-  //   transports: ['websocket'],
-  // })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)
@@ -53,11 +51,8 @@ export default function UserChat({ auth, match }) {
   useEffect(() => {
     if (chat.id) {
       console.log(chat.id, 'this is my chat in userchat')
-      setRoom(chat.id)
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-        console.log(response.data)
-        let messageResponse = response.data
-        messageResponse.forEach((messageObj) => {
+        response.data.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
             messageArray.push(
               new Message({
@@ -82,7 +77,9 @@ export default function UserChat({ auth, match }) {
   ////SOCKET STUFF///
 
   socket.on('connect', function () {
-    socket.emit('create', room)
+    socket.emit('create', auth.id)
+  })
+
     socket.on('chat message', (msg) => {
       const socketMessage = JSON.parse(msg)
       if (socketMessage.sender_id === auth.id) {
@@ -100,7 +97,7 @@ export default function UserChat({ auth, match }) {
         ])
       }
     })
-  })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -128,7 +125,7 @@ export default function UserChat({ auth, match }) {
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.username}
+        Chatting with: {user.firstname + user.lastname}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects

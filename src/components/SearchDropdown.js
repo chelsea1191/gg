@@ -22,17 +22,17 @@ const SearchDropdown = ({ allGames, setFiltered, link }) => {
   return (
     <Fragment>
       <Typeahead
-        id='custom-selections-example'
-        labelKey='name'
+        id="custom-selections-example"
+        labelKey="name"
         onChange={onChange} //
         options={allGames}
-        placeholder='Choose a game...'
+        placeholder="Choose a game..."
         selectHintOnEnter
         highlightOnlyResult
       />
       {link != 'createUser' && (
-        <button onClick={(ev) => reset(ev)}>
-          <h5>Reset to All Games</h5>
+        <button id="resetButton" onClick={(ev) => reset(ev)}>
+          <h5>Show All Games</h5>
         </button>
       )}
     </Fragment>
