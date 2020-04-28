@@ -1,33 +1,31 @@
-const express = require('express');
-const app = express();
-require('dotenv').config();
-const router = express.Router();
-const path = require('path');
-const morgan = require('morgan');
-const fs = require('fs');
-const db = require('./db/db');
-const models = db.models;
-const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
-const cloudinary = require('cloudinary').v2;
+const express = require('express')
+const app = express()
+require('dotenv').config()
+const router = express.Router()
+const path = require('path')
+const morgan = require('morgan')
+const fs = require('fs')
+const db = require('./db/db')
+const models = db.models
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+const cloudinary = require('cloudinary').v2
 
 //////////////////use///////////////////
-app.use(express.json());
-app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms')
-);
-app.use(bodyParser.json());
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
-app.use(express.static('./public'));
+app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+app.use(bodyParser.json())
+app.use('/assets', express.static(path.join(__dirname, 'assets')))
+app.use('/dist', express.static(path.join(__dirname, 'dist')))
+app.use(express.static('./public'))
 app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/',
   })
-);
+)
 var myLogger = function (req, res, next) {
   next()
 }
@@ -45,7 +43,7 @@ cloudinary.config({
  *
  */
 
-var room = '';
+var room = ''
 io.sockets.on('connection', (socket) => {
   socket.on('create', (room) => {
     socket.join(room)
@@ -53,7 +51,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('chat message', (msg) => {
     const req = JSON.parse(msg)
-    io.sockets.in(req.chat_id).emit('chat message', msg)
+    io.sockets.in(req.sender_id).emit('chat message', msg)
     db.putMessage(
       req.chat_id,
       req.sender_id,
@@ -201,9 +199,9 @@ app.post('/upload', (req, res) => {
 
   const file = req.files.file
   cloudinary.uploader.upload(file.tempFilePath, function (err, result) {
-    res.send({ success: true, result });
-  });
-});
+    res.send({ success: true, result })
+  })
+})
 
 app.post('/api/createUser', (req, res, next) => {
   db.models.users
@@ -219,11 +217,7 @@ app.post('/api/createchat', (req, res, next) => {
         chatCreatedResponse.id,
         chatCreatedResponse.creator_id,
         'Start your Chat'
-<<<<<<< HEAD
       ).then(res.send(chatCreatedResponse))
-=======
-      ).then(res.send(chatCreatedResponse));
->>>>>>> master
     })
     .catch(next)
 })
@@ -276,12 +270,12 @@ app.put('/api/users/:id', (req, res, next) => {
 })
 
 app.put('api/users/:id/updatebio', (req, res, next) => {
-  const id = req.params.id;
+  const id = req.params.id
   db.models.users
     .updatebio(req.body)
     .then((updated) => res.send(updated))
-    .catch(nect);
-});
+    .catch(nect)
+})
 
 //////////////////delete////////////////////
 // app.delete("/api/users/:id", (req, res, next) => {

@@ -51,7 +51,6 @@ export default function UserChat({ auth, match }) {
   useEffect(() => {
     if (chat.id) {
       console.log(chat.id, 'this is my chat in userchat')
-      setRoom(chat.id)
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
         response.data.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
@@ -78,7 +77,7 @@ export default function UserChat({ auth, match }) {
   ////SOCKET STUFF///
 
   socket.on('connect', function () {
-    socket.emit('create', room)
+    socket.emit('create', auth.id)
     socket.on('chat message', (msg) => {
       const socketMessage = JSON.parse(msg)
       if (socketMessage.sender_id === auth.id) {
