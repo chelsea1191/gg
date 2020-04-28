@@ -1,5 +1,6 @@
 import { ChatFeed, Message } from 'react-chat-ui'
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 import axios from 'axios'
 import moment from 'moment'
@@ -113,7 +114,7 @@ export default function UserChat({ auth, match }) {
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.firstname + user.lastname}
+        Chatting with: {user.username}
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
