@@ -2,11 +2,9 @@ import React from 'react';
 import Loading from './Loading';
 
 const About = () => {
-  const iconStyle = { width: 16, height: 16 };
-
   const greentext = { color: 'rgb(0, 200, 0)' };
 
-  const icon = { fontSize: 24, color: 'rgba(150,150,150,1)' };
+  const icon = { fontSize: 16, color: 'rgba(150,150,150,1)' };
 
   return (
     <div>
