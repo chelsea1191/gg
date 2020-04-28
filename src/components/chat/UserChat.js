@@ -53,7 +53,9 @@ export default function UserChat({ auth, match }) {
       console.log(chat.id, 'this is my chat in userchat')
       setRoom(chat.id)
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-        response.data.forEach((messageObj) => {
+        console.log(response.data)
+        let messageResponse = response.data
+        messageResponse.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
             messageArray.push(
               new Message({
