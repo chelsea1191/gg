@@ -78,6 +78,8 @@ export default function UserChat({ auth, match }) {
 
   socket.on('connect', function () {
     socket.emit('create', auth.id)
+  })
+
     socket.on('chat message', (msg) => {
       const socketMessage = JSON.parse(msg)
       if (socketMessage.sender_id === auth.id) {
@@ -95,7 +97,7 @@ export default function UserChat({ auth, match }) {
         ])
       }
     })
-  })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
