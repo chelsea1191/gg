@@ -24,7 +24,6 @@ const Chat = ({ auth, users, friendships }) => {
 
   useEffect(() => {
     friendships.map((friendship) => {
-      console.log(friendship, 'the friendship stuff')
       axios.get(`/api/chat/${friendship.friendId}`).then((response) => {
         friendArray.push(response.data)
       })
@@ -44,6 +43,7 @@ const Chat = ({ auth, users, friendships }) => {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
+        <hr></hr>
         Continue a chat already in progress:
         {chats.map((eachChat) => {
           return (
@@ -53,22 +53,24 @@ const Chat = ({ auth, users, friendships }) => {
                   return (
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
-                        {eachUser.username}
+                        {eachUser.username} is Online:
+                        {eachUser.isOnline ? 'yes' : 'no'}
                       </Link>
                       <hr></hr>
                     </div>
                   )
                 }
               })}
-              Chat with Friends:
               <hr></hr>
+              Chat with Friends:
               {friends.map((friend) => {
                 if (friend.id != auth.id) {
                   return (
                     <div key={friend.friendId}>
                       <span>
                         <Link to={`/chat/${friend.friendId}`}>
-                          {friend.username}
+                          {friend.username} is Online:
+                          {friend.isOnline ? 'yes' : 'no'}
                         </Link>
                       </span>
                     </div>
