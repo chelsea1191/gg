@@ -744,3 +744,8 @@ input[type='checkbox'] {
     height: 32px;
   }
 }
+
+/*TOAST*/
+#createUserToast {
+  border: 1px solid black;
+}

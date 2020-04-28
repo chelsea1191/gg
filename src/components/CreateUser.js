@@ -1,8 +1,10 @@
 import axios from 'axios';
 import Location from './Location';
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import SearchDropdown from './SearchDropdown';
 import Axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreateUser({
   auth,
@@ -14,7 +16,13 @@ export default function CreateUser({
   const [location, setLocation] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const link = 'createUser';
-
+  const notify = () => {
+    toast('Wow so easy !', {
+      position: 'bottom-center',
+      autoClose: 3000,
+      toastId: 'createUserToast',
+    });
+  };
   const [selectedGameTypes, setSelectedGameTypes] = useState([]);
 
   const handleSubmit = async (e) => {
@@ -54,7 +62,7 @@ export default function CreateUser({
       setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
       alert('Hi submitted user created');
     } else {
-      alert('password does not match');
+      //alert('password does not match');
     }
   };
 
@@ -77,74 +85,73 @@ export default function CreateUser({
   };
 
   return (
-    <div id="createUserPage">
+    <div id='createUserPage'>
       <form
-        id="createUserForm"
-        action="/upload"
-        method="POST"
-        encType="multipart/form-data"
+        id='createUserForm'
+        action='/upload'
+        method='POST'
+        encType='multipart/form-data'
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <h3>Create Account</h3>
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="text" style={toLowercase} placeholder="Username" />
-        <input placeholder="Password" type="password" />
-        <input placeholder="Confirm Password" type="password" />
-        <input type="text" placeholder="Email Address" />
+        <input type='text' placeholder='First Name' />
+        <input type='text' placeholder='Last Name' />
+        <input type='text' style={toLowercase} placeholder='Username' />
+        <input placeholder='Password' type='password' />
+        <input placeholder='Confirm Password' type='password' />
+        <input type='text' placeholder='Email Address' />
 
         <textarea
-          id="bioInput"
-          placeholder="Say something about yourself!"
-          maxLength="300"
+          id='bioInput'
+          placeholder='Say something about yourself!'
+          maxLength='300'
         />
-        <hr className="hr" />
+        <hr className='hr' />
         <Location location={location} setLocation={setLocation} />
-        <hr className="hr" />
+        <hr className='hr' />
         <h5>
           <b>What types of games do you play?</b>
         </h5>
-        <div className="checkBoxes">
-          <label className="checkbox" htmlFor="boardgamesCheckbox">
+        <div className='checkBoxes'>
+          <label className='checkbox' htmlFor='boardgamesCheckbox'>
             <input
-              type="checkbox"
-              id="boardgamesCheckbox"
-              name="gameTypes"
-              value="Board Games"
+              type='checkbox'
+              id='boardgamesCheckbox'
+              name='gameTypes'
+              value='Board Games'
               onChange={handleTypeSelection}
             />
             <h6>Board Games</h6>
           </label>
 
-          <label className="checkbox" htmlFor="tabletopCheckbox">
+          <label className='checkbox' htmlFor='tabletopCheckbox'>
             <input
-              type="checkbox"
-              id="tabletopCheckbox"
-              name="gameTypes"
-              value="Tabletop Games & RPGs"
+              type='checkbox'
+              id='tabletopCheckbox'
+              name='gameTypes'
+              value='Tabletop Games & RPGs'
               onChange={handleTypeSelection}
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label className="checkbox" htmlFor="cardgamesCheckbox">
+          <label className='checkbox' htmlFor='cardgamesCheckbox'>
             <input
-              type="checkbox"
-              id="cardgamesCheckbox"
-              name="gameTypes"
-              value="Trading Card Games"
+              type='checkbox'
+              id='cardgamesCheckbox'
+              name='gameTypes'
+              value='Trading Card Games'
               onChange={handleTypeSelection}
             />
             <h6>Trading Card Games</h6>
           </label>
         </div>
-        <hr className="hr" />
+        <hr className='hr' />
         <h5>
           <b>What's your favorite game?</b>
         </h5>
-        <div id="dropdownDiv">
+        <div id='dropdownDiv'>
           <SearchDropdown
             link={link}
             allGames={allGames}
@@ -157,19 +164,20 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <hr className="hr" />
-        <button type="submit" id="createUserButton">
+        <hr className='hr' />
+        <button type='submit' id='createUserButton' onClick={notify}>
           <h5>Create User</h5>
         </button>
+        <ToastContainer />
+
         <i>
           Remember to Upload a Photo on the User Settings Page!{' '}
           <img
-            src="/assets/settings.png"
-            alt=""
-            width="16"
-            height="16"
-            title="Settings"
-          ></img>
+            src='/assets/settings.png'
+            alt=''
+            width='16'
+            height='16'
+            title='Settings'></img>
         </i>
       </form>
     </div>
