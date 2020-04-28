@@ -53,11 +53,11 @@ const Chat = ({ auth, users, friendships }) => {
                   return (
                     <div key={eachUser.id}>
                       <Link to={`/chat/${eachUser.id}`}>
-                        {eachUser.username} is Online:
+                        {eachUser.username}
                         {eachUser.isOnline ? (
-                          <button id="green"></button>
+                          <span class="dot-green"></span>
                         ) : (
-                          <button id="red"></button>
+                          <span class="dot-red"></span>
                         )}
                       </Link>
                       <hr></hr>
@@ -74,7 +74,11 @@ const Chat = ({ auth, users, friendships }) => {
                       <span>
                         <Link to={`/chat/${friend.friendId}`}>
                           {friend.username} is Online:
-                          {friend.isOnline ? 'yes' : 'no'}
+                          {friend.isOnline ? (
+                            <span class="dot-green"></span>
+                          ) : (
+                            <span class="dot-red"></span>
+                          )}
                         </Link>
                       </span>
                     </div>

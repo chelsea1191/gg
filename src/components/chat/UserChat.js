@@ -71,7 +71,7 @@ export default function UserChat({ auth, match }) {
   ////SOCKET STUFF///
 
   socket.on('connect', function () {
-    socket.emit('create', auth.id)
+    socket.emit('create', chat.id)
   })
 
   socket.on('chat message', (msg) => {
