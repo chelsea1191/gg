@@ -1,11 +1,25 @@
 import React from 'react';
 import Rating from './Rating';
 import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
-  console.log('path: ', window.location.pathname);
-
   let rating = game.average_user_rating;
+
+  const notifySuccess = () => {
+    toast.success('Success! Added to Favorites', {
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+      //hideProgressBar: false,
+    });
+  };
+  const notifyFailure = () => {
+    toast.success('Error- this game was already in your Favorites', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+      //hideProgressBar: false,
+    });
+  };
 
   const addFavorite = async () => {
     const favoriteGamesCopy = [...favoriteGames];
@@ -14,12 +28,10 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
       gameId: game.id,
     })
       .then((res) => {
-        console.log(res);
+        notifySuccess();
         setFavoriteGames([...favoriteGamesCopy, res.data]);
-        console.log('favorited!');
-        alert('favorited! :)');
       })
-      .catch((err) => alert('you have already favorited this game!'));
+      .catch((err) => notifyFailure());
     // const newFavoriteGame = await Axios.post('/api/favoritegames', {
     //   userId: auth.id,
     //   gameId: game.id,
@@ -54,6 +66,7 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
       <button type='button' onClick={addFavorite}>
         <h5>Favorite</h5>
       </button>
+      <ToastContainer closeButton={false} />
       <hr className='hr' />
       <h6>
         <i>{game.description}</i>

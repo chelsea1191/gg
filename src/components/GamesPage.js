@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import SearchDropdown from './SearchDropdown';
 import AdvancedSearch from './AdvancedSearch';
+import { ToastContainer, toast } from 'react-toastify';
+
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -14,6 +16,25 @@ const GamesPage = ({
   const greentext = { color: 'rgb(0, 200, 0)' };
   const link = 'gamesPage';
   const [filtered, setFiltered] = useState([]);
+
+  const notifySuccess = (id) => {
+    toast.success('Success! Added to Favorites', {
+      containerId: id,
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+      autoClose: 1000,
+      hideProgressBar: false,
+      autoClose: 1000,
+    });
+  };
+  const notifyFailure = (id) => {
+    toast.success('Error- this game was already in your Favorites', {
+      containerId: id,
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+      //hideProgressBar: false,
+    });
+  };
 
   useEffect(() => {
     let filteredItemIfPresent = JSON.parse(localStorage.getItem('filtered'));
@@ -62,10 +83,11 @@ const GamesPage = ({
                 userId: auth.id,
                 gameId: game.id,
               })
-                .then((res) =>
-                  setFavoriteGames([...favoriteGamesCopy, res.data])
-                )
-                .catch((err) => alert("you've already favorited this game!"));
+                .then((res) => {
+                  notifySuccess(game.id);
+                  setFavoriteGames([...favoriteGamesCopy, res.data]);
+                })
+                .catch((err) => notifyFailure(game.id));
             };
             return (
               <li key={game.id} className='gamesListItem'>
@@ -76,9 +98,16 @@ const GamesPage = ({
                 </Link>
                 <h5>{game.name}</h5>
                 {auth && (
-                  <button type='button' onClick={addFavorite}>
-                    <h5>Favorite</h5>
-                  </button>
+                  <div>
+                    <button type='button' onClick={addFavorite}>
+                      <h5>Favorite</h5>
+                    </button>
+                    <ToastContainer
+                      closeButton={false}
+                      enableMultiContainer
+                      containerId={game.id}
+                    />
+                  </div>
                 )}
                 <hr className='hr' />
               </li>
@@ -90,5 +119,3 @@ const GamesPage = ({
 };
 
 export default GamesPage;
-
-//chelsea still working on advanced search
