@@ -16,10 +16,10 @@ const getUser = async (userId) => {
   return response.rows[0]
 }
 
-const createChat = async (userid1, userid2) => {
+const createChat = async (userid1, username1, userid2, username2) => {
   const response = await client.query(
-    `INSERT INTO chat (creator_id, user_id) VALUES ($1, $2) returning *`,
-    [userid1, userid2]
+    `INSERT INTO chat (creator_id, creator_username, user_id, user_username) VALUES ($1, $2, $3, $4) returning *`,
+    [userid1, username1, userid2, username2]
   )
   console.log(response.rows[0], 'my db response for createChat')
   return response.rows[0]

@@ -6,13 +6,13 @@ import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
 
-export default function UserChat({ auth, match }) {
-  var socket = io.connect()
+export default function UserChat({ auth, match, setUserView }) {
+  var socket = io.connect({ transports: ['websocket'] })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)
   const [chat, setChat] = useState([])
-  const [room, setRoom] = useState('')
+
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
     // new Message({
@@ -23,7 +23,7 @@ export default function UserChat({ auth, match }) {
   ])
 
   useEffect(() => {
-    axios.get(`/api/chatuser/${match.params.id}`).then((response) => {
+    axios.get(`/api/user/${match.params.id}`).then((response) => {
       setUser(response.data)
     })
   }, [])
@@ -32,9 +32,16 @@ export default function UserChat({ auth, match }) {
     if (user.id) {
       axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
         if (!response.data) {
-          axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-            setChat(response.data)
-          })
+          axios
+            .post('/api/createchat', [
+              auth.id,
+              auth.username,
+              user.id,
+              user.username,
+            ])
+            .then((response) => {
+              setChat(response.data)
+            })
         } else {
           setChat(response.data)
         }
@@ -44,7 +51,6 @@ export default function UserChat({ auth, match }) {
 
   useEffect(() => {
     if (chat.id) {
-      console.log(chat.id, 'this is my chat in userchat')
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
         response.data.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
@@ -114,7 +120,11 @@ export default function UserChat({ auth, match }) {
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.username}
+        {'    '}
+        Chatting with:{' '}
+        <Link to={`/users/${user.id}`} onClick={(ev) => setUserView(user)}>
+          {user.username}
+        </Link>
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
