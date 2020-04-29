@@ -294,7 +294,8 @@ p {
   margin: 0;
 }
 
-input[type='text'] {
+input[type='text'],
+input[type='postal'] {
   border-radius: 15px;
   border: 1px solid grey;
   margin: 4px;
@@ -760,12 +761,22 @@ input[type='checkbox'] {
     height: 32px;
   }
 }
+#zip {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 8px;
+  align-items: center;
+  text-align: center;
+  font-style: italic;
+}
+
 .createUserToastSuccess {
   display: flex;
   background-color: 00c802;
   padding: 5px;
   border-radius: 15px;
   font-weight: bold;
+  margin: 5px;
 }
 .createUserToastFailure {
   display: flex;
@@ -773,6 +784,7 @@ input[type='checkbox'] {
   padding: 5px;
   border-radius: 15px;
   font-weight: bold;
+  margin: 5px;
 }
 .passFail {
   color: red;

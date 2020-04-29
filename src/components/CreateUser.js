@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import SearchDropdown from './SearchDropdown';
 import Axios from 'axios';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreateUser({
   auth,
