@@ -251,9 +251,9 @@ const App = () => {
                       width="24"
                       height="24"
                       title="Find Players"
-                    ></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                    ></img>
+                  </Link>
+                </li>
                 <li className="nav-icon">
                   <Link className="link" to="/chat">
                     <img
@@ -263,9 +263,9 @@ const App = () => {
                       width="24"
                       height="24"
                       title="Chat"
-                    ></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                    ></img>
+                  </Link>
+                </li>
                 <li className="nav-icon">
                   <Link className="link" to="/usersettings">
                     <img
