@@ -14,7 +14,7 @@ const UserProfile = ({
   location,
   setLocation,
 }) => {
-  const greentext = { color: 'rgb(0, 200, 0)' };
+  const greentext = { color: 'rgb(0, 201, 0)' };
   const [firstpass, setfirstpass] = useState('');
   const [secondpass, setsecondpass] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);

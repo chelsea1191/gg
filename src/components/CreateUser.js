@@ -86,10 +86,12 @@ export default function CreateUser({
         .catch((err) => console.log(err));
       if (newUser.id) {
         const favoriteGamesCopy = [...favoriteGames];
-        const newFavoriteGame = await Axios.post('/api/favoritegames', {
-          userId: newUser.id,
-          gameId: filtered[0].id,
-        }).data;
+        const newFavoriteGame = (
+          await Axios.post('/api/favoritegames', {
+            userId: newUser.id,
+            gameId: filtered[0].id,
+          })
+        ).data;
         setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
         // alert('Hi submitted user created');
         notifySuccess();

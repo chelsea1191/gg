@@ -53,6 +53,10 @@ const App = () => {
   }, [auth]);
 
   useEffect(() => {
+    console.log(favoriteGames);
+  }, [favoriteGames]);
+
+  useEffect(() => {
     console.log(auth);
   }, [auth]);
 
