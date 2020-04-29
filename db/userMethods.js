@@ -13,13 +13,14 @@ const getUser = async (userId) => {
   const response = await client.query(`SELECT * from users WHERE id = $1`, [
     userId,
   ])
+  console.log(response.rows)
   return response.rows[0]
 }
 
-const createChat = async (userid1, userid2) => {
+const createChat = async (userid1, username1, userid2, username2) => {
   const response = await client.query(
-    `INSERT INTO chat (creator_id, user_id) VALUES ($1, $2) returning *`,
-    [userid1, userid2]
+    `INSERT INTO chat (creator_id, creator_username, user_id, user_username) VALUES ($1, $2, $3, $4) returning *`,
+    [userid1, username1, userid2, username2]
   )
   console.log(response.rows[0], 'my db response for createChat')
   return response.rows[0]
@@ -35,7 +36,7 @@ const getChat = async (userId1, userId2) => {
 
 const getChats = async (authId) => {
   const response = await client.query(
-    `SELECT * FROM chat WHERE creator_id = $1  ORDER BY date_updated DESC`,
+    `SELECT * FROM chat WHERE creator_id = $1 OR user_id =$1 ORDER BY date_updated DESC`,
     [authId]
   )
   console.log(response.rows, 'this is my db reponse')

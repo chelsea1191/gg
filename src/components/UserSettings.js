@@ -5,6 +5,7 @@ import FileUpload from './FileUpload';
 
 const UserProfile = ({
   auth,
+  setAuth,
   changePassword,
   setUserView,
   users,
@@ -27,13 +28,10 @@ const UserProfile = ({
   const updateBio = async () => {
     let user = { ...auth };
     user.bio = userBio;
-    const usersCopy = [...users];
-    const userIndex = users.indexOf(auth);
     const updatedUser = (
       await axios.put(`/api/users/${auth.id}/updatebio`, user)
     ).data;
-    usersCopy.splice(userIndex, 1, updatedUser);
-    setUsers(usersCopy);
+    setAuth(updatedUser);
   };
 
   return (
@@ -65,7 +63,7 @@ const UserProfile = ({
         <b>Upload Profile Photo!</b>
       </h5>
 
-      <FileUpload auth={auth} />
+      <FileUpload auth={auth} setAuth={setAuth} />
       <hr className="hr" />
       <textarea
         id="updateBio"

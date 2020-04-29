@@ -60,7 +60,6 @@ const sync = async () => {
     //**********************************  PRODUCTION ******************************* */
     console.log('environment is: ', process.env.NODE_ENV);
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
   CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -121,12 +120,15 @@ const sync = async () => {
   CREATE TABLE IF NOT EXISTS chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     creator_id UUID REFERENCES users(id) NOT NULL,
+    creator_username VARCHAR(100) REFERENCES users(username) NOT NULL,
     user_id UUID REFERENCES users(id) NOT NULL,
+    user_username VARCHAR(100) REFERENCES users(id) NOT NULL,
     date_create TIMESTAMP default CURRENT_TIMESTAMP,
     render_creator_messages BOOLEAN DEFAULT true,
     render_user_messages BOOLEAN DEFAULT true,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
+
   CREATE TABLE IF NOT EXISTS message (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     chat_id UUID REFERENCES chat(id) NOT NULL,
@@ -211,7 +213,9 @@ const sync = async () => {
   CREATE TABLE IF NOT EXISTS chat (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     creator_id UUID REFERENCES users(id) NOT NULL,
+    creator_username VARCHAR(100) REFERENCES users(username) NOT NULL,
     user_id UUID REFERENCES users(id) NOT NULL,
+    user_username VARCHAR(100) REFERENCES users(username) NOT NULL,
     date_create TIMESTAMP default CURRENT_TIMESTAMP,
     render_creator_messages BOOLEAN DEFAULT true,
     render_user_messages BOOLEAN DEFAULT true,

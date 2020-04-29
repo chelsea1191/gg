@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const FileUpload = ({ auth }) => {
+const FileUpload = ({ auth, setAuth }) => {
   const [file, setFile] = useState('');
   const [fileName, setFileName] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState({});
@@ -27,8 +27,10 @@ const FileUpload = ({ auth }) => {
       setMessage('File Uploaded');
       setFileName('Choose file');
       const updatedAuth = { ...auth, avatar: url };
-      console.log(updatedAuth);
-      axios.put(`/api/users/${auth.id}`, updatedAuth);
+      axios.put(`/api/users/${auth.id}`, updatedAuth).then((res) => {
+        console.log('new auth is', res.data);
+        setAuth(res.data);
+      });
     } catch (err) {
       if (err.response.status === 500) {
         setMessage('There was a problem with the server');
@@ -37,11 +39,11 @@ const FileUpload = ({ auth }) => {
       }
     }
   };
+
   return (
     <Fragment>
       {uploadedFile ? (
         <div id="uploadedFile">
-          <h3 className="text-center">{uploadedFile.original_filename}</h3>
           <img src={uploadedFile.url} className="userProfileImage" />
         </div>
       ) : null}

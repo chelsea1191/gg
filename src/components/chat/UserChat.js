@@ -1,26 +1,18 @@
 import { ChatFeed, Message } from 'react-chat-ui'
 import React, { useState, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+
 import axios from 'axios'
 import moment from 'moment'
 import * as io from 'socket.io-client'
 
-export default function UserChat({ auth, match }) {
-  var socket = io.connect()
-  // const socket = io({
-  //   transports: ['websocket'],
-  // })
+export default function UserChat({ auth, match, setUserView }) {
+  var socket = io.connect({ transports: ['websocket'] })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)
   const [chat, setChat] = useState([])
-  const [room, setRoom] = useState('')
+
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
     // new Message({
@@ -31,7 +23,7 @@ export default function UserChat({ auth, match }) {
   ])
 
   useEffect(() => {
-    axios.get(`/api/chatuser/${match.params.id}`).then((response) => {
+    axios.get(`/api/user/${match.params.id}`).then((response) => {
       setUser(response.data)
     })
   }, [])
@@ -40,9 +32,16 @@ export default function UserChat({ auth, match }) {
     if (user.id) {
       axios.get(`/api/chat/${user.id}/${auth.id}`).then((response) => {
         if (!response.data) {
-          axios.post('/api/createchat', [auth.id, user.id]).then((response) => {
-            setChat(response.data)
-          })
+          axios
+            .post('/api/createchat', [
+              auth.id,
+              auth.username,
+              user.id,
+              user.username,
+            ])
+            .then((response) => {
+              setChat(response.data)
+            })
         } else {
           setChat(response.data)
         }
@@ -52,12 +51,8 @@ export default function UserChat({ auth, match }) {
 
   useEffect(() => {
     if (chat.id) {
-      console.log(chat.id, 'this is my chat in userchat')
-      setRoom(chat.id)
       axios.get(`/api/getMessages/${chat.id}`).then((response) => {
-        console.log(response.data)
-        let messageResponse = response.data
-        messageResponse.forEach((messageObj) => {
+        response.data.forEach((messageObj) => {
           if (messageObj.sender_id === auth.id) {
             messageArray.push(
               new Message({
@@ -82,24 +77,25 @@ export default function UserChat({ auth, match }) {
   ////SOCKET STUFF///
 
   socket.on('connect', function () {
-    socket.emit('create', room)
-    socket.on('chat message', (msg) => {
-      const socketMessage = JSON.parse(msg)
-      if (socketMessage.sender_id === auth.id) {
-        setMessages([
-          ...messages,
-          new Message({ id: 0, message: socketMessage.message }),
-        ])
-      } else {
-        setMessages([
-          ...messages,
-          new Message({
-            id: 1,
-            message: socketMessage.message,
-          }),
-        ])
-      }
-    })
+    socket.emit('create', chat.id)
+  })
+
+  socket.on('chat message', (msg) => {
+    const socketMessage = JSON.parse(msg)
+    if (socketMessage.sender_id === auth.id) {
+      setMessages([
+        ...messages,
+        new Message({ id: 0, message: socketMessage.message }),
+      ])
+    } else {
+      setMessages([
+        ...messages,
+        new Message({
+          id: 1,
+          message: socketMessage.message,
+        }),
+      ])
+    }
   })
 
   const handleSubmit = (e) => {
@@ -118,17 +114,17 @@ export default function UserChat({ auth, match }) {
     setIsTyping(false)
   }
 
-  // socket.emit('typing', (res) => {
-  //   console.log(res)
-  // })
-
   return (
     <div id="chatPage">
       <span>
         <Link to="/chat" onClick={() => setUser('')}>
           X
         </Link>
-        Chatting with: {user.username}
+        {'    '}
+        Chatting with:{' '}
+        <Link to={`/users/${user.id}`} onClick={(ev) => setUserView(user)}>
+          {user.username}
+        </Link>
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects

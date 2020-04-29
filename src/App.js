@@ -19,6 +19,7 @@ import Loading from './components/Loading';
 import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import 'react-bootstrap-typeahead/css/Typeahead.css'; //icon
+import 'react-toastify/dist/ReactToastify.css';
 
 const headers = () => {
   const token = window.localStorage.getItem('token');
@@ -250,9 +251,9 @@ const App = () => {
                       width="24"
                       height="24"
                       title="Find Players"
-                    ></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                    ></img>
+                  </Link>
+                </li>
                 <li className="nav-icon">
                   <Link className="link" to="/chat">
                     <img
@@ -262,9 +263,9 @@ const App = () => {
                       width="24"
                       height="24"
                       title="Chat"
-                    ></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                    ></img>
+                  </Link>
+                </li>
                 <li className="nav-icon">
                   <Link className="link" to="/usersettings">
                     <img
@@ -342,6 +343,7 @@ const App = () => {
                     setFriendships={setFriendships}
                     users={users}
                     auth={auth}
+                    setAuth={setAuth}
                   />
                 </Route>
                 <Route path="/games">
@@ -356,6 +358,7 @@ const App = () => {
                 <Route path="/usersettings">
                   <UserSettings
                     auth={auth}
+                    setAuth={setAuth}
                     changePassword={changePassword}
                     setUserView={setUserView}
                     users={users}
@@ -370,15 +373,7 @@ const App = () => {
                   exact
                   path="/chat"
                   component={(props) => {
-                    return (
-                      <Chat
-                        auth={auth}
-                        users={users}
-                        user={user}
-                        setUser={setUser}
-                        friendships={friendships}
-                      />
-                    );
+                    return <Chat {...props} auth={auth} />;
                   }}
                 ></Route>
                 <Route
@@ -390,7 +385,7 @@ const App = () => {
                         {...props}
                         auth={auth}
                         users={users}
-                        friendships={friendships}
+                        setUserView={setUserView}
                       />
                     );
                   }}

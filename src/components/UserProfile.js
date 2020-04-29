@@ -12,6 +12,8 @@ const UserProfile = ({
   users,
   auth,
 }) => {
+  console.log(auth);
+
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -43,12 +45,18 @@ const UserProfile = ({
       ).data;
       friendshipsCopy.splice(receivedRequestIndex, 1, receivedRequestCopy);
     }
+    console.log(newFriendshipObject);
+    await Axios.post('/api/friendships', newFriendshipObject)
+      .then((res) => {
+        setFriendships([...friendshipsCopy, newFriendshipObject]);
+      })
+      .catch((err) => alert('friend request already sent'));
 
-    const newFriendship = (
-      await Axios.post('/api/friendships', newFriendshipObject)
-    ).data;
+    // const newFriendship = (
+    //   await Axios.post('/api/friendships', newFriendshipObject)
+    // ).data;
 
-    setFriendships([...friendshipsCopy, newFriendship]);
+    // setFriendships([...friendshipsCopy, newFriendship]);
   };
 
   const confirmedFriendships = friendships.filter((friendship) => {
@@ -96,6 +104,7 @@ const UserProfile = ({
       <hr className="hr" />
 
       <p>{user.bio}</p>
+      {console.log(auth)}
     </div>
   );
 };
