@@ -1,32 +1,34 @@
-import { ChatFeed, Message } from 'react-chat-ui'
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { ChatFeed, Message } from 'react-chat-ui';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import axios from 'axios'
-import moment from 'moment'
-import * as io from 'socket.io-client'
+import axios from 'axios';
+import moment from 'moment';
+import * as io from 'socket.io-client';
 
 export default function UserChat({ auth, match, setUserView }) {
-  var socket = io.connect({ transports: ['websocket'] })
-  const messageArray = []
-  const [user, setUser] = useState([])
-  const [isTyping, setIsTyping] = useState(false)
-  const [chat, setChat] = useState([])
+  var socket = io.connect({ transports: ['websocket'] });
+  const messageArray = [];
+  const [user, setUser] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const [chat, setChat] = useState([]);
 
-  const [message, setMessage] = useState('')
+  const greentext = { color: 'rgb(0, 200, 0)' };
+
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
     // new Message({
     //   id: 1,
     //   message: "I'm the recipient! (The person you're talking to)",
     // }), // Gray bubble
     // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
-  ])
+  ]);
 
   useEffect(() => {
     axios.get(`/api/user/${match.params.id}`).then((response) => {
-      setUser(response.data)
-    })
-  }, [])
+      setUser(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (user.id) {
@@ -40,14 +42,14 @@ export default function UserChat({ auth, match, setUserView }) {
               user.username,
             ])
             .then((response) => {
-              setChat(response.data)
-            })
+              setChat(response.data);
+            });
         } else {
-          setChat(response.data)
+          setChat(response.data);
         }
-      })
+      });
     }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     if (chat.id) {
@@ -59,34 +61,34 @@ export default function UserChat({ auth, match, setUserView }) {
                 id: 0,
                 message: messageObj.message,
               })
-            )
+            );
           } else {
             messageArray.push(
               new Message({
                 id: 1,
                 message: messageObj.message,
               })
-            )
+            );
           }
-        })
-        setMessages([...messageArray])
-      })
+        });
+        setMessages([...messageArray]);
+      });
     }
-  }, [chat])
+  }, [chat]);
 
   ////SOCKET STUFF///
 
   socket.on('connect', function () {
-    socket.emit('create', chat.id)
-  })
+    socket.emit('create', chat.id);
+  });
 
   socket.on('chat message', (msg) => {
-    const socketMessage = JSON.parse(msg)
+    const socketMessage = JSON.parse(msg);
     if (socketMessage.sender_id === auth.id) {
       setMessages([
         ...messages,
         new Message({ id: 0, message: socketMessage.message }),
-      ])
+      ]);
     } else {
       setMessages([
         ...messages,
@@ -94,12 +96,12 @@ export default function UserChat({ auth, match, setUserView }) {
           id: 1,
           message: socketMessage.message,
         }),
-      ])
+      ]);
     }
-  })
+  });
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     socket.emit(
       'chat message',
       JSON.stringify({
@@ -109,22 +111,30 @@ export default function UserChat({ auth, match, setUserView }) {
         time: moment(),
         typing: 'yes',
       })
-    )
-    setMessage('')
-    setIsTyping(false)
-  }
+    );
+    setMessage('');
+    setIsTyping(false);
+  };
 
   return (
     <div id="chatPage">
       <span>
-        <Link to="/chat" onClick={() => setUser('')}>
-          X
-        </Link>
-        {'    '}
-        Chatting with:{' '}
-        <Link to={`/users/${user.id}`} onClick={(ev) => setUserView(user)}>
-          {user.username}
-        </Link>
+        <div id="chatHeader">
+          <Link className="xButton" to="/chat" onClick={() => setUser('')}>
+            <b>X</b>
+          </Link>
+          {'    '}
+          <b>Chatting with:{'  '}</b>
+
+          <Link
+            className="userChatLink"
+            to={`/users/${user.id}`}
+            onClick={(ev) => setUserView(user)}
+          >
+            <b style={greentext}>{user.username}</b>
+          </Link>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <ChatFeed
             messages={messages} // Boolean: list of message objects
@@ -134,11 +144,11 @@ export default function UserChat({ auth, match, setUserView }) {
             // JSON: Custom bubble styles
             bubbleStyles={{
               text: {
-                fontSize: 30,
+                fontSize: 16,
               },
               chatbubble: {
                 borderRadius: 70,
-                padding: 40,
+                padding: 8,
               },
             }}
           />
@@ -146,14 +156,18 @@ export default function UserChat({ auth, match, setUserView }) {
             type="text"
             value={message}
             onChange={(ev) => {
-              setMessage(ev.target.value)
-              socket.emit('typing', () => isTyping(true))
+              setMessage(ev.target.value);
+              socket.emit('typing', () => isTyping(true));
             }}
-            placeholder="message"
+            placeholder="Chat..."
           />
-          <button>Submit</button>
+          <button>
+            <h5>
+              <b>Submit</b>
+            </h5>
+          </button>
         </form>
       </span>
     </div>
-  )
+  );
 }

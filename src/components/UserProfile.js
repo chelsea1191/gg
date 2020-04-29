@@ -33,6 +33,7 @@ const UserProfile = ({
       setConfirmedFriendships(confirmed);
     });
   }, []);
+
   const notifyPending = () => {
     toast.success('Success! Friend Request sent', {
       className: 'createUserToastSuccess',
@@ -59,6 +60,9 @@ const UserProfile = ({
       position: 'bottom-center',
     });
   };
+
+  console.log(auth);
+
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -182,6 +186,7 @@ const UserProfile = ({
         </div>
       )}
       <hr className='hr' />
+
       <Link
         to={`/users/${user.id}/friends`}
         onClick={(ev) => setFriendsView(user)}>
@@ -207,6 +212,7 @@ const UserProfile = ({
       <hr className='hr' />
 
       <p>{user.bio}</p>
+      {console.log(auth)}
     </div>
   );
 };

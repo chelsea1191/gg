@@ -52,6 +52,10 @@ const App = () => {
   }, [auth]);
 
   useEffect(() => {
+    console.log(auth);
+  }, [auth]);
+
+  useEffect(() => {
     axios.get('/api/users').then((response) => {
       setUsers(response.data);
     });
@@ -195,7 +199,9 @@ const App = () => {
 
                 <Route path='/games'>
                   <GamesPage
-                    //auth={auth}
+                    auth={auth}
+                    favoriteGames={favoriteGames}
+                    setFavoriteGames={setFavoriteGames}
                     allGames={allGames}
                     setGameView={setGameView}
                     //favoriteGames={favoriteGames}
@@ -245,9 +251,9 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Find Players'></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                      title='Find Players'></img>
+                  </Link>
+                </li>
                 <li className='nav-icon'>
                   <Link className='link' to='/chat'>
                     <img
@@ -256,9 +262,9 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
-                      title='Chat'></img>{' '}
-                  </Link>{' '}
-                </li>{' '}
+                      title='Chat'></img>
+                  </Link>
+                </li>
                 <li className='nav-icon'>
                   <Link className='link' to='/usersettings'>
                     <img
@@ -334,6 +340,7 @@ const App = () => {
                     setFriendships={setFriendships}
                     users={users}
                     auth={auth}
+                    setAuth={setAuth}
                   />
                 </Route>
                 <Route path='/games'>
@@ -348,6 +355,7 @@ const App = () => {
                 <Route path='/usersettings'>
                   <UserSettings
                     auth={auth}
+                    setAuth={setAuth}
                     changePassword={changePassword}
                     setUserView={setUserView}
                     users={users}

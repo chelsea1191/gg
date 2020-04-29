@@ -219,7 +219,7 @@ app.post('/api/createchat', (req, res, next) => {
       db.createMessage(
         chatCreatedResponse.id,
         chatCreatedResponse.creator_id,
-        'Start your Chat'
+        'Chat Session Started'
       ).then(res.send(chatCreatedResponse));
     })
     .catch(next);
@@ -270,12 +270,12 @@ app.put('/api/users/:id', (req, res, next) => {
     .catch(next);
 });
 
-app.put('api/users/:id/updatebio', (req, res, next) => {
+app.put('/api/users/:id/updatebio', (req, res, next) => {
   const id = req.params.id;
   db.models.users
     .updatebio(req.body)
     .then((updated) => res.send(updated))
-    .catch(nect);
+    .catch(next);
 });
 
 //////////////////delete////////////////////

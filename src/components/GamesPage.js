@@ -49,11 +49,15 @@ const GamesPage = ({
   });
 
   return (
-    <div id='gamesPage'>
-      <form id='searchGamesForm'>
+    <div id="gamesPage">
+      <form id="searchGamesForm">
         <h3>Games</h3>
-        <div id='dropdownDiv'>
-          <SearchDropdown allGames={allGames} setFiltered={setFiltered} />
+        <div id="dropdownDiv">
+          <SearchDropdown
+            allGames={allGames}
+            setFiltered={setFiltered}
+            auth={auth}
+          />
         </div>
         <h6>
           <AdvancedSearch
@@ -66,15 +70,16 @@ const GamesPage = ({
         <h6>
           <i>Can't find your favorite game? </i>
           <a
-            href='mailto:support@gg-connect.com?Subject=Game%20Support'
-            target='_top'
-            style={greentext}>
+            href="mailto:support@gg-connect.com?Subject=Game%20Support"
+            target="_top"
+            style={greentext}
+          >
             Let Us Know!
           </a>
         </h6>
       </form>
       <p>displaying {filtered.length} games</p>
-      <ul id='gamesList'>
+      <ul id="gamesList">
         {filtered.length > 0 &&
           filtered.map((game) => {
             const addFavorite = async () => {
@@ -89,17 +94,31 @@ const GamesPage = ({
                 })
                 .catch((err) => notifyFailure(game.id));
             };
+            const players = favoriteGames.filter(
+              (favorite) => favorite.gameId === game.id
+            );
             return (
-              <li key={game.id} className='gamesListItem'>
+              <li key={game.id} className="gamesListItem">
                 <Link
                   to={`/games/${game.id}`}
-                  onClick={(ev) => setGameView(game)}>
-                  <img className='gameListItemImage' src={game.image_url} />{' '}
+                  onClick={(ev) => setGameView(game)}
+                >
+                  <img className="gameListItemImage" src={game.image_url} />{' '}
                 </Link>
                 <h5>{game.name}</h5>
+                {players.length === 1 && (
+                  <h6>{<i>{players.length} Users</i>}</h6>
+                )}
+                {players.length !== 1 && (
+                  <h6>{<i>{players.length} Users</i>}</h6>
+                )}
                 {auth && (
                   <div>
-                    <button type='button' onClick={addFavorite}>
+                    <button
+                      type="button"
+                      className="favoriteButton"
+                      onClick={addFavorite}
+                    >
                       <h5>Favorite</h5>
                     </button>
                     <ToastContainer
@@ -109,7 +128,7 @@ const GamesPage = ({
                     />
                   </div>
                 )}
-                <hr className='hr' />
+                <hr className="hr" />
               </li>
             );
           })}

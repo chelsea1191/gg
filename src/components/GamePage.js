@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
   let rating = game.average_user_rating;
 
+  const greentext = { color: 'rgb(0, 200, 0)' };
+
   const notifySuccess = () => {
     toast.success('Success! Added to Favorites', {
       className: 'createUserToastSuccess',
@@ -40,42 +42,52 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
   };
 
   return (
-    <div id='gamePage'>
-      <img className='gameImage' src={game.image_url} />
+    <div id="gamePage">
+      <img className="gameImage" src={game.image_url} />
       <h4>
         <b>{game.name}</b>
       </h4>
-      <hr className='hr' />
-      <h6>
-        <Rating rating={rating} />
-        <span>average rating: {rating}</span> <br />
+      <hr className="hr" />
+      <Rating rating={rating} />
+      <br />
+      <h6 className="gameInfo">
         <i>
-          {game.min_players} - {game.max_players} Players
-        </i>
-        <br />
-        <i> ages {game.min_age} +</i> <br />
-        <i>
-          {game.min_playtime} - {game.max_playtime} minutes playtime
+          <b>Players: </b>
+          {game.min_players} - {game.max_players}
         </i>
         <br />
         <i>
-          Published by: {game.primary_publisher} in {game.year_published}
+          {' '}
+          <b>Ages: </b> {game.min_age} +
+        </i>{' '}
+        <br />
+        <i>
+          <b>Playtime: </b>
+          {game.min_playtime} - {game.max_playtime}
+        </i>
+        <br />
+        <i>
+          <b>Publisher: </b>
+          {game.primary_publisher}
+        </i>
+        <br />
+        <i>
+          <b>Released: </b>
+          {game.year_published}
         </i>
       </h6>
 
-      <button type='button' onClick={addFavorite}>
+      <button type="button" className="favoriteButton" onClick={addFavorite}>
         <h5>Favorite</h5>
       </button>
       <ToastContainer closeButton={false} />
-      <hr className='hr' />
-      <h6>
+      <hr className="hr" />
+      <h6 className="gameBio">
         <i>{game.description}</i>
       </h6>
       <h6>
-        Learn more about this game
-        <a href={game.url} target='_blank'>
-          {' '}
-          here
+        <a href={game.url} target="_blank">
+          <b style={greentext}>Learn More</b>
         </a>
       </h6>
     </div>
