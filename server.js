@@ -54,7 +54,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('chat message', (msg) => {
     const req = JSON.parse(msg);
-    io.sockets.in(req.sender_id).emit('chat message', msg);
+    io.sockets.in(req.chat_id).emit('chat message', msg);
     db.putMessage(
       req.chat_id,
       req.sender_id,

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
-} from 'react-router-dom';
-const geolib = require('geolib');
-import SearchDropdown from './SearchDropdown';
-import AdvancedSearch from './AdvancedSearch';
-import UserProfile from './UserProfile';
-import axios from 'axios';
+} from 'react-router-dom'
+const geolib = require('geolib')
+import SearchDropdown from './SearchDropdown'
+import AdvancedSearch from './AdvancedSearch'
+import UserProfile from './UserProfile'
+import axios from 'axios'
 
 const FindPlayers = ({
   allGames,
@@ -28,27 +28,27 @@ const FindPlayers = ({
   // WHEN TEXT INPUT OR FAVORITE SELECTOR/ADVANCED SEARCH IS CHANGED,
   // SEARCH MUST BE ALTERED TO FORMAT FOR SEARCH PARAMETERS
   // ON FORM SUBMIT, RETURNS LIST OF ALL USERS THAT MATCH SEARCH
-  const greentext = { color: 'rgb(0, 200, 0)' };
-  const link = 'findPlayers';
-  const [distance, setDistance] = useState();
-  const [results, setResults] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [favoriteGames, setFavoriteGames] = useState([]);
+  const greentext = { color: 'rgb(0, 200, 0)' }
+  const link = 'findPlayers'
+  const [distance, setDistance] = useState()
+  const [results, setResults] = useState([])
+  const [filtered, setFiltered] = useState([])
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [favoriteGames, setFavoriteGames] = useState([])
 
-  const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
+  const authLocation = { latitude: auth.latitude, longitude: auth.longitude }
 
   useEffect(() => {
-    const results = JSON.parse(window.localStorage.getItem('results'));
+    const results = JSON.parse(window.localStorage.getItem('results'))
     if (results) {
-      setResults(results);
+      setResults(results)
     }
-  }, []);
+  }, [])
   useEffect(() => {
     axios.get('/api/favoritegames').then((response) => {
-      setFavoriteGames(response.data);
-    });
-  }, []);
+      setFavoriteGames(response.data)
+    })
+  }, [])
 
   const findDistance = (player) => {
     return (
@@ -56,71 +56,71 @@ const FindPlayers = ({
         latitude: player.latitude,
         longitude: player.longitude,
       }) / 1609.344
-    ).toFixed(0);
-  };
+    ).toFixed(0)
+  }
 
-  const handleChatClick = async (user) => {};
+  const handleChatClick = async (user) => {}
 
   const handleDistance = (e) => {
-    e.preventDefault();
-    setIsSubmitted(false);
+    e.preventDefault()
+    setIsSubmitted(false)
     //console.log(e.target.value);
     if (e.target.value === 'any') {
-      setDistance(Number.MAX_VALUE);
+      setDistance(Number.MAX_VALUE)
     } else {
-      setDistance(e.target.value * 1);
+      setDistance(e.target.value * 1)
     }
-  };
+  }
 
   const handleSelectFavorite = (e) => {
-    setIsSubmitted(false);
+    setIsSubmitted(false)
     const selection = allGames.filter((each) => {
       if (each.id === e.target.value) {
-        return each;
+        return each
       }
-    });
-    setFiltered(selection);
-  };
+    })
+    setFiltered(selection)
+  }
 
   const searchForUsers = (e) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-    let arrayOfFilteredFavGames = [];
-    let arrayOfFavUserIds = [];
-    let arrayOfUniqueFavUserIds = [];
+    e.preventDefault()
+    setIsSubmitted(true)
+    let arrayOfFilteredFavGames = []
+    let arrayOfFavUserIds = []
+    let arrayOfUniqueFavUserIds = []
     filtered.forEach((filteredGame) => {
       favoriteGames.forEach((favGame) => {
         if (filteredGame.id === favGame.gameId) {
-          arrayOfFilteredFavGames.push(favGame);
+          arrayOfFilteredFavGames.push(favGame)
         }
-      });
-    });
+      })
+    })
     arrayOfFilteredFavGames.forEach((filteredFavGame) => {
-      arrayOfFavUserIds.push(filteredFavGame.userId);
-    });
+      arrayOfFavUserIds.push(filteredFavGame.userId)
+    })
     arrayOfUniqueFavUserIds = arrayOfFavUserIds.filter(
       (v, i, a) => a.indexOf(v) === i
-    );
+    )
     const otherUsers = arrayOfUniqueFavUserIds.filter(
       (userId) => userId !== auth.id
-    );
-    const arrayOfOtherUserObjs = [];
+    )
+    const arrayOfOtherUserObjs = []
     users.forEach((user) => {
       otherUsers.forEach((otherUser) => {
         if (otherUser === user.id) {
-          arrayOfOtherUserObjs.push(user);
+          arrayOfOtherUserObjs.push(user)
         }
-      });
-    });
+      })
+    })
     arrayOfOtherUserObjs.forEach((otherUser) => {
-      otherUser.distanceFromAuth = findDistance(otherUser) * 1;
-    });
+      otherUser.distanceFromAuth = findDistance(otherUser) * 1
+    })
     const userResults = arrayOfOtherUserObjs.filter(
       (u) => u.distanceFromAuth < distance
-    );
-    setResults(userResults);
-    window.localStorage.setItem('results', JSON.stringify(userResults));
-  };
+    )
+    setResults(userResults)
+    window.localStorage.setItem('results', JSON.stringify(userResults))
+  }
   //console.log(auth);
 
   if (auth.id) {
@@ -163,11 +163,11 @@ const FindPlayers = ({
                   <option key={eachFavGame.id} value={eachFavGame.gameId}>
                     {allGames.map((each) => {
                       if (each.id === eachFavGame.gameId) {
-                        return each.name;
+                        return each.name
                       }
                     })}
                   </option>
-                );
+                )
               }
             })}
           </select>
@@ -177,7 +177,7 @@ const FindPlayers = ({
             id="distance-options"
             name="Distance"
             onChange={(e) => {
-              handleDistance(e);
+              handleDistance(e)
             }}
           >
             <option value="default">Select a Distance</option>
@@ -222,6 +222,11 @@ const FindPlayers = ({
                       <div className="userListInfo">
                         <h5>
                           <b>{user.username}</b>{' '}
+                          {user.isOnline ? (
+                            <span className="dot-green"></span>
+                          ) : (
+                            <span className="dot-red"></span>
+                          )}
                         </h5>
                         <h6>
                           <i>{user.distanceFromAuth} miles away</i>
@@ -232,8 +237,8 @@ const FindPlayers = ({
                           <Link
                             to={`/chat/${user.id}`}
                             onClick={() => {
-                              setUser(user);
-                              handleChatClick(user);
+                              setUser(user)
+                              handleChatClick(user)
                             }}
                           >
                             <b style={greentext}>Send Chat</b>
@@ -248,16 +253,16 @@ const FindPlayers = ({
                         </span>
                       </div>
                     </li>
-                  );
+                  )
                 }
               })}
           </ul>
         )}
       </div>
-    );
+    )
   } else {
-    return <div id="guestRestricted">waiting</div>;
+    return <div id="guestRestricted">waiting</div>
   }
-};
+}
 
-export default FindPlayers;
+export default FindPlayers
