@@ -30,6 +30,7 @@ const LandingPage = () => {
           <b style={greentext}>Here</b>
         </Link>
       </p>
+      <br />
       <hr className="hr" />
       <h4>Not a member yet?</h4>
       <p>

@@ -18,6 +18,8 @@ const UserProfile = ({
       setFriendships(response.data);
     });
   }, []);
+  console.log(auth);
+
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -122,6 +124,7 @@ const UserProfile = ({
         </button>
       )}
       <hr className='hr' />
+
       <Link
         to={`/users/${user.id}/friends`}
         onClick={(ev) => setFriendsView(user)}>
@@ -147,6 +150,7 @@ const UserProfile = ({
       <hr className='hr' />
 
       <p>{user.bio}</p>
+      {console.log(auth)}
     </div>
   );
 };

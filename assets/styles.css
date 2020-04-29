@@ -17,6 +17,37 @@ main > * {
 
 .userListImage {
   width: 50px;
+  height: 50px;
+  border: 1px solid grey;
+  border-radius: 50%;
+}
+
+#chatHeader {
+  display: flex;
+  align-items: center;
+}
+
+.userChatLink {
+  margin: 0 8px;
+}
+
+.xButton {
+  color: white;
+  width: 24px;
+  background-color: rgb(194, 194, 194);
+  border-radius: 50%;
+  padding: 0px 6px;
+  margin-right: 16px;
+}
+
+.chat-history {
+  max-height: 50vh;
+  overflow-y: scroll;
+  margin: 16px 0;
+  border: 1px solid grey;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: rgb(249, 249, 249);
 }
 
 nav {
@@ -169,7 +200,7 @@ label h6 {
   text-align: center;
   border: 1px solid grey;
   border-radius: 15px;
-  padding: 16px;
+  padding: 16px 16px 32px 16px;
 }
 
 #loginForm {
@@ -499,6 +530,20 @@ option {
   border: 1px solid grey;
 }
 
+.favoritebutton {
+  margin: 16px;
+}
+
+.gameInfo {
+  text-align: left;
+  width: 75%;
+}
+
+.gameBio {
+  margin: 16px;
+  text-align: start;
+}
+
 .userProfile {
   display: flex;
   flex-direction: column;
@@ -510,6 +555,7 @@ option {
   border: 1px solid grey;
   height: 150px;
   width: 150px;
+  border-radius: 50%;
 }
 
 #userSettingsPage {

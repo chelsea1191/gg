@@ -46,12 +46,14 @@ const Dashboard = ({ auth, users }) => {
 
       <div className='icon-container-dashboard'>
         <i className='fas fa-user-friends each-icon-dashboard'></i>
-        <p>number of friends: {friendsCount}</p>
+        <p>Friends: {friendsCount}</p>
       </div>
+
       <div className='icon-container-dashboard'>
         <i className='fas fa-dice-d20 each-icon-dashboard'></i>
-        <p>favorited games: {favGamesCount} </p>
+        <p>Favorited Games: {favGamesCount} </p>
       </div>
+      <br />
       <hr className='hr' />
       <h5>
         <Link className='link' to='/findplayers'>
