@@ -49,6 +49,7 @@ const UserProfile = ({
   return (
     <div id="userSettingsPage">
       <h3>User Settings</h3>
+      <hr className="hr" />
       <Link to={`/users/${auth.id}`} onClick={(ev) => setUserView(auth)}>
         <h5>
           <b style={greentext}>View Profile</b>
@@ -72,11 +73,12 @@ const UserProfile = ({
       <hr className="hr" />
 
       <h5 className="text-center mb-4">
-        <b>Upload Profile Photo!</b>
+        <b>Upload Profile Photo</b>
       </h5>
 
       <FileUpload auth={auth} setAuth={setAuth} />
       <hr className="hr" />
+
       <textarea
         id="updateBio"
         placeholder="Update Bio"
@@ -84,12 +86,12 @@ const UserProfile = ({
         value={userBio}
         onChange={(e) => setUserBio(e.target.value)}
       />
-      <button id="changeButton" onClick={updateBio}>
+      <button className="changeButton" onClick={updateBio}>
         <h5>
           <b>Submit Change</b>
         </h5>
       </button>
-
+      <br />
       <hr className="hr" />
 
       <form id="changePasswordForm" onSubmit={onPassSubmit}>
