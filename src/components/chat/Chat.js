@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import axios from 'axios'
-import FindPlayers from '../FindPlayers'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import axios from 'axios';
+import FindPlayers from '../FindPlayers';
 
 const Chat = ({ auth }) => {
-  const [chats, setChats] = useState([])
-  const [friends, setFriends] = useState([])
-  var friendIdArray = []
-  var friendArray = []
-  var chatsArray = []
+  const [chats, setChats] = useState([]);
+  const [friends, setFriends] = useState([]);
+  var friendIdArray = [];
+  var friendArray = [];
+  var chatsArray = [];
 
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
@@ -18,19 +18,18 @@ const Chat = ({ auth }) => {
             id: eachresponse.id,
             userid: eachresponse.creator_id,
             username: eachresponse.creator_username,
-          })
+          });
         } else if (eachresponse.user_id != auth.id) {
           chatsArray.push({
             id: eachresponse.id,
             userid: eachresponse.user_id,
             username: eachresponse.user_username,
-          })
+          });
         }
-      })
-
-      setChats([...chatsArray])
-    })
-  }, [])
+      });
+      setChats([...chatsArray]);
+    });
+  }, []);
 
   useEffect(() => {
     axios.get(`/api/friendships/${auth.id}`).then((response) => {
@@ -41,22 +40,23 @@ const Chat = ({ auth }) => {
             friendIdArray.push({
               userid: res.userId,
               status: res.status,
-            })
+            });
           } else if (res.friendId != auth.id) {
             friendIdArray.push({
               userid: res.friendId,
               status: res.status,
-            })
+            });
           }
-        })
+        });
       } else {
         friendIdArray.push({
           userid: response.data.id,
-        })
+        });
       }
-    })
-    setFriends([...friendIdArray])
-  }, [])
+    });
+    console.log('friendIdArray: ', [...friendIdArray]);
+    setFriends([...friendIdArray]);
+  }, []);
 
   // useEffect(() => {
   //   if (friends) {
@@ -74,15 +74,15 @@ const Chat = ({ auth }) => {
 
   if ((!chats || chats.length === 0) && friends.length === 0) {
     return (
-      <div id="chatPage">
+      <div id='chatPage'>
         <h3>Chat</h3>
-        <Link to="/findplayers">Find some new players to chat with!</Link>
+        <Link to='/findplayers'>Find some new players to chat with!</Link>
       </div>
-    )
+    );
   } else if (chats.length > 0) {
     // console.log('chats: ', chats)
     return (
-      <div id="chatPage">
+      <div id='chatPage'>
         <h3>Chat</h3>
         <hr></hr>
         Chat with a friend or continue a chat already in progress:
@@ -106,7 +106,7 @@ const Chat = ({ auth }) => {
               })} */}
               <hr></hr>
             </div>
-          )
+          );
         })}
         {friends.map((friend) => {
           if (friend.id != auth.id) {
@@ -116,21 +116,21 @@ const Chat = ({ auth }) => {
                   <Link to={`/chat/${friend.friendId}`}>
                     {friend.username}
                     {friend.isOnline ? (
-                      <span className="dot-green"></span>
+                      <span className='dot-green'></span>
                     ) : (
-                      <span className="dot-red"></span>
+                      <span className='dot-red'></span>
                     )}
                   </Link>
                 </span>
               </div>
-            )
+            );
           }
         })}
       </div>
-    )
+    );
   } else {
     return (
-      <div id="chatPage">
+      <div id='chatPage'>
         <hr></hr>
         Chat with Friends:
         {friends.map((friend) => {
@@ -141,19 +141,19 @@ const Chat = ({ auth }) => {
                   <Link to={`/chat/${friend.friendId}`}>
                     {friend.username}
                     {friend.isOnline ? (
-                      <span className="dot-green"></span>
+                      <span className='dot-green'></span>
                     ) : (
-                      <span className="dot-red"></span>
+                      <span className='dot-red'></span>
                     )}
                   </Link>
                 </span>
               </div>
-            )
+            );
           }
         })}
       </div>
-    )
+    );
   }
-}
+};
 
-export default Chat
+export default Chat;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserGamesPage = ({
   user,
@@ -10,15 +11,20 @@ const UserGamesPage = ({
   auth,
   setGameView,
 }) => {
-  // const addFavorite = async () => {
-  //   const favoriteGamesCopy = [...favoriteGames];
-  //   const newFavoriteGame = await Axios.post('/api/favoritegames', {
-  //     userId: auth.id,
-  //     gameId: game.id,
-  //   }).data;
-  //   console.log('newFavoriteGame: ', newFavoriteGame);
-  //   setFavoriteGames([...favoriteGamesCopy, newFavoriteGame]);
-  // };
+  const notifySuccess = (id) => {
+    toast.success('Success! Added to Favorites', {
+      containerId: id,
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+    });
+  };
+  const notifyFailure = (id) => {
+    toast.success('Error- this game was already in your Favorites', {
+      containerId: id,
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+    });
+  };
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
@@ -33,9 +39,10 @@ const UserGamesPage = ({
         gameId: userFavorite.id,
       })
         .then((res) => {
+          notifySuccess(userFavorite.id);
           setFavoriteGames([...favoriteGamesCopy, res.data]);
         })
-        .catch((err) => alert('you have already favorited this game!'));
+        .catch((err) => notifyFailure(userFavorite.id));
     };
     return (
       <li key={userFavorite.id} className='gamesListItem'>
@@ -49,6 +56,11 @@ const UserGamesPage = ({
         <button type='button' onClick={addFavorite}>
           <h5>Favorite</h5>
         </button>
+        <ToastContainer
+          closeButton={false}
+          enableMultiContainer
+          containerId={userFavorite.id}
+        />
         <hr className='hr' />
       </li>
     );
