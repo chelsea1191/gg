@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import axios from 'axios';
-import FindPlayers from '../FindPlayers';
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import axios from 'axios'
+import FindPlayers from '../FindPlayers'
 
 const Chat = ({ auth }) => {
-<<<<<<< HEAD
   const [chats, setChats] = useState([])
   const [friends, setFriends] = useState([])
   const [friendId, setFriendId] = useState([])
@@ -12,13 +11,6 @@ const Chat = ({ auth }) => {
   var friendArray = []
   var chatsArray = []
   var friendIdArray = []
-=======
-  const [chats, setChats] = useState([]);
-  const [friends, setFriends] = useState([]);
-  var friendIdArray = [];
-  var friendArray = [];
-  var chatsArray = [];
->>>>>>> master
 
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
@@ -28,15 +20,14 @@ const Chat = ({ auth }) => {
             id: eachresponse.id,
             userid: eachresponse.creator_id,
             username: eachresponse.creator_username,
-          });
+          })
         } else if (eachresponse.user_id != auth.id) {
           chatsArray.push({
             id: eachresponse.id,
             userid: eachresponse.user_id,
             username: eachresponse.user_username,
-          });
+          })
         }
-<<<<<<< HEAD
       })
       setChats([...chatsArray])
     })
@@ -64,45 +55,11 @@ const Chat = ({ auth }) => {
       })
     })
   }, [])
-=======
-      });
-      setChats([...chatsArray]);
-    });
-  }, []);
-
-  useEffect(() => {
-    axios.get(`/api/friendships/${auth.id}`).then((response) => {
-      if (response.data.length > 1) {
-        response.data.map((res) => {
-          //     console.log(res)
-          if (res.userId != auth.id) {
-            friendIdArray.push({
-              userid: res.userId,
-              status: res.status,
-            });
-          } else if (res.friendId != auth.id) {
-            friendIdArray.push({
-              userid: res.friendId,
-              status: res.status,
-            });
-          }
-        });
-      } else {
-        friendIdArray.push({
-          userid: response.data.id,
-        });
-      }
-    });
-    console.log('friendIdArray: ', [...friendIdArray]);
-    setFriends([...friendIdArray]);
-  }, []);
->>>>>>> master
 
   if (!chats || chats.length === 0) {
     return (
-      <div id='chatPage'>
+      <div id="chatPage">
         <h3>Chat</h3>
-<<<<<<< HEAD
         <Link to="/findplayers">Find some new players to chat with!</Link>
         <div>
           Or Friends
@@ -130,14 +87,11 @@ const Chat = ({ auth }) => {
             }
           })}
         </div>
-=======
-        <Link to='/findplayers'>Find some new players to chat with!</Link>
->>>>>>> master
       </div>
-    );
+    )
   } else if (chats.length > 0) {
     return (
-      <div id='chatPage'>
+      <div id="chatPage">
         <h3>Chat</h3>
         <hr></hr>
         Chat with a friend or continue a chat already in progress:
@@ -167,7 +121,7 @@ const Chat = ({ auth }) => {
 
               <hr></hr>
             </div>
-          );
+          )
         })}
         Friends:
         {friends.map((friend) => {
@@ -175,19 +129,12 @@ const Chat = ({ auth }) => {
             return (
               <div key={friend.friend.id}>
                 <span>
-<<<<<<< HEAD
                   <Link to={`/chat/${friend.friend.id}`}>
                     {friend.friend.username}
                     {friend.friend.isOnline ? (
                       <span className="dot-green"></span>
-=======
-                  <Link to={`/chat/${friend.friendId}`}>
-                    {friend.username}
-                    {friend.isOnline ? (
-                      <span className='dot-green'></span>
->>>>>>> master
                     ) : (
-                      <span className='dot-red'></span>
+                      <span className="dot-red"></span>
                     )}
                   </Link>
                   <div>
@@ -197,43 +144,19 @@ const Chat = ({ auth }) => {
                   </div>
                 </span>
               </div>
-            );
+            )
           }
         })}
       </div>
-    );
+    )
   } else {
     return (
-<<<<<<< HEAD
       <div id="chatPage">
         <h3>Chat</h3>
         <Link to="/findplayers">Find some new players to chat with!</Link>
-=======
-      <div id='chatPage'>
-        <hr></hr>
-        Chat with Friends:
-        {friends.map((friend) => {
-          if (friend.id != auth.id) {
-            return (
-              <div key={friend.friendId}>
-                <span>
-                  <Link to={`/chat/${friend.friendId}`}>
-                    {friend.username}
-                    {friend.isOnline ? (
-                      <span className='dot-green'></span>
-                    ) : (
-                      <span className='dot-red'></span>
-                    )}
-                  </Link>
-                </span>
-              </div>
-            );
-          }
-        })}
->>>>>>> master
       </div>
-    );
+    )
   }
-};
+}
 
-export default Chat;
+export default Chat
