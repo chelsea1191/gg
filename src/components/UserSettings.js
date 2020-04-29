@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import FileUpload from './FileUpload';
+import Location from './Location';
 
 const UserProfile = ({
   auth,
@@ -10,11 +11,14 @@ const UserProfile = ({
   setUserView,
   users,
   setUsers,
+  location,
+  setLocation,
 }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [firstpass, setfirstpass] = useState('');
   const [secondpass, setsecondpass] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
+
   const onPassSubmit = (ev) => {
     ev.preventDefault();
     if (firstpass === secondpass) {
@@ -28,9 +32,17 @@ const UserProfile = ({
   const updateBio = async () => {
     let user = { ...auth };
     user.bio = userBio;
-    const updatedUser = (
-      await axios.put(`/api/users/${auth.id}/updatebio`, user)
-    ).data;
+    let updatedUser = (await axios.put(`/api/users/${auth.id}/updatebio`, user))
+      .data;
+    setAuth(updatedUser);
+  };
+
+  const updateLocation = async () => {
+    let user = { ...auth };
+    user.latitude = location[0];
+    user.longitude = location[1];
+    let updatedUser = (await axios.put(`/api/users/${auth.id}/updateloc`, user))
+      .data;
     setAuth(updatedUser);
   };
 
@@ -107,6 +119,18 @@ const UserProfile = ({
           </p>
         )}
       </form>
+      <hr className="hr" />
+      <div id="updateLoc">
+        <h5>
+          <b>Update Location</b>
+        </h5>
+        <Location location={location} setLocation={setLocation} />
+        <button id="changeButton" onClick={updateLocation}>
+          <h5>
+            <b>Submit Change</b>
+          </h5>
+        </button>
+      </div>
     </div>
   );
 };

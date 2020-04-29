@@ -186,6 +186,9 @@ export default function CreateUser({
           maxLength="300"
         />
         <hr className="hr" />
+        <h5>
+          <b>Where are you located?</b>
+        </h5>
         <Location location={location} setLocation={setLocation} />
         <hr className="hr" />
         <h5>

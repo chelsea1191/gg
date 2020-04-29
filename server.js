@@ -280,6 +280,14 @@ app.put('/api/users/:id/updatebio', (req, res, next) => {
     .catch(next);
 });
 
+app.put('/api/users/:id/updateloc', (req, res, next) => {
+  const id = req.params.id;
+  db.models.users
+    .updateloc(req.body)
+    .then((updated) => res.send(updated))
+    .catch(next);
+});
+
 //////////////////delete////////////////////
 // app.delete("/api/users/:id", (req, res, next) => {
 //   db.deleteUser(req.params.id)
