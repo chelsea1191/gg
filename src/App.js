@@ -52,6 +52,10 @@ const App = () => {
   }, [auth]);
 
   useEffect(() => {
+    console.log(auth);
+  }, [auth]);
+
+  useEffect(() => {
     axios.get('/api/users').then((response) => {
       setUsers(response.data);
     });
@@ -198,7 +202,9 @@ const App = () => {
 
                 <Route path="/games">
                   <GamesPage
-                    //auth={auth}
+                    auth={auth}
+                    favoriteGames={favoriteGames}
+                    setFavoriteGames={setFavoriteGames}
                     allGames={allGames}
                     setGameView={setGameView}
                     //favoriteGames={favoriteGames}

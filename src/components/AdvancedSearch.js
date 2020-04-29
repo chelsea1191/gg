@@ -76,11 +76,18 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
       <Card id="advSearchCard">
         <Card.Header id="advSearchHeader">
           <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            <b style={greentext}>Advanced Search</b>
+            <h5>
+              <b style={greentext}>Advanced Search</b>
+            </h5>
           </Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
           <Card.Body id="advSearchBody">
+            <h6>
+              <i>Search by Game Category</i>
+            </h6>
+            <br />
+            <hr className="hr" />
             <div className="advGameType">
               <h5>Game Type</h5>
               <label className="checkbox" htmlFor="advBoardgamesCheckbox">
@@ -148,7 +155,7 @@ const AdvancedSearch = ({ allGames, setFiltered, filtered, link }) => {
                   />
                   <h6>4</h6>
                 </label>
-                <label className="checkbox" htmlFor="advPlayers4checkbox">
+                <label className="checkbox" htmlFor="advPlayers5checkbox">
                   <input
                     type="checkbox"
                     id="advPlayers4checkbox"
