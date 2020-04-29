@@ -102,6 +102,7 @@ export default function CreateUser({
   };
   const checkIfAllComplete = (e) => {
     e.preventDefault();
+
     if (
       e.target[0].value &&
       e.target[1].value &&
@@ -110,7 +111,6 @@ export default function CreateUser({
       e.target[4].value &&
       e.target[5].value &&
       e.target[6].value &&
-      (e.target[8].value || e.target[9].value || e.target[10].value) &&
       e.target[11].value &&
       location.length > 0
     ) {
@@ -147,7 +147,6 @@ export default function CreateUser({
         onSubmit={(e) => {
           let result = checkIfAllComplete(e);
           if (result) {
-            console.log('passed test');
             handleSubmit(e);
           }
         }}>
