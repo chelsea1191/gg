@@ -44,6 +44,7 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [userFriends, setUserFriends] = useState([]); //remove?
   const [userFavorites, setUserFavorites] = useState([]);
+  const [location, setLocation] = useState([]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
@@ -363,6 +364,8 @@ const App = () => {
                     setUserView={setUserView}
                     users={users}
                     setUsers={setUsers}
+                    location={location}
+                    setLocation={setLocation}
                   />
                 </Route>
                 <Route path="/about">
