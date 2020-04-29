@@ -219,7 +219,7 @@ app.post('/api/createchat', (req, res, next) => {
       db.createMessage(
         chatCreatedResponse.id,
         chatCreatedResponse.creator_id,
-        'Start your Chat'
+        'Chat Session Started'
       ).then(res.send(chatCreatedResponse));
     })
     .catch(next);

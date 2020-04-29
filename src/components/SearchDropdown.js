@@ -1,7 +1,8 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import AdvancedSearch from './AdvancedSearch';
 
-const SearchDropdown = ({ allGames, setFiltered, link }) => {
+const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
   const reset = (ev) => {
     ev.preventDefault();
     setFiltered(allGames);
@@ -30,9 +31,20 @@ const SearchDropdown = ({ allGames, setFiltered, link }) => {
         selectHintOnEnter
         highlightOnlyResult
       />
+      {auth.id && (
+        <div>
+          <AdvancedSearch
+            link={link}
+            filtered={filtered}
+            allGames={allGames}
+            setFiltered={setFiltered}
+          />
+        </div>
+      )}
+
       {link != 'createUser' && (
         <button id="resetButton" onClick={(ev) => reset(ev)}>
-          <h5>Show All Games</h5>
+          <h5>Clear Filters</h5>
         </button>
       )}
     </Fragment>
