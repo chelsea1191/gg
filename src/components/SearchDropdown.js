@@ -23,11 +23,11 @@ const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
   return (
     <Fragment>
       <Typeahead
-        id="custom-selections-example"
-        labelKey="name"
+        id='custom-selections-example'
+        labelKey='name'
         onChange={onChange} //
         options={allGames}
-        placeholder="Choose a game..."
+        placeholder='Choose a game...'
         selectHintOnEnter
         highlightOnlyResult
       />
@@ -42,9 +42,14 @@ const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
         </div>
       )}
 
-      {link != 'createUser' && (
-        <button id="resetButton" onClick={(ev) => reset(ev)}>
+      {link === 'allGames' && link != 'createUser' && (
+        <button id='resetButton' onClick={(ev) => reset(ev)}>
           <h5>Clear Filters</h5>
+        </button>
+      )}
+      {link === 'findPlayers' && link != 'createUser' && (
+        <button id='resetButton' onClick={(ev) => reset(ev)}>
+          <h5>Clear Filters/ Search All</h5>
         </button>
       )}
     </Fragment>

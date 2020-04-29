@@ -11,6 +11,7 @@ import SearchDropdown from './SearchDropdown';
 import AdvancedSearch from './AdvancedSearch';
 import UserProfile from './UserProfile';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const FindPlayers = ({
   allGames,
@@ -37,6 +38,14 @@ const FindPlayers = ({
   const [favoriteGames, setFavoriteGames] = useState([]);
 
   const authLocation = { latitude: auth.latitude, longitude: auth.longitude };
+
+  const notifyFailure = () => {
+    toast.success('Error- please select both a games and a distance value', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+      //hideProgressBar: false,
+    });
+  };
 
   useEffect(() => {
     const results = JSON.parse(window.localStorage.getItem('results'));
@@ -84,55 +93,62 @@ const FindPlayers = ({
 
   const searchForUsers = (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    let arrayOfFilteredFavGames = [];
-    let arrayOfFavUserIds = [];
-    let arrayOfUniqueFavUserIds = [];
-    filtered.forEach((filteredGame) => {
-      favoriteGames.forEach((favGame) => {
-        if (filteredGame.id === favGame.gameId) {
-          arrayOfFilteredFavGames.push(favGame);
-        }
+    //setIsSubmitted(true);
+    if (filtered.length === 0 || distance === undefined) {
+      notifyFailure();
+    } else {
+      setIsSubmitted(true);
+      console.log('search games: ', filtered);
+      console.log('search distance: ', distance);
+      let arrayOfFilteredFavGames = [];
+      let arrayOfFavUserIds = [];
+      let arrayOfUniqueFavUserIds = [];
+      filtered.forEach((filteredGame) => {
+        favoriteGames.forEach((favGame) => {
+          if (filteredGame.id === favGame.gameId) {
+            arrayOfFilteredFavGames.push(favGame);
+          }
+        });
       });
-    });
-    arrayOfFilteredFavGames.forEach((filteredFavGame) => {
-      arrayOfFavUserIds.push(filteredFavGame.userId);
-    });
-    arrayOfUniqueFavUserIds = arrayOfFavUserIds.filter(
-      (v, i, a) => a.indexOf(v) === i
-    );
-    const otherUsers = arrayOfUniqueFavUserIds.filter(
-      (userId) => userId !== auth.id
-    );
-    const arrayOfOtherUserObjs = [];
-    users.forEach((user) => {
-      otherUsers.forEach((otherUser) => {
-        if (otherUser === user.id) {
-          arrayOfOtherUserObjs.push(user);
-        }
+      arrayOfFilteredFavGames.forEach((filteredFavGame) => {
+        arrayOfFavUserIds.push(filteredFavGame.userId);
       });
-    });
-    arrayOfOtherUserObjs.forEach((otherUser) => {
-      otherUser.distanceFromAuth = findDistance(otherUser) * 1;
-    });
-    const userResults = arrayOfOtherUserObjs.filter(
-      (u) => u.distanceFromAuth < distance
-    );
-    setResults(userResults);
-    window.localStorage.setItem('results', JSON.stringify(userResults));
+      arrayOfUniqueFavUserIds = arrayOfFavUserIds.filter(
+        (v, i, a) => a.indexOf(v) === i
+      );
+      const otherUsers = arrayOfUniqueFavUserIds.filter(
+        (userId) => userId !== auth.id
+      );
+      const arrayOfOtherUserObjs = [];
+      users.forEach((user) => {
+        otherUsers.forEach((otherUser) => {
+          if (otherUser === user.id) {
+            arrayOfOtherUserObjs.push(user);
+          }
+        });
+      });
+      arrayOfOtherUserObjs.forEach((otherUser) => {
+        otherUser.distanceFromAuth = findDistance(otherUser) * 1;
+      });
+      const userResults = arrayOfOtherUserObjs.filter(
+        (u) => u.distanceFromAuth < distance
+      );
+      setResults(userResults);
+      window.localStorage.setItem('results', JSON.stringify(userResults));
+    }
   };
   //console.log(auth);
 
   if (auth.id) {
     return (
-      <div className="findPlayersPage">
-        <form id="findPlayersForm">
+      <div className='findPlayersPage'>
+        <form id='findPlayersForm'>
           <h3>Find Players</h3>
-          <hr className="hr" />
+          <hr className='hr' />
           <h5>
             <b>What do you want to play?</b>
           </h5>
-          <div id="dropdownDiv">
+          <div id='dropdownDiv'>
             <SearchDropdown
               link={link}
               filtered={filtered}
@@ -149,12 +165,11 @@ const FindPlayers = ({
 
           {favoriteGames.length > 0 && <h6>-- or --</h6>}
           <select
-            className="select"
-            id="fav-game-options"
-            name="Favorited Game"
-            onChange={(e) => handleSelectFavorite(e)}
-          >
-            <option value="default">Pick a Favorite Game</option>
+            className='select'
+            id='fav-game-options'
+            name='Favorited Game'
+            onChange={(e) => handleSelectFavorite(e)}>
+            <option value='default'>Pick a Favorite Game</option>
             {/* the below function is slower than the page loading.... so it creates an error sometimes that reads Cannot read property 'userId' of undefined*/}
             {favoriteGames.map((eachFavGame) => {
               if (eachFavGame.userId === auth.id) {
@@ -171,30 +186,30 @@ const FindPlayers = ({
             })}
           </select>
           <br />
-          <hr className="hr" />
+          <hr className='hr' />
           <select
-            className="select"
-            id="distance-options"
-            name="Distance"
+            className='select'
+            id='distance-options'
+            name='Distance'
             onChange={(e) => {
               handleDistance(e);
-            }}
-          >
-            <option value="default">Select a Distance</option>
-            <option value="any">Any</option>
-            <option value="5">5 miles</option>
-            <option value="10">10 miles</option>
-            <option value="25">25 miles</option>
-            <option value="50">50 miles</option>
-            <option value="100">100 miles</option>
+            }}>
+            <option value='default'>Select a Distance</option>
+            <option value='any'>Any</option>
+            <option value='5'>5 miles</option>
+            <option value='10'>10 miles</option>
+            <option value='25'>25 miles</option>
+            <option value='50'>50 miles</option>
+            <option value='100'>100 miles</option>
           </select>
-          <button className="searchButton" onClick={(e) => searchForUsers(e)}>
+          <button className='searchButton' onClick={(e) => searchForUsers(e)}>
             <h5>Search</h5>
             {/* Can we/should we gray out/inactivate this button if no search parameters were selected?*/}
           </button>
+          <ToastContainer closeButton={false} />
         </form>
 
-        <div id="resultsHeader">
+        <div id='resultsHeader'>
           {isSubmitted === true && results.length === 1 && (
             <h4>
               <b>{results.length} Player in the Area</b>
@@ -208,7 +223,7 @@ const FindPlayers = ({
           )}
         </div>
         {isSubmitted === true && (
-          <ul id="playersList">
+          <ul id='playersList'>
             {isSubmitted === true && results.length === 0 && (
               <p>no results found- please widen your search area</p>
             )}
@@ -217,15 +232,15 @@ const FindPlayers = ({
                 if (user.id !== auth.id) {
                   //console.log(user);
                   return (
-                    <li key={user.id} className="userResults">
-                      <img src={`${user.avatar}`} className="userListImage" />
-                      <div className="userListInfo">
+                    <li key={user.id} className='userResults'>
+                      <img src={`${user.avatar}`} className='userListImage' />
+                      <div className='userListInfo'>
                         <h5>
                           <b>{user.username}</b>{' '}
                           {user.isOnline ? (
-                            <span className="dot-green"></span>
+                            <span className='dot-green'></span>
                           ) : (
-                            <span className="dot-red"></span>
+                            <span className='dot-red'></span>
                           )}
                         </h5>
                         <h6>
@@ -239,15 +254,13 @@ const FindPlayers = ({
                             onClick={() => {
                               setUser(user);
                               handleChatClick(user);
-                            }}
-                          >
+                            }}>
                             <b style={greentext}>Send Chat</b>
                           </Link>
                           <br />
                           <Link
                             to={`/users/${user.id}`}
-                            onClick={(ev) => setUserView(user)}
-                          >
+                            onClick={(ev) => setUserView(user)}>
                             <b style={greentext}>View Profile</b>
                           </Link>
                         </span>
@@ -261,7 +274,7 @@ const FindPlayers = ({
       </div>
     );
   } else {
-    return <div id="guestRestricted">waiting</div>;
+    return <div id='guestRestricted'>waiting</div>;
   }
 };
 
