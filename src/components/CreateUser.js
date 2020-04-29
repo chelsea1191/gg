@@ -243,6 +243,7 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
+        <br />
         <hr className="hr" />
         <button type="submit" id="createUserButton">
           <h5>Create User</h5>

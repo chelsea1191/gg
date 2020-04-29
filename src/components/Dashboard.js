@@ -36,12 +36,12 @@ const Dashboard = ({ auth, friendships, users }) => {
       <div>
         <h3>Welcome back, {auth.firstname}!</h3>
       </div>
-
+      <hr className="hr" />
       <div className="icon-container-dashboard">
         <i className="fas fa-user-friends each-icon-dashboard"></i>
         <p>Friends: {friendsCount}</p>
       </div>
-
+      <br />
       <div className="icon-container-dashboard">
         <i className="fas fa-dice-d20 each-icon-dashboard"></i>
         <p>Favorited Games: {favGamesCount} </p>

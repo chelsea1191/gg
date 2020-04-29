@@ -52,6 +52,7 @@ const GamesPage = ({
     <div id="gamesPage">
       <form id="searchGamesForm">
         <h3>Games</h3>
+        <hr className="hr"></hr>
         <div id="dropdownDiv">
           <SearchDropdown
             allGames={allGames}
@@ -59,14 +60,7 @@ const GamesPage = ({
             auth={auth}
           />
         </div>
-        <h6>
-          <AdvancedSearch
-            filtered={filtered}
-            link={link}
-            setFiltered={setFiltered}
-            allGames={allGames}
-          />
-        </h6>
+        <br />
         <h6>
           <i>Can't find your favorite game? </i>
           <a
@@ -78,7 +72,11 @@ const GamesPage = ({
           </a>
         </h6>
       </form>
-      <p>displaying {filtered.length} games</p>
+      <br />
+      <h4>
+        <b>Displaying {filtered.length} Games</b>
+      </h4>
+      <br />
       <ul id="gamesList">
         {filtered.length > 0 &&
           filtered.map((game) => {
