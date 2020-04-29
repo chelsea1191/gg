@@ -19,6 +19,7 @@ import Loading from './components/Loading'
 import Dashboard from './components/Dashboard'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import 'react-bootstrap-typeahead/css/Typeahead.css' //icon
+import 'react-toastify/dist/ReactToastify.css'
 
 const headers = () => {
   const token = window.localStorage.getItem('token')

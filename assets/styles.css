@@ -760,3 +760,25 @@ input[type='checkbox'] {
     height: 32px;
   }
 }
+.createUserToastSuccess {
+  display: flex;
+  background-color: 00c802;
+  padding: 5px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+.createUserToastFailure {
+  display: flex;
+  background-color: red;
+  padding: 5px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+.passFail {
+  color: red;
+  font-weight: bold;
+}
+.passSuccess {
+  color: green;
+  font-weight: bold;
+}
