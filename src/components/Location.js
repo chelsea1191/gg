@@ -1,33 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-////////////////LOCATION BUGS//////////////////////
-
-// -- With zip code entry, use Google API for geocoding to translate zip
-//    to GPS coordinates and add that to user table
-// -- Try to get rid of failed network request that shows in console when
-//    navigating to create user page
-// -- NOT LOCATION RELATED BUT.... can we auto log in/redirect once user is
-//    created?
-
-// RESOLVED
-// -- If location isn't found, preloader spins forever and user has no
-//    other options (maybe add a try catch that allows for zip code entry)
-// -- If not all 7 pieces returns from reverse geolocation, user info gets input
-//    incorrecly (look at current solution - had some odd effects on deployed
-//    version - maybe use the "type" property to make sure we are getting
-//    the correct location type
-// -- Possibly just add zip code option for everyone if they decline
-//    location services
-//    )
-
 const Location = ({ location, setLocation }) => {
   const [showButton, setShowButton] = useState(true);
   const [prettyLocation, setPrettyLocation] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [userZip, setUserZip] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const lat = location[0];
@@ -39,6 +19,7 @@ const Location = ({ location, setLocation }) => {
     &result_type=street_address&key=AIzaSyB6t8sOhNrUAme5F7mx0NdTSeGhmYCxUL4`
       )
       .then((results) => {
+        console.log('google api reverse geolocation', results);
         let addressResults = results.data.results[0].address_components;
         console.log('address results are', addressResults);
         const cityResult = addressResults.filter(
@@ -61,6 +42,7 @@ const Location = ({ location, setLocation }) => {
         setIsLoading(false);
       })
       .catch((err) => {
+        console.warn(err);
         if (location.length > 0) {
           setIsLoading(false);
           setHasError(true);
@@ -71,7 +53,7 @@ const Location = ({ location, setLocation }) => {
   useEffect(() => {
     axios
       .get(
-        `http://open.mapquestapi.com/geocoding/v1/address?key=gQoK5fh8GLGbempuLj7nGzwFX879y7Ot&location=${userZip}`
+        `https://open.mapquestapi.com/geocoding/v1/address?key=gQoK5fh8GLGbempuLj7nGzwFX879y7Ot&location=${userZip}`
       )
       .then((results) => {
         console.log(results.data.results[0].locations[0].displayLatLng);
@@ -82,11 +64,6 @@ const Location = ({ location, setLocation }) => {
         console.log(longFromZip);
         setLocation([latFromZip, longFromZip]);
       });
-
-    // in useeffect, access the google api, send the zip, and get back
-    //    the lat/long
-    // set lat/long as location - at create user, that should be sent to db
-    //    just like if it came in the other way
   }, [userZip]);
 
   const handleClick = () => {
@@ -127,9 +104,6 @@ const Location = ({ location, setLocation }) => {
 
   return (
     <div>
-      <h5>
-        <b>Where are you located?</b>
-      </h5>
       <button
         id="locationButton"
         type="button"
@@ -146,7 +120,10 @@ const Location = ({ location, setLocation }) => {
         </div>
       )}
       {isSubmitted && (
-        <div id="location">
+        <div
+          id="location"
+          style={{ display: userZip.length < 5 ? 'inline-block' : 'none' }}
+        >
           {prettyLocation} <img id="small-check" src="./assets/check.png" />
         </div>
       )}

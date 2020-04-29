@@ -270,6 +270,12 @@ label h6 {
   margin: 16px;
 }
 
+#location {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #searchGames {
   display: flex;
   flex-direction: column;
@@ -609,6 +615,15 @@ option {
   padding: 8px 16px;
 }
 
+#updateLoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 32px 16px 32px;
+  width: 100%;
+  padding: 8px 16px;
+}
+
 #advGameType {
   display: flex;
   flex-direction: column;
@@ -839,4 +854,11 @@ input[type='checkbox'] {
 .passSuccess {
   color: green;
   font-weight: bold;
+}
+
+.custom-file-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 80px;
 }
