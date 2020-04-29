@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import axios from 'axios';
-import FindPlayers from '../FindPlayers';
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import axios from 'axios'
+import FindPlayers from '../FindPlayers'
 
 const Chat = ({ auth }) => {
-  const [chats, setChats] = useState([]);
-  const [friends, setFriends] = useState([]);
-  const [friendId, setFriendId] = useState([]);
+  const [chats, setChats] = useState([])
+  const [friends, setFriends] = useState([])
+  const [friendId, setFriendId] = useState([])
   // const [friendArray, setFriendArray] = useState([])
-  var friendArray = [];
-  var chatsArray = [];
-  var friendIdArray = [];
+  var friendArray = []
+  var chatsArray = []
+  var friendIdArray = []
 
-  const greentext = { color: 'rgb(0, 200, 0)' };
+  const greentext = { color: 'rgb(0, 200, 0)' }
 
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
@@ -22,41 +22,40 @@ const Chat = ({ auth }) => {
             id: eachresponse.id,
             userid: eachresponse.creator_id,
             username: eachresponse.creator_username,
-          });
+          })
         } else if (eachresponse.user_id != auth.id) {
           chatsArray.push({
             id: eachresponse.id,
             userid: eachresponse.user_id,
             username: eachresponse.user_username,
-          });
+          })
         }
-      });
-      setChats([...chatsArray]);
-    });
-  }, []);
+      })
+      setChats([...chatsArray])
+    })
+  }, [])
 
   useEffect(() => {
     axios.get(`/api/friendships/${auth.id}`).then((response) => {
-      console.log(response, 'these are the friends so far');
       response.data.map(async (res) => {
         if (res.userId != auth.id) {
-          const response = await axios.get(`/api/user/${res.userId}`);
+          const response = await axios.get(`/api/user/${res.userId}`)
           friendArray.push({
             friend: response.data,
             status: res.sendStatus,
-          });
+          })
         } else if (res.friendId != auth.id) {
-          const response_1 = await axios.get(`/api/user/${res.friendId}`);
+          const response_1 = await axios.get(`/api/user/${res.friendId}`)
           friendArray.push({
             friend: response_1.data,
             status: res.sendStatus,
-          });
+          })
         }
-        console.log(friendArray, 'got my friendArray');
-        setFriends([...friendArray]);
-      });
-    });
-  }, []);
+
+        setFriends([...friendArray])
+      })
+    })
+  }, [])
 
   if (!chats || chats.length === 0) {
     return (
@@ -82,17 +81,17 @@ const Chat = ({ auth }) => {
                     </Link>
                     <div>
                       {friend.status === 'sent'
-                        ? 'Friendship not confirmed yet'
+                        ? 'Friendship not confirmed yet - navigate to their profile and click add to friends to confirm your friendship'
                         : ''}
                     </div>
                   </span>
                 </div>
-              );
+              )
             }
           })}
         </div>
       </div>
-    );
+    )
   } else if (chats.length > 0) {
     return (
       <div id="chatPage">
@@ -119,13 +118,13 @@ const Chat = ({ auth }) => {
                         ''
                       )}
                     </div>
-                  );
+                  )
                 })}
               </Link>
 
               <hr></hr>
             </div>
-          );
+          )
         })}
         Friends:
         {friends.map((friend) => {
@@ -148,19 +147,19 @@ const Chat = ({ auth }) => {
                   </div>
                 </span>
               </div>
-            );
+            )
           }
         })}
       </div>
-    );
+    )
   } else {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
         <Link to="/findplayers">Find some new players to chat with!</Link>
       </div>
-    );
+    )
   }
-};
+}
 
-export default Chat;
+export default Chat
