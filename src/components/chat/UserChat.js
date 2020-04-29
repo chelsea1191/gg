@@ -7,7 +7,7 @@ import moment from 'moment'
 import * as io from 'socket.io-client'
 
 export default function UserChat({ auth, match, setUserView }) {
-  var socket = io.connect()
+  var socket = io.connect({ transports: ['websocket'] })
   const messageArray = []
   const [user, setUser] = useState([])
   const [isTyping, setIsTyping] = useState(false)

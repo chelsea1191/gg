@@ -36,7 +36,7 @@ const Chat = ({ auth }) => {
     axios.get(`/api/friendships/${auth.id}`).then((response) => {
       if (response.data.length > 1) {
         response.data.map((res) => {
-          console.log(res)
+          //     console.log(res)
           if (res.userId != auth.id) {
             friendIdArray.push({
               userid: res.userId,
@@ -80,39 +80,26 @@ const Chat = ({ auth }) => {
       </div>
     )
   } else if (chats.length > 0) {
-    console.log('chats: ', chats)
+    // console.log('chats: ', chats)
     return (
       <div id="chatPage">
         <h3>Chat</h3>
         <hr></hr>
         Chat with a friend or continue a chat already in progress:
         {chats.map((eachChat) => {
-          console.log('eachChat: ', eachChat)
+          //   console.log('eachChat: ', eachChat)
           return (
             <div key={eachChat.id}>
               <Link to={`/chat/${eachChat.userid}`}>{eachChat.username}</Link>
               {/* {friends.map((friend) => {
                 if (friend.id === eachChat.userId) {
                   return (
-<<<<<<< HEAD
                     <div>
                       {friend.isOnline ? (
                         <span className="dot-green"></span>
                       ) : (
                         <span className="dot-red"></span>
                       )}
-=======
-                    <div key={eachUser.id}>
-                      <Link to={`/chat/${eachUser.id}`}>
-                        {eachUser.username}
-                        {eachUser.isOnline ? (
-                          <span className='dot-green'></span>
-                        ) : (
-                          <span className='dot-red'></span>
-                        )}
-                      </Link>
-                      <hr></hr>
->>>>>>> master
                     </div>
                   );
                 }
