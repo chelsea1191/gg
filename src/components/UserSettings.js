@@ -68,7 +68,7 @@ const UserProfile = ({
           {auth.username}
         </h6>
       </div>
-
+      <br />
       <hr className="hr" />
 
       <h5 className="text-center mb-4">

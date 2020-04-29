@@ -234,6 +234,7 @@ export default function CreateUser({
         </h5>
         <div id="dropdownDiv">
           <SearchDropdown
+            auth={auth}
             link={link}
             allGames={allGames}
             setFiltered={setFiltered}
