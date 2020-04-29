@@ -9,11 +9,12 @@ import {
   useParams,
 } from 'react-router-dom';
 
-const Dashboard = ({ auth, friendships, users }) => {
+const Dashboard = ({ auth, users }) => {
   const greentext = { color: 'rgb(0, 200, 0)' };
   const [friendsCount, setFriendsCount] = useState(0);
   const [favGamesCount, setFavGamesCount] = useState(0);
   const [favoriteGames, setFavoriteGames] = useState([]);
+  const [friendships, setFriendships] = useState([]);
 
   useEffect(() => {
     axios.get('/api/favoritegames').then((response) => {
@@ -25,29 +26,35 @@ const Dashboard = ({ auth, friendships, users }) => {
     });
   }, []);
   useEffect(() => {
-    let filteredArray = friendships.filter((each) => {
-      return each.userId === auth.id;
+    axios.get('/api/friendships').then((response) => {
+      setFriendships(response.data);
+      let filteredArray = response.data.filter((each) => {
+        return (
+          (each.userId === auth.id && each.sendStatus === 'confirmed') ||
+          (each.friendId === auth.id && each.sendStatus === 'confirmed')
+        );
+      });
+      setFriendsCount(filteredArray.length);
     });
-    setFriendsCount(filteredArray.length);
   }, []);
 
   return (
-    <div id="guestRestricted">
+    <div id='guestRestricted'>
       <div>
         <h3>Welcome back, {auth.firstname}!</h3>
       </div>
 
-      <div className="icon-container-dashboard">
-        <i className="fas fa-user-friends each-icon-dashboard"></i>
+      <div className='icon-container-dashboard'>
+        <i className='fas fa-user-friends each-icon-dashboard'></i>
         <p>number of friends: {friendsCount}</p>
       </div>
-      <div className="icon-container-dashboard">
-        <i className="fas fa-dice-d20 each-icon-dashboard"></i>
+      <div className='icon-container-dashboard'>
+        <i className='fas fa-dice-d20 each-icon-dashboard'></i>
         <p>favorited games: {favGamesCount} </p>
       </div>
-      <hr className="hr" />
+      <hr className='hr' />
       <h5>
-        <Link className="link" to="/findplayers">
+        <Link className='link' to='/findplayers'>
           <b style={greentext}>Find Players Near You</b>
         </Link>
       </h5>
