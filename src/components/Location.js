@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 ////////////////LOCATION BUGS//////////////////////
-// -- If location isn't found, preloader spins forever and user has no
-//    other options (maybe add a try catch that allows for zip code entry)
-// -- If add zip code entry, use Google API for geocoding to translate zip
+
+// -- With zip code entry, use Google API for geocoding to translate zip
 //    to GPS coordinates and add that to user table
-// -- Possibly just add zip code option for everyone if they decline
-//    location services
 // -- Try to get rid of failed network request that shows in console when
 //    navigating to create user page
 // -- NOT LOCATION RELATED BUT.... can we auto log in/redirect once user is
 //    created?
 
 // RESOLVED
+// -- If location isn't found, preloader spins forever and user has no
+//    other options (maybe add a try catch that allows for zip code entry)
 // -- If not all 7 pieces returns from reverse geolocation, user info gets input
 //    incorrecly (look at current solution - had some odd effects on deployed
 //    version - maybe use the "type" property to make sure we are getting
 //    the correct location type
+// -- Possibly just add zip code option for everyone if they decline
+//    location services
 //    )
 
 const Location = ({ location, setLocation }) => {
@@ -25,8 +26,8 @@ const Location = ({ location, setLocation }) => {
   const [prettyLocation, setPrettyLocation] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const [hasError, setHasError] = useState(false);
+  const [userZip, setUserZip] = useState('');
 
   useEffect(() => {
     const lat = location[0];
@@ -35,7 +36,7 @@ const Location = ({ location, setLocation }) => {
     axios
       .get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}
-    &result_type=street_address&key=AIzaSyCUxDqDqR3PMKAaiBglCz62PAxiRu_evTk`
+    &result_type=street_address&key=AIzaSyB6t8sOhNrUAme5F7mx0NdTSeGhmYCxUL4`
       )
       .then((results) => {
         let addressResults = results.data.results[0].address_components;
@@ -62,13 +63,31 @@ const Location = ({ location, setLocation }) => {
       .catch((err) => {
         if (location.length > 0) {
           setIsLoading(false);
-          setErrorMsg(
-            'Sorry, location could not be determined. Please enter a zip code instead.'
-          );
           setHasError(true);
         }
       });
   }, [location]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://open.mapquestapi.com/geocoding/v1/address?key=gQoK5fh8GLGbempuLj7nGzwFX879y7Ot&location=${userZip}`
+      )
+      .then((results) => {
+        console.log(results.data.results[0].locations[0].displayLatLng);
+        let latFromZip = results.data.results[0].locations[0].displayLatLng.lat;
+        let longFromZip =
+          results.data.results[0].locations[0].displayLatLng.lng;
+        console.log(latFromZip);
+        console.log(longFromZip);
+        setLocation([latFromZip, longFromZip]);
+      });
+
+    // in useeffect, access the google api, send the zip, and get back
+    //    the lat/long
+    // set lat/long as location - at create user, that should be sent to db
+    //    just like if it came in the other way
+  }, [userZip]);
 
   const handleClick = () => {
     setIsLoading(true);
@@ -82,9 +101,6 @@ const Location = ({ location, setLocation }) => {
     } else {
       setIsLoading(false);
       setHasError(true);
-      setErrorMsg(
-        'Sorry, location could not be determined. Please enter a zip code instead.'
-      );
     }
   };
 
@@ -92,9 +108,6 @@ const Location = ({ location, setLocation }) => {
     console.warn(`ERROR(${err.code}): ${err.message}`);
     setIsLoading(false);
     setHasError(true);
-    setErrorMsg(
-      'Sorry, location could not be determined. Please enter a zip code instead.'
-    );
   };
 
   const showPosition = (position) => {
@@ -108,8 +121,7 @@ const Location = ({ location, setLocation }) => {
   const handleZip = (e) => {
     const zipInput = e.target.value;
     if (zipInput.length === 5) {
-      console.log(e.target.value);
-      // This is where I stopped, need to geolocate zip and set to location state
+      setUserZip(zipInput);
     }
   };
 
@@ -126,11 +138,6 @@ const Location = ({ location, setLocation }) => {
       >
         <h5>Locate me!</h5>
       </button>
-      {/* <div>
-        Or, add a zip code instead.
-        <input />
-      </div> */}
-
       {isLoading && (
         <div className="lds-facebook">
           <div></div>
@@ -145,7 +152,8 @@ const Location = ({ location, setLocation }) => {
       )}
       {hasError && (
         <div id="zip">
-          {errorMsg}
+          Sorry, location could not be determined. Please enter a zip code
+          instead.
           <input
             type="text"
             pattern="[0-9]*"

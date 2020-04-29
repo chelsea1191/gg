@@ -58,13 +58,14 @@ export default function CreateUser({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.dir(e.target);
     if (matches) {
       let name = e.target[2].value.toLowerCase();
       let firstname = e.target[0].value;
       let lastname = e.target[1].value;
       let password = e.target[3].value;
       let email = e.target[5].value;
-      let bio = e.target[8].value;
+      let bio = e.target[6].value;
       let newUser = {
         username: name,
         firstname: firstname,
@@ -137,32 +138,33 @@ export default function CreateUser({
   };
 
   return (
-    <div id='createUserPage'>
+    <div id="createUserPage">
       <form
-        id='createUserForm'
+        id="createUserForm"
         //action='/upload'
-        method='POST'
-        encType='multipart/form-data'
+        method="POST"
+        encType="multipart/form-data"
         onSubmit={(e) => {
           let result = checkIfAllComplete(e);
           if (result) {
             handleSubmit(e);
           }
-        }}>
+        }}
+      >
         <h3>Create Account</h3>
-        <input type='text' placeholder='First Name' />
-        <input type='text' placeholder='Last Name' />
-        <input type='text' style={toLowercase} placeholder='Username' />
+        <input type="text" placeholder="First Name" />
+        <input type="text" placeholder="Last Name" />
+        <input type="text" style={toLowercase} placeholder="Username" />
         <input
           value={password1}
-          placeholder='Password'
-          type='password'
+          placeholder="Password"
+          type="password"
           onChange={(ev) => setPassword1(ev.target.value)}
         />
         <input
           value={password2}
-          placeholder='Confirm Password'
-          type='password'
+          placeholder="Confirm Password"
+          type="password"
           onChange={(ev) => {
             setPassword2(ev.target.value);
             if (ev.target.value === password1) {
@@ -173,61 +175,61 @@ export default function CreateUser({
           }}
         />
         {!matches && password2 && (
-          <p className='passFail'>passwords do not match</p>
+          <p className="passFail">passwords do not match</p>
         )}
-        {matches && <p className='passSuccess'>passwords match</p>}
-        <input type='text' placeholder='Email Address' />
+        {matches && <p className="passSuccess">passwords match</p>}
+        <input type="text" placeholder="Email Address" />
 
         <textarea
-          id='bioInput'
-          placeholder='Say something about yourself!'
-          maxLength='300'
+          id="bioInput"
+          placeholder="Say something about yourself!"
+          maxLength="300"
         />
-        <hr className='hr' />
+        <hr className="hr" />
         <Location location={location} setLocation={setLocation} />
-        <hr className='hr' />
+        <hr className="hr" />
         <h5>
           <b>What types of games do you play?</b>
         </h5>
-        <div className='checkBoxes'>
-          <label className='checkbox' htmlFor='boardgamesCheckbox'>
+        <div className="checkBoxes">
+          <label className="checkbox" htmlFor="boardgamesCheckbox">
             <input
-              type='checkbox'
-              id='boardgamesCheckbox'
-              name='gameTypes'
-              value='Board Games'
+              type="checkbox"
+              id="boardgamesCheckbox"
+              name="gameTypes"
+              value="Board Games"
               onChange={handleTypeSelection}
             />
             <h6>Board Games</h6>
           </label>
 
-          <label className='checkbox' htmlFor='tabletopCheckbox'>
+          <label className="checkbox" htmlFor="tabletopCheckbox">
             <input
-              type='checkbox'
-              id='tabletopCheckbox'
-              name='gameTypes'
-              value='Tabletop Games & RPGs'
+              type="checkbox"
+              id="tabletopCheckbox"
+              name="gameTypes"
+              value="Tabletop Games & RPGs"
               onChange={handleTypeSelection}
             />
             <h6>Tabletop Games & RPGs</h6>
           </label>
 
-          <label className='checkbox' htmlFor='cardgamesCheckbox'>
+          <label className="checkbox" htmlFor="cardgamesCheckbox">
             <input
-              type='checkbox'
-              id='cardgamesCheckbox'
-              name='gameTypes'
-              value='Trading Card Games'
+              type="checkbox"
+              id="cardgamesCheckbox"
+              name="gameTypes"
+              value="Trading Card Games"
               onChange={handleTypeSelection}
             />
             <h6>Trading Card Games</h6>
           </label>
         </div>
-        <hr className='hr' />
+        <hr className="hr" />
         <h5>
           <b>What's your favorite game?</b>
         </h5>
-        <div id='dropdownDiv'>
+        <div id="dropdownDiv">
           <SearchDropdown
             link={link}
             allGames={allGames}
@@ -240,8 +242,8 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
-        <hr className='hr' />
-        <button type='submit' id='createUserButton'>
+        <hr className="hr" />
+        <button type="submit" id="createUserButton">
           <h5>Create User</h5>
         </button>
         <ToastContainer closeButton={false} />
@@ -249,11 +251,12 @@ export default function CreateUser({
         <i>
           Remember to Upload a Photo on the User Settings Page!{' '}
           <img
-            src='/assets/settings.png'
-            alt=''
-            width='16'
-            height='16'
-            title='Settings'></img>
+            src="/assets/settings.png"
+            alt=""
+            width="16"
+            height="16"
+            title="Settings"
+          ></img>
         </i>
       </form>
     </div>
