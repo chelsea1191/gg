@@ -42,6 +42,11 @@ const users = {
     const SQL = `UPDATE users SET bio=$1 WHERE id=$2 returning *`;
     return (await client.query(SQL, [user.bio, user.id])).rows[0];
   },
+  updateloc: async (user) => {
+    const SQL = `UPDATE users SET latitude=$1, longitude=$2 WHERE id=$3 returning *`;
+    return (await client.query(SQL, [user.latitude, user.longitude, user.id]))
+      .rows[0];
+  },
   logout: async (id) => {
     const response = await client.query(
       `UPDATE users SET "isOnline" = false WHERE id = $1 returning *`,

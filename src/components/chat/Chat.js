@@ -12,6 +12,8 @@ const Chat = ({ auth }) => {
   var chatsArray = []
   var friendIdArray = []
 
+  const greentext = { color: 'rgb(0, 200, 0)' }
+
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
       response.data.map((eachresponse) => {
@@ -59,9 +61,11 @@ const Chat = ({ auth }) => {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
-        <Link to="/findplayers">Find some new players to chat with!</Link>
+        <hr className="hr" />
+        <Link to="/findplayers">
+          <b style={greentext}>Find and Add Friends to Chat!</b>
+        </Link>
         <div>
-          Or Friends
           {friends.map((friend) => {
             if (friend.friend.id != auth.id) {
               return (

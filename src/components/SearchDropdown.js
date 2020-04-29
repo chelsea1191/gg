@@ -1,6 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import AdvancedSearch from './AdvancedSearch';
+import { useLocation } from 'react-router-dom';
 
 const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
   const reset = (ev) => {
@@ -20,6 +21,9 @@ const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
       setFiltered(allGames);
     }
   };
+
+  const location = useLocation();
+
   return (
     <Fragment>
       <Typeahead
@@ -31,7 +35,7 @@ const SearchDropdown = ({ auth, filtered, allGames, setFiltered, link }) => {
         selectHintOnEnter
         highlightOnlyResult
       />
-      {auth.id && (
+      {location.pathname !== '/register' && (
         <div>
           <AdvancedSearch
             link={link}

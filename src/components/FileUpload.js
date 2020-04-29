@@ -28,7 +28,6 @@ const FileUpload = ({ auth, setAuth }) => {
       setFileName('Choose file');
       const updatedAuth = { ...auth, avatar: url };
       axios.put(`/api/users/${auth.id}`, updatedAuth).then((res) => {
-        console.log('new auth is', res.data);
         setAuth(res.data);
       });
     } catch (err) {

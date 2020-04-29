@@ -186,6 +186,9 @@ export default function CreateUser({
           maxLength="300"
         />
         <hr className="hr" />
+        <h5>
+          <b>Where are you located?</b>
+        </h5>
         <Location location={location} setLocation={setLocation} />
         <hr className="hr" />
         <h5>
@@ -243,6 +246,7 @@ export default function CreateUser({
         <h6>
           <i>Add more Favorites on the Games Page!</i>
         </h6>
+        <br />
         <hr className="hr" />
         <button type="submit" id="createUserButton">
           <h5>Create User</h5>

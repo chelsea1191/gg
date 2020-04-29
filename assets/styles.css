@@ -70,6 +70,8 @@ nav {
 #view {
   margin-top: 75px;
   font-family: 'Alef';
+  display: flex;
+  justify-content: center;
 }
 
 .hr {
@@ -220,7 +222,7 @@ label h6 {
   border: 1px solid grey;
   border-radius: 15px;
   padding: 16px;
-  margin: 32px;
+  margin-top: 32px;
   overflow: scroll;
 }
 
@@ -270,6 +272,12 @@ label h6 {
   margin: 16px;
 }
 
+#location {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #searchGames {
   display: flex;
   flex-direction: column;
@@ -284,8 +292,12 @@ label h6 {
   margin: 16px;
 }
 
-#findPlayersPage {
-  margin: 32px 32px;
+.findPlayersPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
   width: 100%;
   text-align: center;
 }
@@ -563,7 +575,7 @@ option {
   flex-direction: column;
   align-items: center;
   margin: 32px 32px;
-  padding: 16px;
+  padding: 16px 16px 32px 16px;
   background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
   border-radius: 15px;
@@ -585,7 +597,7 @@ option {
   background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
   border-radius: 15px;
-  padding: 16px;
+  padding: 16px 16px 32px 16px;
 }
 
 .addFriendButton {
@@ -602,10 +614,19 @@ option {
 }
 
 #updateBio {
-  margin: 0 32px 16px 32px;
+  margin: 0 32px 4px 32px;
   width: 100%;
   border-radius: 15px;
   border: 1px solid grey;
+  padding: 8px 16px;
+}
+
+#updateLoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 32px 16px 32px;
+  width: 100%;
   padding: 8px 16px;
 }
 
@@ -839,4 +860,106 @@ input[type='checkbox'] {
 .passSuccess {
   color: green;
   font-weight: bold;
+}
+
+.custom-file-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 80px;
+
+@media only screen and (min-width: 450px) {
+  #findPlayersForm {
+    width: 75%;
+  }
+
+  #gamesList {
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .gamesListItem {
+    width: 20%;
+    margin: 16px;
+    justify-content: flex-end;
+  }
+  .gameListItemImage {
+    width: 100%;
+    height: auto;
+  }
+  #playersList {
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .userresults {
+    width: 30%;
+    margin: 16px;
+    justify-content: space-between;
+  }
+
+  select {
+    width: 50%;
+  }
+
+  #updateBio {
+    width: 50%;
+  }
+
+  #bioInput {
+    width: 50%;
+  }
+
+  #userSettingsPage {
+    width: 75%;
+  }
+
+  #guestRestricted {
+    width: 75%;
+  }
+
+  #aboutPage {
+    width: 75%;
+  }
+
+  #chatPage {
+    width: 75%;
+  }
+
+  #searchGamesForm {
+    width: 75%;
+  }
+
+  #dropdownDiv {
+    width: 50%;
+  }
+
+  #createUserPage {
+    width: 75%;
+  }
+
+  #loginPage {
+    width: 50%;
+  }
+  #loginForm {
+    width: 100%;
+  }
+
+  input {
+    width: 50%;
+  }
+
+  input[type='checkbox'] {
+    margin-right: 8px;
+    width: fit-content;
+  }
+
+  #loginLogo {
+    width: 300px;
+    height: 300px;
+  }
 }
