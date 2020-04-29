@@ -35,7 +35,6 @@ const Chat = ({ auth }) => {
 
   useEffect(() => {
     axios.get(`/api/friendships/${auth.id}`).then((response) => {
-      console.log(response, 'these are the friends so far')
       response.data.map(async (res) => {
         if (res.userId != auth.id) {
           const response = await axios.get(`/api/user/${res.userId}`)
@@ -50,7 +49,7 @@ const Chat = ({ auth }) => {
             status: res.sendStatus,
           })
         }
-        console.log(friendArray, 'got my friendArray')
+
         setFriends([...friendArray])
       })
     })
