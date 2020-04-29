@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserProfile = ({
   user,
@@ -13,16 +14,57 @@ const UserProfile = ({
   auth,
 }) => {
   const [friendships, setFriendships] = useState([]);
+  const [confirmedFriendships, setConfirmedFriendships] = useState(0);
+
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
       setFriendships(response.data);
+      let confirmed = 0;
+      response.data.map((friendship) => {
+        if (
+          (friendship.userId === user.id &&
+            friendship.sendStatus === 'confirmed') ||
+          (friendship.friendId === user.id &&
+            friendship.sendStatus === 'confirmed')
+        ) {
+          confirmed = confirmed + 1;
+        }
+      });
+      setConfirmedFriendships(confirmed);
     });
   }, []);
+  const notifyPending = () => {
+    toast.success('Success! Friend Request sent', {
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+      hideProgressBar: false,
+    });
+  };
+  const notifyAlreadySent = () => {
+    toast.success('You have already sent a friend request', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+      hideProgressBar: false,
+    });
+  };
+  const notifyConfirmed = () => {
+    toast.success('Confirmed! You are now friends', {
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+    });
+  };
+  const notifyFailure = () => {
+    toast.success('You are already friends with this user', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+    });
+  };
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
     }
   });
+
   // const addFriend = async () => {
   //   const friendshipsCopy = [...friendships];
   //   let newFriendshipObject = {
@@ -66,67 +108,85 @@ const UserProfile = ({
 
   const addFriend = (ev) => {
     ev.preventDefault();
-    if (friendships) {
-      const pending = friendships.filter((each) => {
-        return (
-          (each.userId === user.id && each.friendId === auth.id) ||
-          (each.userId === auth.id && each.friendId === user.id)
-        );
+    if (friendships.length > 0) {
+      friendships.map((friendship) => {
+        if (
+          //confirmed
+          (friendship.userId === user.id &&
+            friendship.friendId === auth.id &&
+            friendship.sendStatus === 'confirmed') ||
+          (friendship.friendId === user.id &&
+            friendship.userId === auth.id &&
+            friendship.sendStatus === 'confirmed')
+        ) {
+          notifyFailure();
+        } else if (
+          (friendship.userId === user.id &&
+            friendship.friendId === auth.id &&
+            friendship.sendStatus === 'sent') ||
+          (friendship.userId === auth.id &&
+            friendship.friendId === user.id &&
+            friendship.sendStatus === 'sent')
+        ) {
+          if (friendship.userId === auth.id) {
+            notifyAlreadySent();
+          } else {
+            axios.put(`/api/friendships/${friendship.id}`).then((res) => {
+              axios.get('/api/friendships').then((response) => {
+                setFriendships([...friendships, response.data]);
+                notifyConfirmed();
+                setConfirmedFriendships(confirmedFriendships + 1);
+              });
+            });
+          }
+        } else {
+          axios
+            .post('/api/friendships', {
+              userId: auth.id,
+              friendId: user.id,
+            })
+            .then((res) => {
+              notifyPending();
+              setFriendships([...friendships, res.data]);
+            });
+        }
       });
-      if (pending.length === 0) {
-        axios
-          .post('/api/friendships', {
-            userId: auth.id,
-            friendId: user.id,
-          })
-          .then((res) => {
-            setFriendships([...friendships, res.data]);
-          });
-      } else if (pending[0].id) {
-        axios.put(`/api/friendships/${pending[0].id}`).then((res) => {
-          axios.get('/api/friendships').then((response) => {
-            setFriendships(response.data);
-          });
+    } else {
+      axios
+        .post('/api/friendships', {
+          userId: auth.id,
+          friendId: user.id,
+        })
+        .then((res) => {
+          notifyPending();
+          setFriendships([...friendships, res.data]);
         });
-      }
     }
   };
-
-  const confirmedFriendships = friendships.filter((friendship) => {
-    return (
-      (friendship.userId === user.id &&
-        friendship.sendStatus === 'confirmed') ||
-      (friendship.friendId === user.id && friendship.sendStatus === 'confirmed')
-    );
-  });
-
-  //get all friendships
-  //loop through each friendship and see if both users are involved in one already. if so, return that friendship as the pending const
-  //if pending, simply send that id back to the db to set status to confirmed
-  //if not pending, create a new one with these users
 
   return (
     <div id='userProfile'>
       <img src={`${user.avatar}`} className='userProfileImage' />
-
       <h4>
         <b>{user.username}</b>
       </h4>
-
       {auth.id !== user.id && (
-        <button
-          type='button'
-          className='addFriendButton'
-          onClick={(ev) => addFriend(ev)}>
-          <h5>Add to Friends</h5>
-        </button>
+        <div>
+          <button
+            type='button'
+            className='addFriendButton'
+            onClick={(ev) => addFriend(ev)}>
+            <h5>Add to Friends</h5>
+          </button>
+          <ToastContainer closeButton={false} />
+        </div>
       )}
       <hr className='hr' />
       <Link
         to={`/users/${user.id}/friends`}
         onClick={(ev) => setFriendsView(user)}>
         <h5>
-          <b>Friends ({confirmedFriendships.length})</b>
+          <b>Friends ({confirmedFriendships})</b>
         </h5>
       </Link>
       <h6>
