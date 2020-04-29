@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ToastContainer, toast } from 'react-toastify';
 =======
 >>>>>>> update with new changes from master
+=======
+import { ToastContainer, toast } from 'react-toastify';
+>>>>>>> still in progress
 
 const UserProfile = ({
   user,
@@ -17,6 +21,7 @@ const UserProfile = ({
   auth,
 }) => {
   const [friendships, setFriendships] = useState([]);
+<<<<<<< HEAD
 <<<<<<< HEAD
   const [confirmedFriendships, setConfirmedFriendships] = useState(0);
 
@@ -68,17 +73,63 @@ const UserProfile = ({
   console.log(auth);
 
 =======
+=======
+  const [confirmedFriendships, setConfirmedFriendships] = useState(0);
+
+>>>>>>> still in progress
   useEffect(() => {
     axios.get('/api/friendships').then((response) => {
       setFriendships(response.data);
+      let confirmed = 0;
+      response.data.map((friendship) => {
+        if (
+          (friendship.userId === user.id &&
+            friendship.sendStatus === 'confirmed') ||
+          (friendship.friendId === user.id &&
+            friendship.sendStatus === 'confirmed')
+        ) {
+          confirmed = confirmed + 1;
+        }
+      });
+      setConfirmedFriendships(confirmed);
     });
   }, []);
+<<<<<<< HEAD
 >>>>>>> update with new changes from master
+=======
+  const notifyPending = () => {
+    toast.success('Success! Friend Request sent', {
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+      hideProgressBar: false,
+    });
+  };
+  const notifyAlreadySent = () => {
+    toast.success('You have already sent a friend request', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+      hideProgressBar: false,
+    });
+  };
+  const notifyConfirmed = () => {
+    toast.success('Confirmed! You are now friends', {
+      className: 'createUserToastSuccess',
+      position: 'bottom-center',
+    });
+  };
+  const notifyFailure = () => {
+    toast.success('You are already friends with this user', {
+      className: 'createUserToastFailure',
+      position: 'bottom-center',
+    });
+  };
+>>>>>>> still in progress
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
     }
   });
+
   // const addFriend = async () => {
   //   const friendshipsCopy = [...friendships];
   //   let newFriendshipObject = {
@@ -134,6 +185,9 @@ const UserProfile = ({
   const addFriend = (ev) => {
     ev.preventDefault();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> still in progress
     if (friendships.length > 0) {
       friendships.map((friendship) => {
         if (
@@ -176,6 +230,7 @@ const UserProfile = ({
               setFriendships([...friendships, res.data]);
             });
         }
+<<<<<<< HEAD
       });
     } else {
       axios
@@ -197,26 +252,23 @@ const UserProfile = ({
           (each.userId === user.id && each.friendId === auth.id) ||
           (each.userId === auth.id && each.friendId === user.id)
         );
+=======
+>>>>>>> still in progress
       });
-      if (pending.length === 0) {
-        axios
-          .post('/api/friendships', {
-            userId: auth.id,
-            friendId: user.id,
-          })
-          .then((res) => {
-            setFriendships([...friendships, res.data]);
-          });
-      } else if (pending[0].id) {
-        axios.put(`/api/friendships/${pending[0].id}`).then((res) => {
-          axios.get('/api/friendships').then((response) => {
-            setFriendships(response.data);
-          });
+    } else {
+      axios
+        .post('/api/friendships', {
+          userId: auth.id,
+          friendId: user.id,
+        })
+        .then((res) => {
+          notifyPending();
+          setFriendships([...friendships, res.data]);
         });
-      }
     }
   };
 
+<<<<<<< HEAD
   const confirmedFriendships = friendships.filter((friendship) => {
     return (
       (friendship.userId === user.id &&
@@ -252,13 +304,30 @@ const UserProfile = ({
 
 <<<<<<< HEAD
 =======
+=======
+  return (
+<<<<<<< HEAD
+    <div id="userProfile">
+      <img src={`${user.avatar}`} className="userProfileImage" />
+
+=======
+    <div id='userProfile'>
+      <img src={`${user.avatar}`} className='userProfileImage' />
+>>>>>>> still in progress
+      <h4>
+        <b>{user.username}</b>
+      </h4>
+>>>>>>> still in progress
       {auth.id !== user.id && (
-        <button
-          type='button'
-          className='addFriendButton'
-          onClick={(ev) => addFriend(ev)}>
-          <h5>Add to Friends</h5>
-        </button>
+        <div>
+          <button
+            type='button'
+            className='addFriendButton'
+            onClick={(ev) => addFriend(ev)}>
+            <h5>Add to Friends</h5>
+          </button>
+          <ToastContainer closeButton={false} />
+        </div>
       )}
       <hr className='hr' />
 >>>>>>> update with new changes from master
