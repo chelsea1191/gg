@@ -159,7 +159,7 @@ app.get('/api/favoritegames', (req, res, next) => {
     .catch(next);
 });
 
-app.get('/api/chatuser/:userid', (req, res, next) => {
+app.get('/api/user/:userid', (req, res, next) => {
   db.getUser(req.params.userid)
     .then((response) => res.send(response))
     .catch(next);
@@ -214,7 +214,7 @@ app.post('/api/createUser', (req, res, next) => {
 });
 
 app.post('/api/createchat', (req, res, next) => {
-  db.createChat(req.body[0], req.body[1])
+  db.createChat(req.body[0], req.body[1], req.body[2], req.body[3])
     .then((chatCreatedResponse) => {
       db.createMessage(
         chatCreatedResponse.id,
