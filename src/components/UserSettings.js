@@ -5,6 +5,7 @@ import FileUpload from './FileUpload';
 
 const UserProfile = ({
   auth,
+  setAuth,
   changePassword,
   setUserView,
   users,
@@ -65,7 +66,7 @@ const UserProfile = ({
         <b>Upload Profile Photo!</b>
       </h5>
 
-      <FileUpload auth={auth} />
+      <FileUpload auth={auth} setAuth={setAuth} />
       <hr className="hr" />
       <textarea
         id="updateBio"
