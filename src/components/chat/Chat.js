@@ -142,7 +142,7 @@ const Chat = ({ auth }) => {
                   </Link>
                   <div>
                     {friend.status === 'sent'
-                      ? 'Friendship not confirmed yet'
+                      ? 'Friendship not confirmed yet - navigate to their profile and click add to friends to confirm your friendship'
                       : ''}
                   </div>
                 </span>
