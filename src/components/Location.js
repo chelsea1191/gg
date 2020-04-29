@@ -53,7 +53,7 @@ const Location = ({ location, setLocation }) => {
   useEffect(() => {
     axios
       .get(
-        `http://open.mapquestapi.com/geocoding/v1/address?key=gQoK5fh8GLGbempuLj7nGzwFX879y7Ot&location=${userZip}`
+        `https://open.mapquestapi.com/geocoding/v1/address?key=gQoK5fh8GLGbempuLj7nGzwFX879y7Ot&location=${userZip}`
       )
       .then((results) => {
         console.log(results.data.results[0].locations[0].displayLatLng);
