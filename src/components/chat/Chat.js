@@ -104,11 +104,12 @@ const Chat = ({ auth }) => {
         })}
         Friends:
         {friends.map((friend) => {
+          console.log(friend.friend)
           if (friend.friend.id != auth.id) {
             return (
-              <div key={friend.friend.friendId}>
+              <div key={friend.friend.id}>
                 <span>
-                  <Link to={`/chat/${friend.friend.friendId}`}>
+                  <Link to={`/chat/${friend.friend.id}`}>
                     {friend.friend.username}
                     {friend.friend.isOnline ? (
                       <span className="dot-green"></span>
