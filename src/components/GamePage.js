@@ -25,15 +25,18 @@ const GamePage = ({ game, favoriteGames, auth, setFavoriteGames }) => {
 
   const addFavorite = async () => {
     const favoriteGamesCopy = [...favoriteGames];
-    await Axios.post('/api/favoritegames', {
-      userId: auth.id,
-      gameId: game.id,
-    })
-      .then((res) => {
-        notifySuccess();
-        setFavoriteGames([...favoriteGamesCopy, res.data]);
+    if (favoriteGames.length > 0) {
+      await Axios.post('/api/favoritegames', {
+        userId: auth.id,
+        gameId: game.id,
       })
-      .catch((err) => notifyFailure());
+        .then((res) => {
+          notifySuccess();
+          setFavoriteGames([...favoriteGamesCopy, res.data]);
+        })
+        .catch((err) => notifyFailure());
+    }
+
     // const newFavoriteGame = await Axios.post('/api/favoritegames', {
     //   userId: auth.id,
     //   gameId: game.id,
