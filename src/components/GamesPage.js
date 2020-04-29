@@ -52,9 +52,18 @@ const GamesPage = ({
     <div id='gamesPage'>
       <form id='searchGamesForm'>
         <h3>Games</h3>
+<<<<<<< HEAD
 
         <hr className='hr'></hr>
         <div id='dropdownDiv'>
+=======
+<<<<<<< HEAD
+        <hr className="hr"></hr>
+        <div id="dropdownDiv">
+=======
+        <div id='dropdownDiv'>
+>>>>>>> ah
+>>>>>>> ah
           <SearchDropdown
             allGames={allGames}
             setFiltered={setFiltered}
@@ -73,13 +82,25 @@ const GamesPage = ({
           </a>
         </h6>
       </form>
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> ah
       <br />
       <h4>
         <b>Displaying {filtered.length} Games</b>
       </h4>
       <br />
+<<<<<<< HEAD
       <ul id='gamesList'>
+=======
+      <ul id="gamesList">
+=======
+      <p>displaying {filtered.length} games</p>
+      <ul id='gamesList'>
+>>>>>>> ah
+>>>>>>> ah
         {filtered.length > 0 &&
           filtered.map((game) => {
             const addFavorite = async () => {
