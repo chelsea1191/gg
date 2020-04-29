@@ -1,16 +1,16 @@
-const pg = require('pg')
-const uuid = require('uuid/v4')
-const client = require('./client')
-const faker = require('faker')
-const axios = require('axios')
-require('dotenv').config()
+const pg = require('pg');
+const uuid = require('uuid/v4');
+const client = require('./client');
+const faker = require('faker');
+const axios = require('axios');
+require('dotenv').config();
 const {
   authenticate,
   compare,
   findUserFromToken,
   hash,
   markOnline,
-} = require('./auth')
+} = require('./auth');
 const models = ({
   users,
   games,
@@ -18,7 +18,7 @@ const models = ({
   favoriteGames,
   friendships,
   hardcodedGames,
-} = require('./models'))
+} = require('./models'));
 const {
   getAllGames,
   createChat,
@@ -30,37 +30,36 @@ const {
   createMessage,
   getMessage,
   putMessage,
-} = require('./userMethods')
+} = require('./userMethods');
 
-const client_id = process.env.CLIENT_ID
+const client_id = process.env.CLIENT_ID;
 
 const allDataFromAPI = axios
   .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
   .then((response) => {
-    return response.data.games
+    return response.data.games;
   })
   .catch((error) => {
     if (error.response) {
-      console.log('error.response.data: ', error.response.data)
-      console.log('error.response.status: ', error.response.status)
-      console.log('error.response.headers: ', error.response.headers)
+      console.log('error.response.data: ', error.response.data);
+      console.log('error.response.status: ', error.response.status);
+      console.log('error.response.headers: ', error.response.headers);
     } else if (error.request) {
-      console.log('error.request: ', error.request)
+      console.log('error.request: ', error.request);
     } else {
-      console.log('Error', error.message)
+      console.log('Error', error.message);
     }
-    console.log('error.config: ', error.config)
-  })
+    console.log('error.config: ', error.config);
+  });
 
 const ipsum =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, lacus at blandit rutrum, enim sapien pulvinar quam, vel euismod neque lectus eu ante. Ut vel congue justo, eget pharetra orci. Proin sagittis tortor elementum nunc tristique mattis.'
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, lacus at blandit rutrum, enim sapien pulvinar quam, vel euismod neque lectus eu ante. Ut vel congue justo, eget pharetra orci. Proin sagittis tortor elementum nunc tristique mattis.';
 
 const sync = async () => {
   if (process.env.NODE_ENV == 'production') {
     //**********************************  PRODUCTION ******************************* */
-    console.log('environment is: ', process.env.NODE_ENV)
+    console.log('environment is: ', process.env.NODE_ENV);
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
   CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -137,11 +136,11 @@ const sync = async () => {
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  `
-    await client.query(SQL)
+  `;
+    await client.query(SQL);
   } else {
     /**********************************  DEVELOPMENT *******************************/
-    console.log('environment is: development')
+    console.log('environment is: development');
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
     DROP TABLE IF EXISTS message;
@@ -229,24 +228,24 @@ const sync = async () => {
     message VARCHAR,
     date_updated TIMESTAMP default CURRENT_TIMESTAMP
   );
-  `
+  `;
 
-    await client.query(SQL)
+    await client.query(SQL);
 
     await Promise.all(
       Object.values(hardcodedGames).map((each) => games.create(each))
-    )
+    );
 
-    const _games = await allDataFromAPI
-    await Promise.all(Object.values(_games).map((each) => games.create(each)))
+    const _games = await allDataFromAPI;
+    await Promise.all(Object.values(_games).map((each) => games.create(each)));
     const _gameTypes = [
       { gametype: 'board' },
       { gametype: 'card' },
       { gametype: 'tabletop rpg' },
-    ]
+    ];
     await Promise.all(
       Object.values(_gameTypes).map((each) => gameTypes.create(each))
-    )
+    );
 
     const _users = {
       admin: {
@@ -285,20 +284,20 @@ const sync = async () => {
         longitude: '-81.469178',
         avatar: '/assets/avatar.png',
       },
-    }
+    };
 
-    await Promise.all(Object.values(_users).map((user) => users.create(user)))
+    await Promise.all(Object.values(_users).map((user) => users.create(user)));
 
     const userMap = (await users.read()).reduce((acc, user) => {
-      acc[user.username] = user
-      return acc
-    }, {})
+      acc[user.username] = user;
+      return acc;
+    }, {});
 
     return {
       users: userMap,
-    }
+    };
   }
-}
+};
 
 module.exports = {
   sync,
@@ -316,4 +315,4 @@ module.exports = {
   createMessage,
   getMessage,
   putMessage,
-}
+};

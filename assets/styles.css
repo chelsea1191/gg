@@ -761,7 +761,6 @@ input[type='checkbox'] {
     height: 32px;
   }
 }
-
 #zip {
   display: flex;
   flex-direction: column;
@@ -777,6 +776,7 @@ input[type='checkbox'] {
   padding: 5px;
   border-radius: 15px;
   font-weight: bold;
+  margin: 5px;
 }
 .createUserToastFailure {
   display: flex;
@@ -784,6 +784,7 @@ input[type='checkbox'] {
   padding: 5px;
   border-radius: 15px;
   font-weight: bold;
+  margin: 5px;
 }
 .passFail {
   color: red;
