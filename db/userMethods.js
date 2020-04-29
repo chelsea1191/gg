@@ -13,6 +13,7 @@ const getUser = async (userId) => {
   const response = await client.query(`SELECT * from users WHERE id = $1`, [
     userId,
   ])
+  console.log(response.rows)
   return response.rows[0]
 }
 

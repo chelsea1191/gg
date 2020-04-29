@@ -6,9 +6,11 @@ import FindPlayers from '../FindPlayers'
 const Chat = ({ auth }) => {
   const [chats, setChats] = useState([])
   const [friends, setFriends] = useState([])
+  const [friendId, setFriendId] = useState([])
   // const [friendArray, setFriendArray] = useState([])
   var friendArray = []
   var chatsArray = []
+  var friendIdArray = []
 
   useEffect(() => {
     axios.get(`/api/chat/${auth.id}`).then((response) => {
@@ -33,46 +35,92 @@ const Chat = ({ auth }) => {
 
   useEffect(() => {
     axios.get(`/api/friendships/${auth.id}`).then((response) => {
+      //console.log(response, 'these are the friends so far')
       response.data.map((res) => {
-        console.log(res)
         if (res.userId != auth.id) {
           axios.get(`/api/user/${res.userId}`).then((response) => {
-            setFriends([
-              ...friends,
-              { friend: response.data, status: res.sendStatus },
-            ])
+            console.log(response)
           })
         } else if (res.friendId != auth.id) {
           axios.get(`/api/user/${res.friendId}`).then((response) => {
-            setFriends([
-              ...friends,
-              { friend: response.data, status: res.sendStatus },
-            ])
+            console.log(response)
           })
         }
       })
-
-      console.log(friends, 'after my pushes')
     })
-  }, [chats])
+    // friendIdArray.push({
+    //   id: res.userId,
+    //   status: res.sendStatus,
+    // })
+    // console.log(friendIdArray, 'friend array in if')
+    // console.dir(friendIdArray)
+
+    // console.log(friendIdArray, 'friend array in if')
+    // console.dir(friendIdArray)
+    // friendIdArray.push([
+    //   {
+    //     id: res.friendId,
+    //     status: res.sendStatus,
+    //   },
+    // ])
+    //     }
+    //   })
+    //   console.log(friendIdArray, 'the friends got added to this id array')
+    //   console.dir(friendIdArray, 'the friends got added to this id array')
+    //   setFriendId([...friendIdArray])
+    // })
+  }, [])
 
   // useEffect(() => {
-  //   console.log('in useeffect three', friendArray)
-  //   friendArray.map((friendid) => {
-  //     console.log(friendid, 'id')
-  //     axios.get(`/api/user/${friendid.userid}`).then((response) => {
-  //       testFriendArray.push(response.data)
-  //       console.log(testFriendArray, 'this is the friend array')
+  //   console.log(friendId, 'third useeffect')
+  //   console.dir(friendId, 'third useeffect')
+  //   friendIdArray.map((friendId) => {
+  //     console.log(friendId)
+  //     axios.get(`/api/user/${friendId.id}`).then((response) => {
+  //       friendArray.push([
+  //         {
+  //           id: response.data.id,
+  //           username: response.data.username,
+  //           online: response.data.isOnline,
+  //           status: res.sendStatus,
+  //         },
+  //       ])
   //     })
   //   })
-  //   setFriends([...testFriendArray])
-  // }, [])
+  //   setFriends([...friendArray])
+  //   //ß  console.log(friendArray, 'after my pushes')
+  // }, [chats])
 
-  if ((!chats || chats.length === 0) && friends.length === 0) {
+  if (!chats || chats.length === 0) {
     return (
       <div id="chatPage">
         <h3>Chat</h3>
         <Link to="/findplayers">Find some new players to chat with!</Link>
+        Or Friends
+        {friends.map((friend) => {
+          console.log(friend.friend)
+          if (friend.friend.id != auth.id) {
+            return (
+              <div key={friend.friend.id}>
+                <span>
+                  <Link to={`/chat/${friend.friend.id}`}>
+                    {friend.friend.username}
+                    {friend.friend.isOnline ? (
+                      <span className="dot-green"></span>
+                    ) : (
+                      <span className="dot-red"></span>
+                    )}
+                  </Link>
+                  <div>
+                    {friend.status === 'sent'
+                      ? 'Friendship not confirmed yet'
+                      : ''}
+                  </div>
+                </span>
+              </div>
+            )
+          }
+        })}
       </div>
     )
   } else if (chats.length > 0) {
