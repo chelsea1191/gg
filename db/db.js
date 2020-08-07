@@ -35,7 +35,7 @@ const {
 const client_id = process.env.CLIENT_ID;
 
 const allDataFromAPI = axios
-  .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
+  .get(`https://api.boardgameatlas.com/api/search?client_id=${client_id}`)
   .then((response) => {
     return response.data.games;
   })
