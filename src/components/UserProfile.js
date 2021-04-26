@@ -129,7 +129,6 @@ const UserProfile = ({
       return game.userId === user.id;
     }
   });
-
   // const addFriend = async () => {
   //   const friendshipsCopy = [...friendships];
   //   let newFriendshipObject = {
@@ -186,6 +185,7 @@ const UserProfile = ({
     ev.preventDefault();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> still in progress
     if (friendships.length > 0) {
@@ -231,20 +231,35 @@ const UserProfile = ({
             });
         }
 <<<<<<< HEAD
+=======
+    if (friendships) {
+      const pending = friendships.filter((each) => {
+        return (
+          (each.userId === user.id && each.friendId === auth.id) ||
+          (each.userId === auth.id && each.friendId === user.id)
+        );
+>>>>>>> updating files with heroku files
       });
-    } else {
-      axios
-        .post('/api/friendships', {
-          userId: auth.id,
-          friendId: user.id,
-        })
-        .then((res) => {
-          notifyPending();
-          setFriendships([...friendships, res.data]);
+      if (pending.length === 0) {
+        axios
+          .post('/api/friendships', {
+            userId: auth.id,
+            friendId: user.id,
+          })
+          .then((res) => {
+            setFriendships([...friendships, res.data]);
+          });
+      } else if (pending[0].id) {
+        axios.put(`/api/friendships/${pending[0].id}`).then((res) => {
+          axios.get('/api/friendships').then((response) => {
+            setFriendships(response.data);
+          });
         });
+      }
     }
   };
 
+<<<<<<< HEAD
 =======
     if (friendships) {
       const pending = friendships.filter((each) => {
@@ -269,6 +284,8 @@ const UserProfile = ({
   };
 
 <<<<<<< HEAD
+=======
+>>>>>>> updating files with heroku files
   const confirmedFriendships = friendships.filter((friendship) => {
     return (
       (friendship.userId === user.id &&
@@ -282,6 +299,7 @@ const UserProfile = ({
   //if pending, simply send that id back to the db to set status to confirmed
   //if not pending, create a new one with these users
 
+<<<<<<< HEAD
 >>>>>>> update with new changes from master
   return (
     <div id='userProfile'>
@@ -305,6 +323,8 @@ const UserProfile = ({
 <<<<<<< HEAD
 =======
 =======
+=======
+>>>>>>> updating files with heroku files
   return (
 <<<<<<< HEAD
     <div id="userProfile">
@@ -330,7 +350,23 @@ const UserProfile = ({
         </div>
       )}
       <hr className='hr' />
+<<<<<<< HEAD
 >>>>>>> update with new changes from master
+=======
+<<<<<<< HEAD
+=======
+
+      {auth.id !== user.id && (
+        <button
+          type='button'
+          className='addFriendButton'
+          onClick={(ev) => addFriend(ev)}>
+          <h5>Add to Friends</h5>
+        </button>
+      )}
+      <hr className='hr' />
+>>>>>>> updating files with heroku files
+>>>>>>> updating files with heroku files
       <Link
         to={`/users/${user.id}/friends`}
         onClick={(ev) => setFriendsView(user)}>

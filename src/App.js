@@ -118,10 +118,14 @@ const App = () => {
   window.onload = function () {
     if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       document.body.addEventListener('touchstart', function () { }, false);
 =======
       document.body.addEventListener('touchstart', function () {}, false);
 >>>>>>> fixed friends
+=======
+      document.body.addEventListener('touchstart', function () { }, false);
+>>>>>>> updating files with heroku files
     }
   };
 
@@ -252,6 +256,7 @@ const App = () => {
                       width='24'
                       height='24'
 <<<<<<< HEAD
+<<<<<<< HEAD
                       title='Find Players'></img>
                   </Link>
                 </li>
@@ -260,6 +265,22 @@ const App = () => {
                   </Link>{' '}
                 </li>{' '}
 >>>>>>> update with new changes from master
+=======
+                      title='Find Players'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+=======
+<<<<<<< HEAD
+                      title='Find Players'></img>
+                  </Link>
+                </li>
+=======
+                      title='Find Players'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+>>>>>>> update with new changes from master
+>>>>>>> updating files with heroku files
+>>>>>>> updating files with heroku files
                 <li className='nav-icon'>
                   <Link className='link' to='/chat'>
                     <img
@@ -269,6 +290,14 @@ const App = () => {
                       width='24'
                       height='24'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                      title='Chat'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+=======
+<<<<<<< HEAD
+>>>>>>> updating files with heroku files
                       title='Chat'></img>
                   </Link>
                 </li>
@@ -277,6 +306,10 @@ const App = () => {
                   </Link>{' '}
                 </li>{' '}
 >>>>>>> update with new changes from master
+<<<<<<< HEAD
+=======
+>>>>>>> updating files with heroku files
+>>>>>>> updating files with heroku files
                 <li className='nav-icon'>
                   <Link className='link' to='/usersettings'>
                     <img
