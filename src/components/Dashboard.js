@@ -44,19 +44,6 @@ const Dashboard = ({ auth, users }) => {
         <h3>Welcome back, {auth.firstname}!</h3>
       </div>
 
-<<<<<<< HEAD
-      <hr className='hr' />
-      <div className='icon-container-dashboard'>
-        <i className='fas fa-user-friends each-icon-dashboard'></i>
-        <p>Friends: {friendsCount}</p>
-      </div>
-      <br />
-      <div className='icon-container-dashboard'>
-        <i className='fas fa-dice-d20 each-icon-dashboard'></i>
-        <p>Favorited Games: {favGamesCount} </p>
-      </div>
-      <br />
-=======
       <div className='icon-container-dashboard'>
         <i className='fas fa-user-friends each-icon-dashboard'></i>
         <p>number of friends: {friendsCount}</p>
@@ -65,7 +52,6 @@ const Dashboard = ({ auth, users }) => {
         <i className='fas fa-dice-d20 each-icon-dashboard'></i>
         <p>favorited games: {favGamesCount} </p>
       </div>
->>>>>>> update with new changes from master
       <hr className='hr' />
       <h5>
         <Link className='link' to='/findplayers'>
