@@ -151,121 +151,77 @@ const UserProfile = ({
               setFriendships([...friendships, res.data]);
             });
         }
-        if (friendships) {
-          const pending = friendships.filter((each) => {
-            return (
-              (each.userId === user.id && each.friendId === auth.id) ||
-              (each.userId === auth.id && each.friendId === user.id)
-            );
-          });
-          if (pending.length === 0) {
-            axios
-              .post('/api/friendships', {
-                userId: auth.id,
-                friendId: user.id,
-              })
-              .then((res) => {
-                setFriendships([...friendships, res.data]);
-              });
-          } else if (pending[0].id) {
-            axios.put(`/api/friendships/${pending[0].id}`).then((res) => {
-              axios.get('/api/friendships').then((response) => {
-                setFriendships(response.data);
-              });
-            });
-          }
-        }
-      };
-
-      if (friendships) {
-        const pending = friendships.filter((each) => {
-          return (
-            (each.userId === user.id && each.friendId === auth.id) ||
-            (each.userId === auth.id && each.friendId === user.id)
-          );
-        });
-      } else {
-        axios
-          .post('/api/friendships', {
-            userId: auth.id,
-            friendId: user.id,
-          })
-          .then((res) => {
-            notifyPending();
-            setFriendships([...friendships, res.data]);
-          });
-      }
-    };
-
-    const confirmedFriendships = friendships.filter((friendship) => {
-      return (
-        (friendship.userId === user.id &&
-          friendship.sendStatus === 'confirmed') ||
-        (friendship.friendId === user.id && friendship.sendStatus === 'confirmed')
-      );
-    });
-
-    //get all friendships
-    //loop through each friendship and see if both users are involved in one already. if so, return that friendship as the pending const
-    //if pending, simply send that id back to the db to set status to confirmed
-    //if not pending, create a new one with these user
+      })
+    }
+  }
+  const confirmedFriendships = friendships.filter((friendship) => {
     return (
-      <div id='userProfile'>
-        <img src={`${user.avatar}`} className='userProfileImage' />
-        <h4>
-          <b>{user.username}</b>
-        </h4>
+      (friendship.userId === user.id &&
+        friendship.sendStatus === 'confirmed') ||
+      (friendship.friendId === user.id && friendship.sendStatus === 'confirmed')
+    );
+  });
 
-        {auth.id !== user.id && (
-          <div>
-            <button
-              type='button'
-              className='addFriendButton'
-              onClick={(ev) => addFriend(ev)}>
-              <h5>Add to Friends</h5>
-            </button>
-            <ToastContainer closeButton={false} />
-          </div>
-        )}
-        <hr className='hr' />
-        {auth.id !== user.id && (
+  //get all friendships
+  //loop through each friendship and see if both users are involved in one already. if so, return that friendship as the pending const
+  //if pending, simply send that id back to the db to set status to confirmed
+  //if not pending, create a new one with these user
+  return (
+    <div id='userProfile'>
+      <img src={`${user.avatar}`} className='userProfileImage' />
+      <h4>
+        <b>{user.username}</b>
+      </h4>
+
+      {auth.id !== user.id && (
+        <div>
           <button
             type='button'
             className='addFriendButton'
             onClick={(ev) => addFriend(ev)}>
             <h5>Add to Friends</h5>
           </button>
-        )}
-        <hr className='hr' />
-        <Link
-          to={`/users/${user.id}/friends`}
-          onClick={(ev) => setFriendsView(user)}>
-          <h5>
-            <b>Friends ({confirmedFriendships})</b>
-          </h5>
-        </Link>
-        <h6>
-          <i># Mutual</i>
-        </h6>
+          <ToastContainer closeButton={false} />
+        </div>
+      )}
+      <hr className='hr' />
+      {auth.id !== user.id && (
+        <button
+          type='button'
+          className='addFriendButton'
+          onClick={(ev) => addFriend(ev)}>
+          <h5>Add to Friends</h5>
+        </button>
+      )}
+      <hr className='hr' />
+      <Link
+        to={`/users/${user.id}/friends`}
+        onClick={(ev) => setFriendsView(user)}>
+        <h5>
+          <b>Friends ({confirmedFriendships})</b>
+        </h5>
+      </Link>
+      <h6>
+        <i># Mutual</i>
+      </h6>
 
-        <Link
-          to={`/users/${user.id}/favoriteGames`}
-          onClick={(ev) => setFriendsView(user)}>
-          <h5>
-            <b>Favorite Games ({userFavorites.length})</b>
-          </h5>
-        </Link>
+      <Link
+        to={`/users/${user.id}/favoriteGames`}
+        onClick={(ev) => setFriendsView(user)}>
+        <h5>
+          <b>Favorite Games ({userFavorites.length})</b>
+        </h5>
+      </Link>
 
-        <h6>
-          <i># Mutual</i>
-        </h6>
-        <hr className='hr' />
+      <h6>
+        <i># Mutual</i>
+      </h6>
+      <hr className='hr' />
 
-        <p>{user.bio}</p>
-        { console.log(auth)}
-      </div >
-    );
-  };
-}
+      <p>{user.bio}</p>
+      { console.log(auth)}
+    </div >
+  );
+};
 
 export default UserProfile;
