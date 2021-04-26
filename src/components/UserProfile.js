@@ -154,13 +154,6 @@ const UserProfile = ({
       })
     }
   }
-  const confirmedFriendships = friendships.filter((friendship) => {
-    return (
-      (friendship.userId === user.id &&
-        friendship.sendStatus === 'confirmed') ||
-      (friendship.friendId === user.id && friendship.sendStatus === 'confirmed')
-    );
-  });
 
   //get all friendships
   //loop through each friendship and see if both users are involved in one already. if so, return that friendship as the pending const
