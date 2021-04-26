@@ -14,6 +14,7 @@ const io = require('socket.io')(server);
 const cloudinary = require('cloudinary').v2;
 
 //////////////////use///////////////////
+console.log("Server is running")
 app.use(express.json());
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms')
@@ -311,9 +312,11 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
+console.log(port)
+console.log(db.sync())
+server.listen(port, () => console.log(`listening on port ${port}`));
 db.sync()
   .then(() => {
     console.log('db synced');
-    server.listen(port, () => console.log(`listening on port ${port}`));
   })
   .catch((ex) => console.log(ex));
