@@ -44,20 +44,11 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [userFriends, setUserFriends] = useState([]); //remove?
   const [userFavorites, setUserFavorites] = useState([]);
-  const [location, setLocation] = useState([]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       setAllGames(response.data);
     });
-  }, [auth]);
-
-  useEffect(() => {
-    console.log(favoriteGames);
-  }, [favoriteGames]);
-
-  useEffect(() => {
-    console.log(auth);
   }, [auth]);
 
   useEffect(() => {
@@ -126,55 +117,52 @@ const App = () => {
 
   window.onload = function () {
     if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
-      document.body.addEventListener('touchstart', function () {}, false);
+      document.body.addEventListener('touchstart', function () { }, false);
     }
   };
 
   if (!auth.id) {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
-                <li className="nav-icon">
-                  <Link className="link" to="/">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
+                <li className='nav-icon'>
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Home"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Home'></img>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/games">
+                <li className='nav-icon'>
+                  <Link className='link' to='/games'>
                     <i
-                      className="fas fa-dice-d20 each-icon-dashboard"
-                      style={icon}
-                    ></i>
+                      className='fas fa-dice-d20 each-icon-dashboard'
+                      style={icon}></i>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/about">
+                <li className='nav-icon'>
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="About"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='About'></img>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/login">
-                    <button id="logButton">
+                <li className='nav-icon'>
+                  <Link className='link' to='/login'>
+                    <button id='logButton'>
                       <img
-                        alt=""
-                        src="/assets/power.png"
-                        width="13"
-                        height="15"
-                        title="Login"
+                        alt=''
+                        src='/assets/power.png'
+                        width='13'
+                        height='15'
+                        title='Login'
                       />
                       <h6>Login</h6>
                     </button>
@@ -182,12 +170,12 @@ const App = () => {
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
-                <Route path="/login">
+                <Route path='/login'>
                   <Login login={login} />
                 </Route>
-                <Route path="/register">
+                <Route path='/register'>
                   <CreateUser
                     auth={auth}
                     setAuth={setAuth}
@@ -205,21 +193,21 @@ const App = () => {
                   />
                 </Route>
 
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage
                     auth={auth}
                     favoriteGames={favoriteGames}
                     setFavoriteGames={setFavoriteGames}
                     allGames={allGames}
                     setGameView={setGameView}
-                    //favoriteGames={favoriteGames}
-                    //setFavoriteGames={setFavoriteGames}
+                  //favoriteGames={favoriteGames}
+                  //setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
-                <Route path="/">
+                <Route path='/'>
                   <LandingPage />
                 </Route>
               </Switch>
@@ -230,84 +218,78 @@ const App = () => {
     );
   } else {
     return (
-      <div className="App">
+      <div className='App'>
         <Router>
           <div>
-            <div id="nav">
-              <nav className="navbar navbar-expand-lg navbar-light">
-                <li className="nav-icon">
-                  <Link className="link" to="/">
+            <div id='nav'>
+              <nav className='navbar navbar-expand-lg navbar-light'>
+                <li className='nav-icon'>
+                  <Link className='link' to='/'>
                     <img
-                      id="navLogo"
-                      src="/assets/logo.png"
-                      alt=""
-                      title="Home"
-                    ></img>
+                      id='navLogo'
+                      src='/assets/logo.png'
+                      alt=''
+                      title='Home'></img>
                   </Link>
                 </li>
-                <div className="vl"></div>
-                <li className="nav-icon">
-                  <Link className="link" to="/games">
+                <div className='vl'></div>
+                <li className='nav-icon'>
+                  <Link className='link' to='/games'>
                     <i
-                      className="fas fa-dice-d20 each-icon-dashboard"
-                      style={icon}
-                    ></i>
+                      className='fas fa-dice-d20 each-icon-dashboard'
+                      style={icon}></i>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/findplayers">
+                <li className='nav-icon'>
+                  <Link className='link' to='/findplayers'>
                     <img
-                      src="/assets/find.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Find Players"
-                    ></img>
-                  </Link>
-                </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/chat">
+                      src='/assets/find.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Find Players'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+                <li className='nav-icon'>
+                  <Link className='link' to='/chat'>
                     <img
-                      id="chatButton"
-                      src="/assets/chat.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Chat"
-                    ></img>
-                  </Link>
-                </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/usersettings">
+                      id='chatButton'
+                      src='/assets/chat.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Chat'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+                <li className='nav-icon'>
+                  <Link className='link' to='/usersettings'>
                     <img
-                      src="/assets/settings.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="Settings"
-                    ></img>
+                      src='/assets/settings.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='Settings'></img>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/about">
+                <li className='nav-icon'>
+                  <Link className='link' to='/about'>
                     <img
-                      src="/assets/about.png"
-                      alt=""
-                      width="24"
-                      height="24"
-                      title="About"
-                    ></img>
+                      src='/assets/about.png'
+                      alt=''
+                      width='24'
+                      height='24'
+                      title='About'></img>
                   </Link>
                 </li>
-                <li className="nav-icon">
-                  <Link className="link" to="/login">
-                    <button type="button" id="logButton" onClick={logout}>
+                <li className='nav-icon'>
+                  <Link className='link' to='/login'>
+                    <button type='button' id='logButton' onClick={logout}>
                       <img
-                        alt=""
-                        src="/assets/power.png"
-                        width="13"
-                        height="15"
-                        title="Logout"
+                        alt=''
+                        src='/assets/power.png'
+                        width='13'
+                        height='15'
+                        title='Logout'
                       />
                       <h6>Log Out</h6>
                     </button>
@@ -315,7 +297,7 @@ const App = () => {
                 </li>
               </nav>
             </div>
-            <div id="view">
+            <div id='view'>
               <Switch>
                 <Route exact path={`/games/${gameView.id}`}>
                   <GamePage
@@ -357,7 +339,7 @@ const App = () => {
                     setAuth={setAuth}
                   />
                 </Route>
-                <Route path="/games">
+                <Route path='/games'>
                   <GamesPage
                     auth={auth}
                     allGames={allGames}
@@ -366,7 +348,7 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
-                <Route path="/usersettings">
+                <Route path='/usersettings'>
                   <UserSettings
                     auth={auth}
                     setAuth={setAuth}
@@ -378,20 +360,19 @@ const App = () => {
                     setLocation={setLocation}
                   />
                 </Route>
-                <Route path="/about">
+                <Route path='/about'>
                   <About />
                 </Route>
 
                 <Route
                   exact
-                  path="/chat"
+                  path='/chat'
                   component={(props) => {
                     return <Chat {...props} auth={auth} />;
-                  }}
-                ></Route>
+                  }}></Route>
                 <Route
                   exact
-                  path="/chat/:id"
+                  path='/chat/:id'
                   component={(props) => {
                     return (
                       <UserChat
@@ -401,9 +382,8 @@ const App = () => {
                         setUserView={setUserView}
                       />
                     );
-                  }}
-                ></Route>
-                <Route path="/findplayers">
+                  }}></Route>
+                <Route path='/findplayers'>
                   <FindPlayers
                     allGames={allGames}
                     users={users}
@@ -413,10 +393,10 @@ const App = () => {
                     allGames={allGames}
                     setUserView={setUserView}
                     setGameView={setGameView}
-                    //favoriteGames={favoriteGames}
+                  //favoriteGames={favoriteGames}
                   />
                 </Route>
-                <Route path="/">
+                <Route path='/'>
                   <Dashboard
                     auth={auth}
                     friendships={friendships}

@@ -258,14 +258,12 @@ app.post('/api/sendMessages', (req, res, next) => {
 app.put('/api/friendships/:id', (req, res, next) => {
   const id = req.params.id;
   db.models.friendships
-    .update(req.body)
+    .update(req.params.id)
     .then((friendship) => res.send(friendship))
     .catch(next);
 });
 
 app.put('/api/users/:id', (req, res, next) => {
-  console.log('params are', req.params);
-  console.log('body is', req.body);
   db.models.users
     .avatar(req.body)
     .then((users) => res.send(users))
