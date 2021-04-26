@@ -117,7 +117,11 @@ const App = () => {
 
   window.onload = function () {
     if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
+<<<<<<< HEAD
       document.body.addEventListener('touchstart', function () { }, false);
+=======
+      document.body.addEventListener('touchstart', function () {}, false);
+>>>>>>> fixed friends
     }
   };
 
