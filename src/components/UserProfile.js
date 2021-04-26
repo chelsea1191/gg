@@ -266,5 +266,6 @@ const UserProfile = ({
       </div >
     );
   };
+}
 
-  export default UserProfile;
+export default UserProfile;
