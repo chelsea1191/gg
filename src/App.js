@@ -44,20 +44,11 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [userFriends, setUserFriends] = useState([]); //remove?
   const [userFavorites, setUserFavorites] = useState([]);
-  const [location, setLocation] = useState([]);
 
   useEffect(() => {
     axios.get('/api/games').then((response) => {
       setAllGames(response.data);
     });
-  }, [auth]);
-
-  useEffect(() => {
-    console.log(favoriteGames);
-  }, [favoriteGames]);
-
-  useEffect(() => {
-    console.log(auth);
   }, [auth]);
 
   useEffect(() => {
@@ -126,7 +117,7 @@ const App = () => {
 
   window.onload = function () {
     if (/iP(hone|ad)/.test(window.navigator.userAgent)) {
-      document.body.addEventListener('touchstart', function () {}, false);
+      document.body.addEventListener('touchstart', function () { }, false);
     }
   };
 
@@ -209,8 +200,8 @@ const App = () => {
                     setFavoriteGames={setFavoriteGames}
                     allGames={allGames}
                     setGameView={setGameView}
-                    //favoriteGames={favoriteGames}
-                    //setFavoriteGames={setFavoriteGames}
+                  //favoriteGames={favoriteGames}
+                  //setFavoriteGames={setFavoriteGames}
                   />
                 </Route>
                 <Route path='/about'>
@@ -256,9 +247,15 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
+<<<<<<< HEAD
                       title='Find Players'></img>
                   </Link>
                 </li>
+=======
+                      title='Find Players'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+>>>>>>> update with new changes from master
                 <li className='nav-icon'>
                   <Link className='link' to='/chat'>
                     <img
@@ -267,9 +264,15 @@ const App = () => {
                       alt=''
                       width='24'
                       height='24'
+<<<<<<< HEAD
                       title='Chat'></img>
                   </Link>
                 </li>
+=======
+                      title='Chat'></img>{' '}
+                  </Link>{' '}
+                </li>{' '}
+>>>>>>> update with new changes from master
                 <li className='nav-icon'>
                   <Link className='link' to='/usersettings'>
                     <img
@@ -402,7 +405,7 @@ const App = () => {
                     allGames={allGames}
                     setUserView={setUserView}
                     setGameView={setGameView}
-                    //favoriteGames={favoriteGames}
+                  //favoriteGames={favoriteGames}
                   />
                 </Route>
                 <Route path='/'>
