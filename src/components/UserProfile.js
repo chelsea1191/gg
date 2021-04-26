@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+<<<<<<< HEAD
 import { ToastContainer, toast } from 'react-toastify';
+=======
+>>>>>>> update with new changes from master
 
 const UserProfile = ({
   user,
@@ -14,6 +17,7 @@ const UserProfile = ({
   auth,
 }) => {
   const [friendships, setFriendships] = useState([]);
+<<<<<<< HEAD
   const [confirmedFriendships, setConfirmedFriendships] = useState(0);
 
   useEffect(() => {
@@ -63,12 +67,18 @@ const UserProfile = ({
 
   console.log(auth);
 
+=======
+  useEffect(() => {
+    axios.get('/api/friendships').then((response) => {
+      setFriendships(response.data);
+    });
+  }, []);
+>>>>>>> update with new changes from master
   const userFavorites = favoriteGames.filter((game) => {
     if (game) {
       return game.userId === user.id;
     }
   });
-
   // const addFriend = async () => {
   //   const friendshipsCopy = [...friendships];
   //   let newFriendshipObject = {
@@ -77,6 +87,17 @@ const UserProfile = ({
   //     sendStatus: 'sent',
   //   };
 
+<<<<<<< HEAD
+  // const addFriend = async () => {
+  //   const friendshipsCopy = [...friendships];
+  //   let newFriendshipObject = {
+  //     userId: auth.id,
+  //     friendId: user.id,
+  //     sendStatus: 'sent',
+  //   };
+
+=======
+>>>>>>> update with new changes from master
   //   const receivedRequest = friendships.find((friendship) => {
   //     return (
   //       (friendship.userId === user.id && friendship.friendId === auth.id) ||
@@ -112,6 +133,7 @@ const UserProfile = ({
 
   const addFriend = (ev) => {
     ev.preventDefault();
+<<<<<<< HEAD
     if (friendships.length > 0) {
       friendships.map((friendship) => {
         if (
@@ -168,6 +190,47 @@ const UserProfile = ({
     }
   };
 
+=======
+    if (friendships) {
+      const pending = friendships.filter((each) => {
+        return (
+          (each.userId === user.id && each.friendId === auth.id) ||
+          (each.userId === auth.id && each.friendId === user.id)
+        );
+      });
+      if (pending.length === 0) {
+        axios
+          .post('/api/friendships', {
+            userId: auth.id,
+            friendId: user.id,
+          })
+          .then((res) => {
+            setFriendships([...friendships, res.data]);
+          });
+      } else if (pending[0].id) {
+        axios.put(`/api/friendships/${pending[0].id}`).then((res) => {
+          axios.get('/api/friendships').then((response) => {
+            setFriendships(response.data);
+          });
+        });
+      }
+    }
+  };
+
+  const confirmedFriendships = friendships.filter((friendship) => {
+    return (
+      (friendship.userId === user.id &&
+        friendship.sendStatus === 'confirmed') ||
+      (friendship.friendId === user.id && friendship.sendStatus === 'confirmed')
+    );
+  });
+
+  //get all friendships
+  //loop through each friendship and see if both users are involved in one already. if so, return that friendship as the pending const
+  //if pending, simply send that id back to the db to set status to confirmed
+  //if not pending, create a new one with these users
+
+>>>>>>> update with new changes from master
   return (
     <div id='userProfile'>
       <img src={`${user.avatar}`} className='userProfileImage' />
@@ -187,6 +250,18 @@ const UserProfile = ({
       )}
       <hr className='hr' />
 
+<<<<<<< HEAD
+=======
+      {auth.id !== user.id && (
+        <button
+          type='button'
+          className='addFriendButton'
+          onClick={(ev) => addFriend(ev)}>
+          <h5>Add to Friends</h5>
+        </button>
+      )}
+      <hr className='hr' />
+>>>>>>> update with new changes from master
       <Link
         to={`/users/${user.id}/friends`}
         onClick={(ev) => setFriendsView(user)}>
@@ -212,8 +287,8 @@ const UserProfile = ({
       <hr className='hr' />
 
       <p>{user.bio}</p>
-      {console.log(auth)}
-    </div>
+      { console.log(auth)}
+    </div >
   );
 };
 
